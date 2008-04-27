@@ -1,0 +1,9 @@
+LICENCE INFORMATION ON Custom Form Elements
+****************************************************
+
+Custom Form Elements are published under
+GNU GENERAL PUBLIC LICENSE Version 3.
+
+The file GNU.txt contains the complete license text.
+If this package didn't come with an GNU.txt, you may
+get the full text on http://www.gnu.org/licenses/gpl.html
