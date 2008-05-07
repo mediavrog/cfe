@@ -1,0 +1,4 @@
+View Demopage for sample integration
+I'll update install notes soon,
+meahwhile visit http://mediavrog.net/development/mootools/customFormElements/1.8b/
+for short documentation
