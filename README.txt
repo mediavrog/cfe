@@ -37,3 +37,7 @@ distrubuted by Mark James on http://www.famfamfam.com/lab/icons/silk/ under the
 Creative Commons Attribution 2.5 License [http://creativecommons.org/licenses/by/2.5/]
 
 Great work Mark!! 
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+P.S. if you use those icons on your site, you've got to somehow link back to Mark (famfamfam.com)
+as his work is licenced under Creative Commons Attribution 2.5 License

@@ -12,25 +12,25 @@
 <link rel="stylesheet" type="text/css" href="css/demopage.css" />
 	
 
-<script type="text/javascript" src="lib/mootools.v1.11.js"></script>
+<script type="text/javascript" src="cfe/mootools/1.1/lib/mootools.js"></script>
 
 <!-- add modules -->
-<script type="text/javascript" src="js/cfe.base.js"></script>
-<script type="text/javascript" src="js/cfe.module.checkbox.js"></script>
-<script type="text/javascript" src="js/cfe.module.radio.js"></script>
-<script type="text/javascript" src="js/cfe.module.text.js"></script>
-<script type="text/javascript" src="js/cfe.module.textarea.js"></script>
-<script type="text/javascript" src="js/cfe.module.select.js"></script>
-<script type="text/javascript" src="js/cfe.module.image.js"></script>
-<script type="text/javascript" src="js/cfe.module.submit.js"></script>
-<script type="text/javascript" src="js/cfe.module.reset.js"></script>
-<script type="text/javascript" src="js/cfe.module.file.js"></script>
-<script type="text/javascript" src="js/cfe.module.password.js"></script>
-<script type="text/javascript" src="js/cfe.module.fieldset.js"></script>
+<script type="text/javascript" src="cfe/mootools/1.1/base/cfe.base.js"></script>
+<script type="text/javascript" src="cfe/mootools/1.1/modules/cfe.module.checkbox.js"></script>
+<script type="text/javascript" src="cfe/mootools/1.1/modules/cfe.module.radio.js"></script>
+<script type="text/javascript" src="cfe/mootools/1.1/modules/cfe.module.text.js"></script>
+<script type="text/javascript" src="cfe/mootools/1.1/modules/cfe.module.textarea.js"></script>
+<script type="text/javascript" src="cfe/mootools/1.1/modules/cfe.module.select.js"></script>
+<script type="text/javascript" src="cfe/mootools/1.1/modules/cfe.module.image.js"></script>
+<script type="text/javascript" src="cfe/mootools/1.1/modules/cfe.module.submit.js"></script>
+<script type="text/javascript" src="cfe/mootools/1.1/modules/cfe.module.reset.js"></script>
+<script type="text/javascript" src="cfe/mootools/1.1/modules/cfe.module.file.js"></script>
+<script type="text/javascript" src="cfe/mootools/1.1/modules/cfe.module.password.js"></script>
+<script type="text/javascript" src="cfe/mootools/1.1/modules/cfe.module.fieldset.js"></script>
 
 <!-- add extensions -->
-<script type="text/javascript" src="js/cfe.addon.toolTips.js"></script>
-<script type="text/javascript" src="js/cfe.addon.dependencies.js"></script>
+<script type="text/javascript" src="cfe/mootools/1.1/addons/cfe.addon.toolTips.js"></script>
+<script type="text/javascript" src="cfe/mootools/1.1/addons/cfe.addon.dependencies.js"></script>
 
 <script type="text/javascript">
 // <![CDATA[
