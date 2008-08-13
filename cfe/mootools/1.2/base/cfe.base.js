@@ -278,7 +278,7 @@ cfe.module.generic = new Class({
 			
 		// create standard span as replacement
 			this.a = new Element(this.options.aliasType,{
-				"class": "js"+this.type,
+				"class": "js"+this.type+" "+"js"+this.o.id,
 				"events": {
 					"mouseover": this.hover.bind(this),
 					"mouseout": this.unhover.bind(this),
