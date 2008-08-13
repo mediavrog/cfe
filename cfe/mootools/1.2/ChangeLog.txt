@@ -1,0 +1,9 @@
+CHANGE LOG FOR Custom Form Elements for Mootools 1.2
+****************************************************
+
+
+0.8beta
+****************************************************
+
+- initial upload
+- ported from 0.8beta for mootools 1.1
