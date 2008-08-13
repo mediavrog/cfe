@@ -1,5 +1,5 @@
 /*
-customFormElements for mootools 1.2 - v0.8b - style form elements on your own
+customFormElements for mootools 1.1 - v0.8b - style form elements on your own
 by Maik Vlcek (http://www.mediavrog.net) - MIT-style license.
 Copyright (c) 2008 Maik Vlcek (mediavrog.net)
 
@@ -15,9 +15,61 @@ WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN 
 
 ###CHANGELOG
 
+#2.0 
+TODO: mouseWheel Scrolling within select options
 
-#0.8b
-- initial port of cfe 0.8b for mootools 1.1
+
+#1.9
+- added basic fieldset functionality
+- added custom events
+- fixes for ie6; not completely reday for ie6
+- setModuleOption / setModuleOptions now incrementally adds options by calling it more than once
+(previous behaviour overrode already set options with the new options passed)
+
+#1.8b
+- code rewritten in order to make cfe modular
+
+(thanks for hint: Peter @ mediavrog Blog)
+- now supports "tabbing" between fields
+
+(thanks for hint: TobSnyder @ mediavrog Blog)
+- added selectAll/deselectAll Methods for Checkboxes
+- now works with implicit labelling and no labelling
+
+
+#1.6
+- new requirenment: Class.Extras; Element.Dimensions not needed any more
+- fixed ie flicker bug
+- fixed visibility in safari
+- added spacer.gif which gets height/width per css -> improved compatibility when resizing fonts (set this via option "spacer"; default is to "gfx/spacer.gif")
+- setOptions() now used for - guess what - setting options
+- fixed bug if there is no label
+
+
+#1.5
+- included psd file for fast styling startup
+- code review/optimization
+- changed event mouseover to mouseenter
+- css property display:none applied to original checkboxes/radiobuttons instead of visibility:hidden
+- added support for labels (has class "jsCheckboxLabel"; class:hover is "jsCheckboxLabelHover" ~ same for radiobuttons)
+
+
+#1.2
+(thanks for hint: pwnw31842 @ mootools forums)
+- graphcical buttons are now spans
+- graphcical buttons are inserted in dom at original input position (no more position absolute), so they hide when parent gets invisible
+
+(thanks for hint: ej84 @ mootools forums)
+- gfx images are now in a single file so they dont flicker on first statechange
+
+#1.1
+- code review/optimization
+
+#1.0
+- fixed radiobuttons behaviour (groups)
+
+#0.9
+- initial release
 
 */
 
@@ -48,9 +100,6 @@ cfe.base = new Class({
 	
 	initialize: function(debug){
 		this.options.debug = debug | false;
-		
-		this.registerAllModules.bind(this)();
-		
 	},
 	
 	getVersion: function(){return this.version;},
@@ -59,40 +108,21 @@ cfe.base = new Class({
 		this.options.debug?alert(errText):"";
 	},
 	
-	/**
-	 * registeres all loaded modules onInitialize
-	 */
-	registerAllModules: function(){
-		
-		//console.log("Register all modules");
-		
-		$each(cfe.module, function(modObj, modType){
-			//console.log("Registering type "+modType);
-			if(modType != "generic")
-				this.registerModule(modType);
-				
-		}.bind(this));
-	},
-	
 	/* call to register module */
 	registerModule: function(mod){
 		
-		//console.log("Call to registerModule with arg:"+mod);
-		
 		modObj = cfe.module[mod];
 		
-		/*if(false){
-		//if(!modObj.prototype.build && !modObj.prototype.noBuild){
+		if(!modObj.prototype.build && !modObj.prototype.noBuild){
 			this.throwMsg.bind(this)("CustomFormElements: registration of Module '"+modObj.prototype.type+"' failed. It will NOT be available.\nReason: lack of obligatory 'build' function.");
 			return false;
 		}
-		else{*/
+		else{
 			this.fireEvent("onRegisterModule", [mod,modObj]);
 			this.modules[mod] = modObj;
 			this.moduleOptions[mod] = {};
-			
 			return true;
-		//}
+		}
 	},
 	
 	registerModules: function(mods){
@@ -113,14 +143,7 @@ cfe.base = new Class({
 			this.unregisterModule(mod);
 		},this);
 	},
-	/**
-	 * sets a single option for a specified module
-	 * if no module was given, it sets the options for all modules
-	 * 
-	 * @param {String} 	mod 	Name of the module
-	 * @param {String} 	opt 	Name of the option
-	 * @param {Mixed} 	val		The options value
-	 */
+	
 	setModuleOption: function(mod,opt,val){
 		
 		modObj = cfe.module[mod];
@@ -137,8 +160,8 @@ cfe.base = new Class({
 
 	setModuleOptions: function(mod,opt){
 		
-		$each(opt, function(optionValue, optionName){
-			this.setModuleOption(mod,optionName,optionValue);
+		$each(opt,function(option){
+			this.setModuleOption(mod,option,opt[option]);
 		}.bind(this));
 		
 	},
@@ -148,12 +171,12 @@ cfe.base = new Class({
 		this.setOptions(this.options, options);
 
 		this.fireEvent("onInit");
-		
+			
 		$each(this.modules,function(module,moduleName,i){
 			
 			var selector = module.prototype.selector;
 			
-			(this.options.scope || document.body).getElements(selector).each(function(el,i){
+			$ES(selector,this.options.scope || document.body).each(function(el,i){
 				
 				var basicOptions = {"instanceID": i,"spacer":this.options.spacer};
 
@@ -183,7 +206,7 @@ cfe.module.generic = new Class({
 		spacer:false,
 		aliasType: "span",
 		onHover: Class.empty,
-		onUnHover: Class.empty,
+		onUnhover: Class.empty,
 		onFocus: Class.empty,
 		onBlur: Class.empty,
 		onClick: Class.empty	
@@ -207,8 +230,8 @@ cfe.module.generic = new Class({
 				"blur": this.removeFocus.bind(this)
 			});
 			
-		// store a reference to this "in" the original form element
-			this.o.store("cfe", this);
+		// is there no other way to keep this object
+			this.o.cfe = this;
 			
 		// specific initialization
 			this.initializeAdv.bind(this)();
@@ -231,24 +254,19 @@ cfe.module.generic = new Class({
 		this.implicitLabel = false;
 		
 		// get label for original input element
-		if(this.o.id){
-			this.l = $$("label[for="+this.o.id+"]")[0];
-		}
+		if(this.o.id)
+			this.l = $E("label[for="+this.o.id+"]");
 		
-		// no label was found for id, so try to get parent as label
+		// no label was found for id, so try parent
 		if(!this.l){
-			this.l = this.o.getParent('label');
-			
-			if($type(this.l) == "element"){
-				this.implicitLabel = true;
-			}
+			this.l = this.o.getParent();
+			this.l.getTag() == "label"?this.implicitLabel = true:"";			
 		}
 		
-		if(this.l){
-			
+		if(this.l.getTag() == "label"){
 			// remove for property
 			this.dontRemoveForFromLabel?"":this.l.removeProperty("for");
-			
+		
 			// add adequate className, add stdEvents
 			this.l.addClass("for_"+ (this.o.id || (this.o.name+this.o.value).replace("]","-").replace("[","") )+" js"+this.type+"L");
 
@@ -259,9 +277,8 @@ cfe.module.generic = new Class({
 				"click":this.clicked.bindWithEvent(this)
 			});
 		}
-		
-		// no label found
 		else{
+			this.l = false;
 			return false;
 		}
 	},
@@ -311,7 +328,7 @@ cfe.module.generic = new Class({
 		this.a.removeClass("H");
 		this.l?this.l.removeClass("H"):"";
 		
-		this.fireEvent("onUnHover");
+		this.fireEvent("onUnhover");
 	},
 
 	/**
@@ -338,7 +355,6 @@ cfe.module.generic = new Class({
 	
 	clicked: function(){
 		this.o.focus();
-		//this.setFocus.bind(this)();
 		
 		this.fireEvent("onClick");
 	}
