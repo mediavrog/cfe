@@ -1,9 +1,8 @@
 /**
  * @author Maik
  */
-cfe.module.fieldset = new Class({
-	
-	Extends: cfe.module.generic,
+
+cfe.module.fieldset = cfe.module.generic.extend({
 	
 	type: "Fieldset",
 	
@@ -53,3 +52,5 @@ cfe.module.fieldset = new Class({
 		
 	}
 });
+
+cfe.base.prototype.registerModule("fieldset");

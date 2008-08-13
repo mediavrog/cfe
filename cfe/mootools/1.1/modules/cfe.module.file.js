@@ -3,10 +3,9 @@
 /* ?help:> replaces file upload fields	*/
 /* !dep:>  core,interface				*/
 /****************************************/
-cfe.module.file = new Class({
-	
-	Extends: cfe.module.generic,
 
+cfe.module.file = cfe.module.generic.extend({
+	
 	type: "File",
 	
 	selector: "input[type=file]",
@@ -49,27 +48,27 @@ cfe.module.file = new Class({
 			"change": this.updateFilePath.bind(this)
 		});
 		
-		this.o.setStyles({"cursor":"pointer","opacity":"0","visibility":"visible","height": this.a.getHeight(),"width": "auto","position":"relative"});
+		this.o.setStyles({"cursor":"pointer","opacity":"0","visibility":"visible","height": this.a.getSize().size.y,"width": "auto","position":"relative"});
 		if(window.gecko){this.o.setStyle("MozOpacity","0");}
 	},
 	
 	follow: function(e){
 		var ev = new Event(e);
-		this.o.setStyle("left",(ev.client.x-this.a.getLeft()-(this.o.getWidth()-30)));
+		this.o.setStyle("left",(ev.client.x-this.a.getLeft()-(this.o.getSize().size.x-30)));
 		
 		/* special treatment for internet explorer as the fileinput will not be cut off by overflow:hidden */
 		if(window.ie){
-			if(ev.client.x < this.a.getLeft() || ev.client.x > this.a.getLeft()+this.a.getWidth())
+			if(ev.client.x < this.a.getLeft() || ev.client.x > this.a.getLeft()+this.a.getSize().size.x)
 				this.o.setStyle("left", -999);
 		}
 	},
 	
 	updateFilePath: function(){
-		if(this.o.value != "" && (this.path.get("text") != this.o.getProperty("value"))){
+		if(this.o.value != "" && (this.path.getText() != this.o.getProperty("value"))){
 				
 			var path = this.o.getProperty("value");
 			path = this.options.trimFilePath?this.trimFilePath(path):path;
-			this.path.set("html", path);
+			this.path.setHTML(path);
 			
 			if(this.options.fileIcons){
 				var ind = path.lastIndexOf(".");
@@ -77,7 +76,7 @@ cfe.module.file = new Class({
 			}
 			this.v.removeClass("hidden");
 		}else{
-			this.path.set("html", "");
+			this.path.setHTML("");
 			this.v.addClass("hidden");
 		}
 	},
@@ -89,7 +88,7 @@ cfe.module.file = new Class({
 			"name": this.o.name,
 			"id": this.o.id
 		})
-		newFileinput.replaces(this.o);
+		this.o.replaceWith(newFileinput);
 		this.o = newFileinput;
 		
 		this.initO.bind(this)();
@@ -106,3 +105,5 @@ cfe.module.file = new Class({
 		return path.substring(++ind);
 	}
 });
+
+cfe.base.prototype.registerModule("file");
