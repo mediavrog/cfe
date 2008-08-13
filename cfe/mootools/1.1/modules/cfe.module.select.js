@@ -3,7 +3,9 @@
 /* ?help:> replaces select-elements		*/
 /* !dep:>  core,interface				*/
 /****************************************/
-cfe.module.select = cfe.module.generic.extend({
+cfe.module.select = new Class({
+	
+	Extends: cfe.module.generic,
 	
 	type: "Selector",
 	
@@ -35,6 +37,12 @@ cfe.module.select = cfe.module.generic.extend({
 		
 		// integrity check
 		if(this.options.size > this.origOptions.length || this.options.scrolling != true){this.options.size = this.origOptions.length;}
+		
+		// needed for adding and removing events
+		this.boundKeyListener = this.keyListener.bindWithEvent(this);
+		this.boundWheelListener = this.mouseListener.bindWithEvent(this);
+		this.boundClickedOutsideListener = this.clickOutsideListener.bindWithEvent(this);
+						
 	},
 	
 	build: function(){
@@ -55,7 +63,7 @@ cfe.module.select = cfe.module.generic.extend({
 		
 		// get important css styles
 		this.aWidth = this.a.getStyle("width").toInt();
-		this.gfxWidth = this.arrow.getSize().size.x;
+		this.gfxWidth = this.arrow.getWidth();
 		
 		this.ai = new Element("span").addClass("js"+this.type+"Slide").injectInside(this.a).adopt(this.arrow);
 		this.aWidth += this.ai.getStyle("padding").toInt()*2;
@@ -66,9 +74,9 @@ cfe.module.select = cfe.module.generic.extend({
 				"float":"left",
 				"display":"inline"
 				}
-		}).setHTML(this.origOptions[0].getText()).injectBefore(this.arrow);
+		}).set('html', this.origOptions[0].get("text") ).injectBefore(this.arrow);
 			
-		this.gfxHeight = this.a.getSize().size.y*this.options.size;
+		this.gfxHeight = this.a.getHeight()*this.options.size;
 		
 		/* shows on click */
 		this.container = new Element("div",{
@@ -113,7 +121,7 @@ cfe.module.select = cfe.module.generic.extend({
 					"mouseout": this.selectOption.pass([i,true,true],this),
 					"click": this.selectOption.pass(i,this)
 				}
-			}).setHTML(el.innerHTML).injectInside(this.aliasOptions);
+			}).set('html', el.innerHTML).injectInside(this.aliasOptions);
 					
 		}.bind(this));
 		
@@ -163,7 +171,7 @@ cfe.module.select = cfe.module.generic.extend({
 	},
 	
 	moveScoller:function(by){
-		var scrol = this.aliasOptions.getSize().scroll.y;
+		var scrol = this.aliasOptions.getScroll().y;
 		this.slider.set(scrol+by<this.sliderSteps?scrol+by:this.sliderSteps);
 	},
 	
@@ -188,7 +196,7 @@ cfe.module.select = cfe.module.generic.extend({
 				
 			this.selectedID = index;
 			
-			this.activeEl.setHTML(selectit.innerHTML);
+			this.activeEl.set('html', selectit.innerHTML);
 		
 			stayOpenAfterSelect?"":this.clicked.attempt("hide",this);
 		}
@@ -196,8 +204,9 @@ cfe.module.select = cfe.module.generic.extend({
 	
 	scrollToSelectedItem:function(index,onlyIfNotVisible){
 		
-		this.slider.set((this.sliderSteps/(this.aOptions.length-this.options.size))*index);
-	
+		if(this.container.getStyle("display") == "block"){
+			this.slider.set((this.sliderSteps/(this.aOptions.length-this.options.size))*index);
+		}	
 	},
 	
 	selectOptionByKey: function(key){
@@ -206,7 +215,7 @@ cfe.module.select = cfe.module.generic.extend({
 			this.kind[key] = [];
 			
 			this.origOptions.each(function(el,i){
-				if(el.getText().charAt(0).toLowerCase() == key){
+				if(el.get('text').charAt(0).toLowerCase() == key){
 					this.kind[key][this.kind[key].length] = i;
 				}
 			}.bind(this));
@@ -223,9 +232,12 @@ cfe.module.select = cfe.module.generic.extend({
 		
 		if(this.container.getStyle("display") == "block" || action == "hide"){
 			this.container.setStyle("display","none");
-			window.removeEvents("keyup","click");
+			window.removeEvent("keyup", this.boundKeyListener);
+			window.removeEvent("click", this.boundClickedOutsideListener);
+		
 		}
 		else{
+			
 			this.parent();
 			
 			// show container
@@ -234,7 +246,7 @@ cfe.module.select = cfe.module.generic.extend({
 					"position":"absolute",
 					"top": this.a.getTop(),
 					"left": this.a.getLeft(),
-					"width": this.ai.getSize().size.x
+					"width": this.ai.getWidth()
 					});
 			
 			// fix ie 2 pixel bug
@@ -242,20 +254,18 @@ cfe.module.select = cfe.module.generic.extend({
 							
 			// scroller
 			if(this.options.scrolling){
-				this.sliderSteps = this.aliasOptions.getSize().scrollSize.y - (this.options.size*this.aliasOptions.getSize().scrollSize.y/this.aOptions.length);
+				this.sliderSteps = this.aliasOptions.getScrollSize().y - (this.options.size*this.aliasOptions.getScrollSize().y/this.aOptions.length);
 				this.slider = new Slider(this.scrollerBack, this.scrollerKnob, {steps: this.sliderSteps, mode: "vertical" ,onChange: function(step){this.aliasOptions.scrollTo(false,step);}.bind(this)}).set(0);
 				this.scrollToSelectedItem(this.selectedID);
 			}
 			
-			// change value on key press
-			window.addEvent("keyup",this.keyListener.bindWithEvent(this));
-			
 			// hide the container after click outside of it
-			window.addEvent("click",this.clickOutsideListener.bindWithEvent(this));
+			window.addEvent("click", this.boundClickedOutsideListener);
 		}
 	},
 	
 	keyListener: function(e){
+		
     	var ev = new Event(e).stop();
 		
 		switch(ev.key){
@@ -275,14 +285,50 @@ cfe.module.select = cfe.module.generic.extend({
 		}
 	},
 	
+	mouseListener: function(e){
+    	var ev = new Event(e).stop();
+
+		this.scrollToSelectedItem(this.highlightedID-ev.wheel,true);
+		this.selectOption(this.highlightedID-ev.wheel,true);
+
+	},
+	
 	clickOutsideListener: function(event){
 		event = new Event(event).stop();
-				
+		
 		if(!(this.a.hasChild(event.target) || this.container.hasChild(event.target) || this.l == event.target ))
 		{   
 		   this.clicked("hide");
 		}
-	}
+	},
+	
+	setFocus: function(){
+		
+		this.parent();
+		
+		if(!this.hasFocusEvents){
+			
+			this.hasFocusEvents = true;
+			
+			// change value on key press
+			window.addEvent("keyup",this.boundKeyListener);
+			window.addEvent("mousewheel",this.boundWheelListener);
+		}
+	},
+	
+	removeFocus: function(){
+		
+		this.parent();
+		
+		if(this.hasFocusEvents){
+			
+			this.hasFocusEvents = false;
+			
+			// change value on key press
+			window.removeEvent("keyup",this.boundKeyListener);
+			window.removeEvent("mousewheel",this.boundWheelListener);
+		}
+	},
+	
+	
 });
-
-cfe.base.prototype.registerModule("select");

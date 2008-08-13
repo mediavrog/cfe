@@ -3,7 +3,9 @@
 /* ?help:> replaces checkboxes	 		*/
 /* !dep:>  core,interface				*/
 /****************************************/
-cfe.module.checkbox = cfe.module.generic.extend({
+cfe.module.checkbox = new Class({
+	
+	Extends: cfe.module.generic,
 	
 	type: "Checkbox",
 	
@@ -50,7 +52,7 @@ cfe.module.checkbox = cfe.module.generic.extend({
 		}else{
 			this.o.checked = false;
 			this.a.removeClass("A");
-			this.fireEvent("onInactive");
+			this.fireEvent("onInActive");
 		}
 	},
 	
@@ -61,22 +63,20 @@ cfe.module.checkbox = cfe.module.generic.extend({
 	}
 });
 
-cfe.base.prototype.registerModule("checkbox");
-
 // implements selectAll/deselectAll functionality into custom form elements
 cfe.addon.selectCheckboxes = new Class({
 	
 	// select all checkboxes in scope
 	selectAll: function(scope){
-		$ES("input[type='checkbox']",scope || $(document.body)).each(function(el){
-			el.cfe.setStateTo(true);
+		(scope || $(document.body)).getElements("input[type='checkbox']")[0].each(function(el, i){
+			el.retrieve('cfe').setStateTo(true);
 		});
-	},	
+	},
 	
 	// deselect all checkboxes in scope
 	deselectAll: function(scope){
-		$ES("input[type='checkbox']",scope || $(document.body)).each(function(el){
-			el.cfe.setStateTo(false);
+		(scope || $(document.body)).getElements("input[type='checkbox']")[0].each(function(el){
+			el.retrieve('cfe').setStateTo(false);
 		});
 	}	
 });

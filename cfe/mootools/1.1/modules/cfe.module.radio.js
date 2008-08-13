@@ -3,7 +3,9 @@
 /* ?help:> replaces radiobuttons		*/
 /* !dep:>  core,interface				*/
 /****************************************/
-cfe.module.radio = cfe.module.generic.extend({
+cfe.module.radio = new Class({
+	
+	Extends: cfe.module.generic,
 	
 	type: "Radiobutton",
 	
@@ -45,5 +47,3 @@ cfe.module.radio = cfe.module.generic.extend({
 		this.a.addClass("A");
 	}
 });
-
-cfe.base.prototype.registerModule("radio");

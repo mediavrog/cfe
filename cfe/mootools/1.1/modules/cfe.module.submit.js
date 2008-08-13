@@ -3,7 +3,9 @@
 /* ?help:> replaces submitbutton		*/
 /* !dep:>  core,interface				*/
 /****************************************/
-cfe.module.submit = cfe.module.generic.extend({
+cfe.module.submit = new Class({
+	
+	Extends: cfe.module.generic,
 	
 	type:"Submit",
 	
@@ -28,7 +30,7 @@ cfe.module.submit = cfe.module.generic.extend({
 			"keyup":this.toggleBySpace.bindWithEvent(this)
 		});
 		
-		this.lab = new Element("span").addClass("label").setHTML(this.o.value).injectInside(this.a);
+		this.lab = new Element("span").addClass("label").set("html", this.o.value).injectInside(this.a);
 		
 		if($chk(this.options.slidingDoors)){
 			this.slidingDoors = new Element("span",{"class": "js"+this.type+"Slide"}).injectInside(this.a);
@@ -85,5 +87,3 @@ cfe.module.submit = cfe.module.generic.extend({
 		this.pressed = false;
 	}	
 });
-
-cfe.base.prototype.registerModule("submit");

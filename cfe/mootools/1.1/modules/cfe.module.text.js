@@ -3,7 +3,9 @@
 /* ?help:> replaces textfields			*/
 /* !dep:>  core,interface				*/
 /****************************************/
-cfe.module.text = cfe.module.generic.extend({
+cfe.module.text = new Class({
+	
+	Extends: cfe.module.generic,
 		
 	type: "Text",
 	
@@ -32,5 +34,3 @@ cfe.module.text = cfe.module.generic.extend({
 		});	
 	}
 });
-
-cfe.base.prototype.registerModule("text");

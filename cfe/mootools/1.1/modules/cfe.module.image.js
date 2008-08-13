@@ -6,6 +6,7 @@
 cfe.module.image = new Class({
 	
 	type:"Image",
+	
 	noBuild: true,
 	
 	selector: "input[type=image]",
@@ -62,5 +63,3 @@ cfe.module.image = new Class({
 });
 
 cfe.module.image.implement(new Options,new Events);
-
-cfe.base.prototype.registerModule("image");
