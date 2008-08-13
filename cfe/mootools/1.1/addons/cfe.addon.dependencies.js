@@ -24,13 +24,13 @@ cfe.addon.dependencies = new Class({
 	addDependency: function(el, dep){
 		
 		// create an array if needed
-		if($type( el.retrieve('deps') ) !== "array"){ el.store('deps', []); }
+		if($type(el.$deps) !== "array"){el.$deps = [];}
 		
 		// deps may be objects or strings > if a string was given, try to interpret it as id and fetch element by $()
 		if($type(dep) === "string"){dep = $(dep);}
 		
 		if($type(dep) === "element"){
-			el.retrieve('deps').push(dep);
+			el.$deps.push(dep);
 			return true;
 		}
 		
@@ -38,7 +38,7 @@ cfe.addon.dependencies = new Class({
 	},
 	
 	getDependencies: function(el){
-		return el.retrieve('deps');
+		return el.$deps;
 	},
 	
 	/**
@@ -65,12 +65,9 @@ cfe.base.prototype.addEvent("onBeforeInitSingle", cfe.base.prototype.attachDepen
 
 cfe.addon.dependencies.modules = new Class({
 	resolveDependencies: function(){
-		
-		var deps = this.o.retrieve('deps');
-		
-		if(deps){
-			$each(deps, function(dep,i){
-				dep.retrieve('cfe').setStateTo(true);
+		if(this.o.$deps){
+			$each(this.o.$deps, function(dep,i){
+				dep.cfe.setStateTo(true);
 			}.bind(this));
 		}
 	}

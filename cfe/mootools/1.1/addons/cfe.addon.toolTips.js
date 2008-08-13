@@ -1,5 +1,5 @@
 /**
- * @author Maik
+ * @author Maik V
  */
 cfe.addon.toolTips = new Class({
 	
@@ -15,7 +15,7 @@ cfe.addon.toolTips = new Class({
 	},
 	
 	toolTipsLabel: function(){
-		var labels = (this.options.scope || document.body).getElements('label');
+		var labels = $ES('label',this.options.scope | document.body);
 		labels.each(function(lbl,i){
 			if(!(forEl = lbl.getProperty("for"))){
 				var cl = lbl.getProperty("class");
@@ -46,7 +46,7 @@ cfe.addon.toolTips = new Class({
 			}
 		},this);
 		
-		new Tips($$('.jsQM[title]'));
+		new Tips($ES('.jsQM[title]'));
 	}
 });
 
