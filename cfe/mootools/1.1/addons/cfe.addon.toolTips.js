@@ -15,7 +15,7 @@ cfe.addon.toolTips = new Class({
 	},
 	
 	toolTipsLabel: function(){
-		var labels = $ES('label',this.options.scope | document.body);
+		var labels = (this.options.scope || document.body).getElements('label');
 		labels.each(function(lbl,i){
 			if(!(forEl = lbl.getProperty("for"))){
 				var cl = lbl.getProperty("class");
@@ -46,7 +46,7 @@ cfe.addon.toolTips = new Class({
 			}
 		},this);
 		
-		new Tips($ES('.jsQM[title]'));
+		new Tips($$('.jsQM[title]'));
 	}
 });
 
