@@ -88,7 +88,18 @@ window.addEvent('domready', function(){
 		$('chb1').retrieve("cfe").addEvent("unHover", function(){
 			this.l.tween('margin-left', 0);
 		});
-	
+		
+		// another example; retreive elements and tween the background color of the input replacement
+		$$("fieldset.chb2").getElements("input[type=checkbox]")[0].each(function(el){
+			
+			el.retrieve("cfe").addEvent("active", function(){
+				this.a.getElement("img").tween('background-color', '#477B76');
+			});
+			
+			el.retrieve("cfe").addEvent("inActive", function(){
+				this.a.getElement("img").tween('background-color', '#fff');
+			});
+		})
 		
 	});
 MT12i;
