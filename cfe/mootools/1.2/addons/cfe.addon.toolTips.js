@@ -22,9 +22,15 @@ cfe.addon.toolTips = new Class({
 	
 	toolTipsLabel: function(){
 		
-		var labels = (this.options.scope).getElements('label');
+		var labels = this.options.scope.getElements('label');
+		
+		console.log(labels);
+		
 		labels.each(function(lbl,i){
-			if(!(forEl = lbl.getProperty("for"))){
+			
+			forEl = lbl.getProperty("for");
+			
+			if(!forEl){
 				var cl = lbl.getProperty("class");
 				
 				if(cl){
@@ -32,7 +38,8 @@ cfe.addon.toolTips = new Class({
 					forEl = forEl.replace(/for_/,"");
 					el = $(forEl);
 				}
-				else{
+				
+				if(!el){
 					el = lbl.getElement("input");
 				}
 			}else{
