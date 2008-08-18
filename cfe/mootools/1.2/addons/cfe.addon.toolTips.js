@@ -24,8 +24,6 @@ cfe.addon.toolTips = new Class({
 		
 		var labels = this.options.scope.getElements('label');
 		
-		console.log(labels);
-		
 		labels.each(function(lbl,i){
 			
 			forEl = lbl.getProperty("for");
