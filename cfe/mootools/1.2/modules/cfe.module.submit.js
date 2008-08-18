@@ -17,6 +17,8 @@ cfe.module.submit = new Class({
 	
 	initializeAdv: function(){
 		this.hideAndReplace.bind(this)();
+		
+		this.boundRelease = this.release.bindWithEvent(this);
 	},
 	
 	build: function(){
@@ -69,7 +71,7 @@ cfe.module.submit = new Class({
 			this.pressed = true;
 		}
 		this.a.addClass("P");
-		window.addEvent("mouseup",this.release.bindAsEventListener(this));
+		window.addEvent("mouseup",this.boundRelease);
 	},
 	
 	release: function(e){
@@ -80,7 +82,7 @@ cfe.module.submit = new Class({
 			this.over = false;
 		}
 		else{
-			window.removeEvent("mouseup");
+			window.removeEvent("mouseup", this.boundRelease);
 		}
 		
 		this.a.removeClass("P");		
