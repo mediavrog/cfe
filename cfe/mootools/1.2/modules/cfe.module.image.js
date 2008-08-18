@@ -19,6 +19,8 @@ cfe.module.image = new Class({
 			"mousedown": this.press.bind(this),
 			"mouseup": this.release.bind(this)
 		});
+		
+		this.boundRelease = this.release.bindWithEvent(this);
 	},
 	
 	hover:function(){
@@ -32,7 +34,7 @@ cfe.module.image = new Class({
 	release:function(){
 		this.o.src=this.oSrc;
 		this.pressed = false;
-		window.removeEvent("mouseup");
+		window.removeEvent("mouseup", this.boundRelease);
 	},
 	
 	press:function(){
@@ -42,7 +44,7 @@ cfe.module.image = new Class({
 		}
 		
 		this.pressState.bind(this)();
-		window.addEvent("mouseup",this.release.bindAsEventListener(this));
+		window.addEvent("mouseup", this.boundRelease);
 	},
 	
 	hoverState: function(){
