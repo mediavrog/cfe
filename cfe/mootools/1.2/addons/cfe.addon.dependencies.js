@@ -78,4 +78,4 @@ cfe.addon.dependencies.modules = new Class({
 
 cfe.module.generic.implement(new cfe.addon.dependencies.modules);
 
-cfe.module.generic.prototype.addEvent("onActive", cfe.module.generic.prototype.resolveDependencies);
+cfe.module.generic.prototype.addEvent("onActive", function(){this.resolveDependencies();});
