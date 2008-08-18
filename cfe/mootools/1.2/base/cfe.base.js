@@ -15,6 +15,11 @@ WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN 
 
 ###CHANGELOG
 
+#0.8.1
+- decoupling of addon tooltips and core
+- select now handles mousewheel scrolling
+- ie still buggy
+- some code sweeping
 
 #0.8b
 - initial port of cfe 0.8b for mootools 1.1
@@ -27,19 +32,19 @@ cfe.addon = {};
 
 cfe.base = new Class({
 	
-	version: "0.8b",
+	version: "0.8.1",
 	
 	options:{
 		scope: false,
 		spacer: "gfx/spacer.gif",
-		toolTipsStyle: "label",
-		onInit: Class.empty,
-		onInitSingle: Class.empty,
-		onBeforeInitSingle: Class.empty,
-		onSetModuleOption: Class.empty,
-		onRegisterModule: Class.empty,
-		onUnregisterModule: Class.empty,
-		onComplete: Class.empty
+
+		onInit: $empty,
+		onInitSingle: $empty,
+		onBeforeInitSingle: $empty,
+		onSetModuleOption: $empty,
+		onRegisterModule: $empty,
+		onUnregisterModule: $empty,
+		onComplete: $empty
 	},
 		
 	modules: {},
@@ -147,13 +152,17 @@ cfe.base = new Class({
 
 		this.setOptions(this.options, options);
 
+		if($type(this.options.scope) != "element"){
+			this.options.scope = $(document.body);
+		}
+
 		this.fireEvent("onInit");
 		
 		$each(this.modules,function(module,moduleName,i){
 			
 			var selector = module.prototype.selector;
 			
-			(this.options.scope || document.body).getElements(selector).each(function(el,i){
+			this.options.scope.getElements(selector).each(function(el,i){
 				
 				var basicOptions = {"instanceID": i,"spacer":this.options.spacer};
 
