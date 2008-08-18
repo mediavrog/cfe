@@ -127,6 +127,23 @@ label.F{color:#cc3300;}
 .jsCheckbox.F.H img,.jsRadiobutton.F.H img{background-position: 0 -240px;}
 .jsCheckbox.F.A.H img,.jsRadiobutton.F.A.H img{background-position: 0 -280px;}
 
+
+/* alternate checkboxes in second fieldset */
+.chb2 .jsCheckbox img{
+	background-image: none;
+	background-color: white;
+	border: 1px solid #000;
+	width: 12px;
+	height: 12px;
+	margin: 3px;
+}
+
+.chb2 .jsCheckbox.A img{background-color: #477B76;}
+
+.chb2 .jsCheckbox.H img{background-color: #ddd;}
+.chb2 .jsCheckbox.H.A img{background-color: #999;}
+
+
 /* file input */
 .jsFileWrapper{
 	width: 125px;
