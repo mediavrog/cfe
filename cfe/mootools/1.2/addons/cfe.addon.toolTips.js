@@ -3,19 +3,26 @@
  */
 cfe.addon.toolTips = new Class({
 	
+	options: $merge(this.parent, {
+		ttStyle: "label",
+		ttClass: "jsQM"	
+	}),
+	
 	initToolTips: function(){
-		if(!Tips){
+		
+		if(!Tips && this.options.debug){
 			this.throwMsg.bind(this)("CustomFormElements: initialization of toolTips failed.\nReason: Mootools Plugin 'Tips' not available.");
 			return false;			
 		}
-				
-		switch(this.options.toolTipsStyle){
+	
+		switch(this.options.ttStyle){
 			default:case 'label': this.toolTipsLabel.bind(this)();break;	
 		}
 	},
 	
 	toolTipsLabel: function(){
-		var labels = (this.options.scope || document.body).getElements('label');
+		
+		var labels = (this.options.scope).getElements('label');
 		labels.each(function(lbl,i){
 			if(!(forEl = lbl.getProperty("for"))){
 				var cl = lbl.getProperty("class");
@@ -39,17 +46,17 @@ cfe.addon.toolTips = new Class({
 					
 					var qm = new Element("img",{
 						"src": this.options.spacer,
-						"class": "jsQM",
+						"class": this.options.ttClass,
 						"title": qmTitle
 					}).injectInside(lbl);
 				}
 			}
 		},this);
 		
-		new Tips($$('.jsQM[title]'));
+		new Tips($$('.'+this.options.ttClass+'[title]'));
 	}
 });
 
 cfe.base.implement(new cfe.addon.toolTips);
 
-cfe.base.prototype.addEvent("onComplete", cfe.base.prototype.initToolTips.bind(cfe.base.prototype));
+cfe.base.prototype.addEvent("onComplete", function(){this.initToolTips();});
