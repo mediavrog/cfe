@@ -328,7 +328,5 @@ cfe.module.select = new Class({
 			window.removeEvent("keyup",this.boundKeyListener);
 			window.removeEvent("mousewheel",this.boundWheelListener);
 		}
-	},
-	
-	
+	}
 });
