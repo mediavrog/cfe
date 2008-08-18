@@ -283,7 +283,7 @@ cfe.module.generic = new Class({
 			this.o.setStyles({"position":"absolute","left":"-999px"});
 			
 			// fix for internet explorer
-			if(window.ie){this.o.setStyles({"position":"static","width":"0"});}
+			if(Browser.Engine.trident){this.o.setStyles({"position":"static","width":"0"});}
 			
 		// create standard span as replacement
 			this.a = new Element(this.options.aliasType,{
