@@ -12,10 +12,9 @@ README FOR Custom Form Elements
 3. Requirements to use CFE
 ****************************************************
 
-javascript frameworks
-같같같같같같같같같같같같같같같같같같같같같같같같같같
+같컅avascript frameworks
 Custom Form Elements are based on various Javascript Framworks.
-You'll find all according licenses in cfe/FRAMEWORK/FWVERSION/README.txt 
+Currently mootools 1.1 and mootools 1.2 are supported
 
 
 4. What should you do if you have a problem?

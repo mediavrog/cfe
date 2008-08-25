@@ -28,6 +28,8 @@ label.jsTextL,label.jsPasswordL, label.jsFileL, label.jsSelectorL{
 /*  classes can be used in any combination		*/
  /**********************************************/
  
+ form *:focus{outline: none;}
+ 
  /* fieldsets */
  /*fieldset.F{
  	border: 1px dotted #cc3300;
@@ -61,7 +63,7 @@ label.H{color:#339999;}
 label.F{color:#cc3300;}
 
 /* tool tip related */
-.tool-tip{border: 1px solid #339999;background-color: #fff;z-index:100;font-size:0.7em;color:#666;padding:2px 4px;}
+.tip{border: 1px solid #339999;background-color: #fff;z-index:100;font-size:0.9em;color:#666;padding:2px 4px;}
 
 .jsQM{
 	cursor: help;
@@ -78,7 +80,7 @@ label.F{color:#cc3300;}
 	float:left;display:inline;
 	border: none;
 }
-.jsTextSlide input,.jsPasswordSlide input{
+.jsTextSlide .jsText,.jsPasswordSlide .jsPassword{
 	float:left;display:inline;
 	background: url(../gfx/cfeTextR.gif) no-repeat right top;
 	border: none; margin:0 0 0 6px;
@@ -86,14 +88,14 @@ label.F{color:#cc3300;}
 	height: 20px;
 }
 .jsTextSlide.F,.jsPasswordSlide.F{background-position: 0 -40px;}
-.jsTextSlide.F input,.jsPasswordSlide.F input{background-position: 100% -40px;}
+.jsTextSlide.F .jsText,.jsPasswordSlide.F .jsPassword{background-position: 100% -40px;}
 
 /* teaxtareas with sliding doors */
 .jsTextareaSlide{
 	float:left;
 	background: url(../gfx/cfeTextareaR.gif) no-repeat right top;
 }
-.jsTextareaSlide textarea{
+.jsTextareaSlide .jsTextarea{
 	float:left;
 	background: url(../gfx/cfeTextareaL.gif) no-repeat left top;
 	border:0;margin:0;
@@ -103,8 +105,7 @@ label.F{color:#cc3300;}
 }
 .jsTextareaSlide.F{background-position: 100% -120px;}
 
-.jsTextareaSlide.F textarea{background-position: 0 -120px;}
-
+.jsTextareaSlide.F .jsTextarea{background-position: 0 -120px;}
 
 /* checkboxes and radiobuttons */
 .jsCheckbox img,.jsRadiobutton img{

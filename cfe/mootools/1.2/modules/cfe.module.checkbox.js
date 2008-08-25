@@ -24,9 +24,7 @@ cfe.module.checkbox = new Class({
 		this.o.addEvent("keyup",this.toggleBySpace.bindWithEvent(this));
 	},
 	
-	toggleBySpace: function(e){
-	
-		var ev = new Event(e);
+	toggleBySpace: function(ev){
 
 		if(ev.key == 'space'){
 			!this.o.checked?this.a.addClass("A"):this.a.removeClass("A");

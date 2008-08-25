@@ -29,15 +29,15 @@ cfe.module.file = new Class({
 				
 		this.initO.bind(this)();
 		
-		this.v = new Element("div",{"class": "js"+this.type+"Path"}).injectAfter(this.a).addClass("hidden");
+		this.v = new Element("div",{"class": "js"+this.type+"Path"}).inject(this.a, 'after').addClass("hidden");
 		
-		this.options.fileIcons?this.fileIcon = new Element("img",{"src": this.options.spacer}).injectInside(this.v):"";
+		this.options.fileIcons?this.fileIcon = new Element("img",{"src": this.options.spacer}).inject(this.v):"";
 		
-		this.path = new Element("span",{"class":"filePath"}).injectInside(this.v);
+		this.path = new Element("span",{"class":"filePath"}).inject(this.v);
 		this.cross = new Element("img",{
 			"src": this.options.spacer,
 			"class":"delete"
-		}).addEvent("click",this.deleteCurrentFile.bind(this)).injectInside(this.v);
+		}).addEvent("click",this.deleteCurrentFile.bind(this)).inject(this.v);
 
 		this.updateFilePath.bind(this)();
 		this.unhover.bind(this)();
@@ -65,7 +65,7 @@ cfe.module.file = new Class({
 	},
 	
 	updateFilePath: function(){
-		if(this.o.value != "" && (this.path.get("text") != this.o.getProperty("value"))){
+		if(this.o.value != ""){// && (this.path.get("text") != this.o.getProperty("value"))){
 				
 			var path = this.o.getProperty("value");
 			path = this.options.trimFilePath?this.trimFilePath(path):path;

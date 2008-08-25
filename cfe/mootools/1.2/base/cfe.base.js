@@ -1,19 +1,23 @@
 /*
-customFormElements for mootools 1.2 - v0.8b - style form elements on your own
+customFormElements for mootools 1.2 - style form elements on your own
 by Maik Vlcek (http://www.mediavrog.net) - MIT-style license.
 Copyright (c) 2008 Maik Vlcek (mediavrog.net)
 
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"),
-to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense,
-and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 3 of the License, or (at your option) any later version. 
 
-The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+See the GNU General Public License for more details. 
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
-WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+You should have received a copy of the GNU General Public License along with this program; if not, see <http://www.gnu.org/licenses/>.
 
 ###CHANGELOG
+
+#0.8.2
+- addressed bugs 2059807, 2059805, 2059800
+- created Element.disableTextSelection for better reusability
+- random code sweeping (mootools 1.2 port of Element.inject ...)
 
 #0.8.1
 - decoupling of addon tooltips and core
@@ -32,7 +36,7 @@ cfe.addon = {};
 
 cfe.base = new Class({
 	
-	version: "0.8.1",
+	version: "0.8.2",
 	
 	options:{
 		scope: false,
@@ -223,7 +227,8 @@ cfe.module.generic = new Class({
 			this.initializeAdv.bind(this)();
 		
 		// each cfe must implement this function
-			this.build.bind(this)();	
+			this.build.bind(this)();
+
 	},
 	
 	// may be extended by cfe
@@ -293,7 +298,7 @@ cfe.module.generic = new Class({
 					"mouseout": this.unhover.bind(this),
 					"click": this.setFocus.bind(this)	
 				}
-			}).setStyle("cursor","pointer").injectBefore(this.o);
+			}).setStyle("cursor","pointer").inject(this.o, 'before');
 			
 		// check for implicit labels;
 			if(!this.implicitLabel){
@@ -353,3 +358,15 @@ cfe.module.generic = new Class({
 	}
 });
 cfe.module.generic.implement(new Options,new Events);
+
+// extend Elements with some Helper functions
+Element.Helpers = new Class({
+	
+	disableTextSelection: function(){
+		if(Browser.Engine.trident || Browser.Engine.presto){this.setProperty("unselectable","on");}
+		else if(Browser.Engine.gecko){this.setStyle("MozUserSelect","none");}
+		else if(Browser.Engine.webkit){this.setStyle("KhtmlUserSelect","none");}	
+	}
+	
+});
+Element.implement(new Element.Helpers);

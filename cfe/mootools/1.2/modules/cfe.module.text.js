@@ -22,9 +22,27 @@ cfe.module.text = new Class({
 	
 	build: function(){
 		if($chk(this.options.slidingDoors)){
-			this.slidingDoors = new Element("span",{"class": "js"+this.type+"Slide"}).injectBefore(this.o);
-			this.slidingDoors.adopt(this.o);
+			this.slidingDoors = new Element("span",{"class": "js"+this.type+"Slide"}).inject(this.o, 'before');
+			
+			// ie hack to avoid scolling backgrounds
+			if(Browser.Engine.trident){
+				var additionalWrapper = new Element("span",{"class": "js"+this.type}).inject(this.slidingDoors);
+				additionalWrapper.adopt(this.o);
+				
+				this.o.setStyles({
+					"background": "none",
+					"padding": 0,
+					"margin": 0
+				});
+			}
+			else{
+				this.slidingDoors.adopt(this.o);
+				if(this.o.id){this.o.addClass("js"+this.o.id);}
+			}
+			
 			this.a=this.slidingDoors;
+			this.o.addClass("js"+this.type);
+
 		}else{this.a=this.o;}
 		
 		this.a.addEvents({

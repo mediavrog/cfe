@@ -1,4 +1,5 @@
-View Demopage for sample integration
-I'll update install notes soon,
-meahwhile visit http://mediavrog.net/development/mootools/customFormElements/1.8b/
-for short documentation
+INSTALLATION NOTES for Custom Form Elements
+****************************************************
+
+View Demopage for sample integration and HowTo (customformelements.net/howto.php).
+For a complete API documentation and developer docs, check customformelements.net/api-docs.php.
