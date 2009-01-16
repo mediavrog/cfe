@@ -14,6 +14,10 @@ You should have received a copy of the GNU General Public License along with thi
 
 ###CHANGELOG
 
+01/16/09 - 0.8.3
+- partially fixed bug #2207752 - scrollbar is still behaving strange due to mootools <> opera getStyle() buggy
+- fixed bug #2088490
+
 #0.8.2
 - addressed bugs 2059807, 2059805, 2059800
 - created Element.disableTextSelection for better reusability
