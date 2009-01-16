@@ -1,5 +1,5 @@
 /****************************************/
-/* §name:> select						*/
+/* ï¿½name:> select						*/
 /* ?help:> replaces select-elements		*/
 /* !dep:>  core,interface				*/
 /****************************************/
@@ -12,7 +12,6 @@ cfe.module.select = new Class({
 	selector: "select",
 	
 	options: {
-		defaultSelect:1,
 		size: 4,
 		scrolling: true,
 		scrollSteps: 5
@@ -31,6 +30,7 @@ cfe.module.select = new Class({
 		this.hideAndReplace.bind(this)();
 
 		this.origOptions = this.o.getChildren();
+		this.preSelectedIndex = this.o.selectedIndex || 0;
 		
 		// key indices
 		this.kind = [];
@@ -90,32 +90,26 @@ cfe.module.select = new Class({
 		this.cContent = new Element("div",{
 			"class":"js"+this.type+"Content",
 			"styles":{
-				"float":"left",
-				"display":"inline"
+				/*"float":"left",
+				"display":"inline"*/
+                "position":"relative"
 			}
 		}).injectInside(this.container);
-		
-		this.aliasOptions = new Element("div",{
+
+    	this.aliasOptions = new Element("div",{
 			"class": "js"+this.type+"C",
 			"styles":{
 				"height": this.gfxHeight,
-				"width": this.options.scrolling?(this.cContent.getStyle("width").toInt()-this.gfxWidth):"100%",
-				"overflow":"hidden",
-				"float":"left",
-				"display":"inline"
+                "width": "100%",
+				"overflow":"hidden"
 			}
 		}).injectInside(this.cContent);
 
-		
+
 		// insert option elements
 		this.origOptions.each(function(el,i){
 			new Element("div",{
 				"class": "jsOption jsOption"+i,
-				"styles":{
-					"float":"left",
-					"width":"100%",
-					"clear":"left"
-				},
 				"events":{
 					"mouseover": this.selectOption.pass([i,true,true],this),
 					"mouseout": this.selectOption.pass([i,true,true],this),
@@ -133,12 +127,13 @@ cfe.module.select = new Class({
 				"class": "js"+this.type+"ScrollerWrapper",
 				"styles":{
 					"height": this.gfxHeight,
-					"float":"left",
-					"display":"inline"
+                    "position": "absolute",
+                    "top": "0",
+                    "right": "0"
 					}
 				}).injectInside(this.cContent);
-				
-			this.scrollerTop = new Element("img",{
+
+            this.scrollerTop = new Element("img",{
 			   "class": "scrollTop",
 			   "src": this.options.spacer,
 			   "events": this.stdEvents
@@ -153,7 +148,7 @@ cfe.module.select = new Class({
 			this.scrollerWrapper.adopt(this.scrollerTop);
 
 			this.scrollerBack = new Element("div").setStyle("height",this.gfxHeight - 2*this.scrollerTop.getStyle("height").toInt());
-			
+
 			this.scrollerKnob = new Element("img",{
 											"class": "scrollKnob",
 											"src": this.options.spacer,
@@ -166,8 +161,7 @@ cfe.module.select = new Class({
 		}
 
 		// select default option
-		this.selectOption.attempt(this.options.defaultSelect-1,this);
-		
+		this.selectOption.attempt(this.preSelectedIndex,this);
 	},
 	
 	moveScoller:function(by){

@@ -278,6 +278,9 @@ label.F{color:#cc3300;}
 }
 .jsSelectorContent .H{color: #FFFFFF;background-color: #666;}
 
+.jsOption{margin-right: 3px;}
+
+.jsSelectorScrollerWrapper {background-color: #fff; margin: 3px 3px 0 0;}
 .jsSelectorScrollerWrapper img{width: 17px;height: 13px;display:block;cursor:pointer;}
 .jsSelectorScrollerWrapper .scrollTop{background: url(../gfx/scrollUp.gif) no-repeat 3px 3px;}
 .jsSelectorScrollerWrapper .scrollKnob{background: url(../gfx/scrollKnob.gif) no-repeat 3px 0;}
