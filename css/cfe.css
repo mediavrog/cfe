@@ -116,8 +116,8 @@ label.F{color:#cc3300;}
 	height: 20px;
 	background: no-repeat 0 0;
 }
-.jsCheckbox img{background-image: url(../gfx/checkboxes.gif);}
-.jsRadiobutton img{background-image: url(../gfx/radiobuttons.gif);}
+.jsCheckbox img{background-image: url(../gfx/checkboxes.png);}
+.jsRadiobutton img{background-image: url(../gfx/radiobuttons.png);}
 
 .jsCheckbox.A img,.jsRadiobutton.A img{background-position: 0 -40px;}
 
@@ -248,6 +248,9 @@ label.F{color:#cc3300;}
 }
 
 .jsSelector.H{background-position: 0 -40px;}
+.jsSelector.F{background-position: 0 -80px;}
+.jsSelector.F .jsSelectorSlide{background-position: 100% -80px;}
+
 .jsSelector.H .jsSelectorArrow{background-position: 3px -36px}
 
 .jsSelectorArrow{
@@ -265,6 +268,20 @@ label.F{color:#cc3300;}
 
 
 .jsSelector .jsOptionSelected{padding:0 0 0 8px;margin:0 0 0 5px;}
+
+.jsSelectorMultiple .jsOption img{
+	vertical-align: middle;
+	width: 20px;
+	height: 20px;
+	background: no-repeat 0 0;
+    margin-right: 5px;
+}
+.jsSelectorMultiple .jsOption{background-color: #fff;}
+.jsSelectorMultiple .jsOption img{background-image: url(../gfx/checkboxes.png);}
+.jsSelectorMultiple .jsOption.A img{background-position: 0 -40px;}
+.jsSelectorMultiple .jsOption.H img{background-position: 0 -80px;}
+.jsSelectorMultiple .jsOption.H.A img{background-position: 0 -120px;}
+
 
 .jsSelectorCWrapper{
 	margin: -3px 0 0 0;

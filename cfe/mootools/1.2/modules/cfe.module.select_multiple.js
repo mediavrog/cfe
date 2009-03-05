@@ -41,6 +41,9 @@ cfe.module.select_multiple = new Class({
 		// needed for adding and removing events
 		this.boundKeyListener = this.keyListener.bindWithEvent(this);
 		this.boundWheelListener = this.mouseListener.bindWithEvent(this);
+        this.boundClickedOutsideListener = this.clickOutsideListener.bindWithEvent(this);
+
+        window.addEvent("click", this.boundClickedOutsideListener);
 
         this.a.addClass("jsSelectorMultiple");
 						
@@ -88,6 +91,8 @@ cfe.module.select_multiple = new Class({
 
         this.origOptions.each(function(el,i){
 
+            console.log(el);
+
             oOpt = new Element("div",{
 				"class": "jsOption jsOption"+i,
 				"events":{
@@ -96,7 +101,13 @@ cfe.module.select_multiple = new Class({
 					"click": this.selectOption.pass(i,this)
 				}
 			}).set('html', el.innerHTML);
-            
+
+            new Element("img",{"src": this.options.spacer}).inject(oOpt, "top");
+
+            if($chk(el.selected)){
+                oOpt.addClass("A");
+            }
+
             oOpt.disableTextSelection();
             oOpt.injectInside(this.aliasOptions);
 					
@@ -163,9 +174,6 @@ cfe.module.select_multiple = new Class({
                 }
             }
 		}
-
-		// select default option
-		this.selectOption.attempt(this.preSelectedIndex,this);
 	},
 	
 	moveScoller:function(by){
@@ -173,7 +181,7 @@ cfe.module.select_multiple = new Class({
 		this.slider.set(scrol+by<this.sliderSteps?scrol+by:this.sliderSteps);
     },
 	
-	selectOption: function(index,stayOpenAfterSelect,highlightOnly,focusOnElement){
+	selectOption: function(index,stayOpenAfterSelect,highlightOnly, focusOnElement){
 		
 		//console.log(index);
 		index = index.limit(0,this.origOptions.length-1);
@@ -182,12 +190,25 @@ cfe.module.select_multiple = new Class({
 		this.highlighted = this.aOptions[index];
 		this.highlighted.addClass("H");
 		this.highlightedID = index;
-		
+
+        if(focusOnElement && this.options.scrolling){
+			this.scrollToSelectedItem(this.highlightedID);
+		}
+
 		if(highlightOnly!=true){
 			
 			var selectit = this.origOptions[index];
-				selectit.selected = !selectit.selected;
-                selectit.selected?this.highlighted.addClass("jsOptionSelected"):this.highlighted.removeClass("jsOptionSelected");
+            selectit.selected = !selectit.selected;
+
+            console.log(selectit.selected);
+
+            if($chk(selectit.selected)){
+                this.highlighted.addClass("A");
+                this.fireEvent("onActive", this.highlighted);
+            }else{
+                this.highlighted.removeClass("A");
+                this.fireEvent("onInActive", this.highlighted);
+            }
 		}
 	},
 	
@@ -206,7 +227,7 @@ cfe.module.select_multiple = new Class({
 		
 		if($defined(this.kind[key][0])){
 			var ind = this.kind[key].indexOf(this.highlightedID);
-			this.selectOption(this.kind[key][ind+1]?this.kind[key][ind+1]:this.kind[key][0],true,false,true);
+			this.selectOption(this.kind[key][ind+1]?this.kind[key][ind+1]:this.kind[key][0],true,true,true);
 		}
 	},
 	
@@ -222,12 +243,12 @@ cfe.module.select_multiple = new Class({
 		switch(ev.key){
 			case "up":
 				this.scrollToSelectedItem(this.highlightedID-1,true);
-				this.selectOption(this.highlightedID-1,true);
+                this.selectOption(this.highlightedID-1,true, true);
 				break;
 				
 			case "down":
 				this.scrollToSelectedItem(this.highlightedID+1,true);
-				this.selectOption(this.highlightedID+1,true);
+                this.selectOption(this.highlightedID-1,true, true);
 				break;
 			
 			case "enter":this.selectOption(this.highlightedID);break;
@@ -240,13 +261,12 @@ cfe.module.select_multiple = new Class({
     	var ev = new Event(e).stop();
 
 		this.scrollToSelectedItem(this.highlightedID-ev.wheel,true);
+        this.selectOption(this.highlightedID-ev.wheel,true,true);
 	},
 
-    scrollToSelectedItem:function(index,onlyIfNotVisible){
-
-		if(this.container.getStyle("display") == "block"){
-			this.slider.set((this.sliderSteps/(this.aOptions.length-this.options.size))*index);
-		}
+    scrollToSelectedItem:function(index,onlyIfNotVisible)
+    {
+		this.slider.set((this.sliderSteps/(this.aOptions.length-this.options.size))*index);
 	},
 	
 	setFocus: function(){
@@ -263,6 +283,15 @@ cfe.module.select_multiple = new Class({
 		}
 	},
 	
+    clickOutsideListener: function(event){
+		event = new Event(event).stop();
+
+		if(!(this.a.hasChild(event.target) || this.container.hasChild(event.target) || this.l == event.target ))
+		{
+		   this.highlighted?this.highlighted.removeClass("H"):"";
+		}
+	},
+
 	removeFocus: function(){
 		
 		this.parent();
