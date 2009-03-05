@@ -10,8 +10,7 @@ form ul li{
 	padding:3px;
 }
 
-label.jsTextL ,label.jsPasswordL, label.jsFileL, label.jsSelectorL,
-.jsTextL span.label, .jsPasswordL span.label{
+label.jsTextL,label.jsPasswordL, label.jsFileL, label.jsSelectorL{
 	float:left;
 	margin-right: 5px;
 	padding:4px 0;
@@ -28,32 +27,32 @@ label.jsTextL ,label.jsPasswordL, label.jsFileL, label.jsSelectorL,
 /*												*/
 /*  classes can be used in any combination		*/
  /**********************************************/
-
+ 
  form *:focus{outline: none;}
-
+ 
  /* fieldsets */
  /*fieldset.F{
  	border: 1px dotted #cc3300;
  }
-
+ 
  fieldset.F legend{
 	background-color: #cc3300;
  }*/
-
+  
  fieldset.H{
  	border: 2px dashed #F0E68C;
-	background-color: #FFFFF0;
+	background-color: #FFFFF0;	
  }
-
+  
  fieldset.H legend{
 	background-color: #F0E68C;
  }
-
+ 
  fieldset.A{
  	background-color: #F0FFFF;
 	border-color: #40E0D0;
  }
-
+ 
  fieldset.A legend{
  	background-color: #40E0D0;
  }
@@ -81,8 +80,7 @@ label.F{color:#cc3300;}
 	float:left;display:inline;
 	border: none;
 }
-
-.jsTextSlide .jsText,.jsPasswordSlide .jsPassword{
+.jsTextSlide input,.jsPasswordSlide input{
 	float:left;display:inline;
 	background: url(../gfx/cfeTextR.gif) no-repeat right top;
 	border: none; margin:0 0 0 6px;
@@ -90,24 +88,24 @@ label.F{color:#cc3300;}
 	height: 20px;
 }
 .jsTextSlide.F,.jsPasswordSlide.F{background-position: 0 -40px;}
-.jsTextSlide.F .jsText,.jsPasswordSlide.F .jsPassword{background-position: 100% -40px;}
+.jsTextSlide.F input,.jsPasswordSlide.F input{background-position: 100% -40px;}
 
 /* teaxtareas with sliding doors */
 .jsTextareaSlide{
 	float:left;
 	background: url(../gfx/cfeTextareaR.gif) no-repeat right top;
 }
-.jsTextareaSlide .jsTextarea{
+.jsTextareaSlide textarea{
 	float:left;
 	background: url(../gfx/cfeTextareaL.gif) no-repeat left top;
 	border:0;margin:0;
-	min-width: 200px;
+	width: 200px;
 	padding: 5px 6px;
 	height: 108px;
 }
 .jsTextareaSlide.F{background-position: 100% -120px;}
 
-.jsTextareaSlide.F .jsTextarea{background-position: 0 -120px;}
+.jsTextareaSlide.F textarea{background-position: 0 -120px;}
 
 /* checkboxes and radiobuttons */
 .jsCheckbox img,.jsRadiobutton img{
@@ -180,7 +178,7 @@ label.F{color:#cc3300;}
 	background-image:url(../gfx/cross.gif);
 	cursor: pointer;
 }
-
+	
 .jsFilePath img.pdf{background-image:url(../gfx/fileicons/pdf.gif)}
 .jsFilePath img.jpg,.jsFilePath img.gif,.jsFilePath img.jpeg,.jsFilePath img.tif,.jsFilePath img.bmp{background-image:url(../gfx/fileicons/img.gif)}
 .jsFilePath img.doc{background-image:url(../gfx/fileicons/doc.gif)}
@@ -197,7 +195,7 @@ label.F{color:#cc3300;}
 /*	description:
 	~ this example covers sliding doors configuration
 	~ if you have slidingDoors disabled, then a simple backgroundimage will be sufficient
-	  and you may delete the ".js*******Slide"-parts
+	  and you may delete the ".js*******Slide"-parts 
 */
 .jsSubmit,.jsReset{
 	width: auto;
@@ -242,11 +240,6 @@ label.F{color:#cc3300;}
 	float:left;
 	background: url(../gfx/cfeSelectL.gif) no-repeat left top;
 }
-
-.jsSelectorMultiple{
-    background: none;
-}
-
 .jsSelector.H{background-position: 0 -40px;}
 .jsSelector.H .jsSelectorArrow{background-position: 3px -36px}
 
@@ -264,7 +257,7 @@ label.F{color:#cc3300;}
 }
 
 
-.jsSelector .jsOptionSelected{padding:0 0 0 8px;margin:0 0 0 5px;}
+.jsSelector .jsOption{padding:0 0 0 8px;margin:0 0 0 5px;}
 
 .jsSelectorCWrapper{
 	margin: -3px 0 0 0;
@@ -285,9 +278,6 @@ label.F{color:#cc3300;}
 }
 .jsSelectorContent .H{color: #FFFFFF;background-color: #666;}
 
-.jsOption{margin-right: 3px;}
-
-.jsSelectorScrollerWrapper {background-color: #fff; margin: 3px 3px 0 0;}
 .jsSelectorScrollerWrapper img{width: 17px;height: 13px;display:block;cursor:pointer;}
 .jsSelectorScrollerWrapper .scrollTop{background: url(../gfx/scrollUp.gif) no-repeat 3px 3px;}
 .jsSelectorScrollerWrapper .scrollKnob{background: url(../gfx/scrollKnob.gif) no-repeat 3px 0;}

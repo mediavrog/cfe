@@ -1,5 +1,5 @@
 /****************************************/
-/* §name:> checkbox						*/
+/* ï¿½name:> checkbox						*/
 /* ?help:> replaces checkboxes	 		*/
 /* !dep:>  core,interface				*/
 /****************************************/
@@ -41,23 +41,26 @@ cfe.module.checkbox = new Class({
 		this.a.removeClass(this.o.checked!=true?"A":"");
 	},
 	
-	setStateTo: function(state){
-		
-		if(state){
-			this.o.checked = true;
-			this.a.addClass("A");
-			this.fireEvent("onActive");
-		}else{
-			this.o.checked = false;
-			this.a.removeClass("A");
-			this.fireEvent("onInActive");
-		}
+	setStateTo: function(state)
+    {
+		state?this.check():this.uncheck();
 	},
-	
+
+    check: function(){
+        this.o.checked = true;
+		this.a.addClass("A");
+		this.fireEvent("onActive");
+    },
+
+    uncheck: function(){
+        this.o.checked = false;
+		this.a.removeClass("A");
+		this.fireEvent("onInActive");
+    },
+
 	clicked: function(){
 		this.parent();
-
-		this.setStateTo(this.o.checked?false:true);
+		this.setStateTo(!this.o.checked);
 	}
 });
 
@@ -66,15 +69,15 @@ cfe.addon.selectCheckboxes = new Class({
 	
 	// select all checkboxes in scope
 	selectAll: function(scope){
-		(scope || $(document.body)).getElements("input[type='checkbox']")[0].each(function(el, i){
-			el.retrieve('cfe').setStateTo(true);
+		(scope || $(document.body)).getElements("input[type='checkbox']")[0].each(function(el){
+			el.retrieve('cfe').check();
 		});
 	},
 	
 	// deselect all checkboxes in scope
 	deselectAll: function(scope){
 		(scope || $(document.body)).getElements("input[type='checkbox']")[0].each(function(el){
-			el.retrieve('cfe').setStateTo(false);
+			el.retrieve('cfe').uncheck();
 		});
 	}	
 });

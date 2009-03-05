@@ -11,27 +11,6 @@ without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
 See the GNU General Public License for more details. 
 
 You should have received a copy of the GNU General Public License along with this program; if not, see <http://www.gnu.org/licenses/>.
-
-###CHANGELOG
-
-01/16/09 - 0.8.3
-- partially fixed bug #2207752 - scrollbar is still behaving strange due to mootools <> opera getStyle() buggy
-- fixed bug #2088490
-
-#0.8.2
-- addressed bugs 2059807, 2059805, 2059800
-- created Element.disableTextSelection for better reusability
-- random code sweeping (mootools 1.2 port of Element.inject ...)
-
-#0.8.1
-- decoupling of addon tooltips and core
-- select now handles mousewheel scrolling
-- ie still buggy
-- some code sweeping
-
-#0.8b
-- initial port of cfe 0.8b for mootools 1.1
-
 */
 
 var cfe = {};
@@ -44,8 +23,9 @@ cfe.base = new Class({
 	
 	options:{
 		scope: false,
+		
 		spacer: "gfx/spacer.gif",
-
+		
 		onInit: $empty,
 		onInitSingle: $empty,
 		onBeforeInitSingle: $empty,
@@ -223,14 +203,14 @@ cfe.module.generic = new Class({
 				"focus": this.setFocus.bind(this),
 				"blur": this.removeFocus.bind(this)
 			});
-			
-		// store a reference to this "in" the original form element
+
+        // store a reference to this cfe "in" the original form element
 			this.o.store("cfe", this);
-			
+
 		// specific initialization
 			this.initializeAdv.bind(this)();
-		
-		// each cfe must implement this function
+
+        // each cfe must implement this function
 			this.build.bind(this)();
 
 	},
@@ -276,6 +256,8 @@ cfe.module.generic = new Class({
 				"mouseout": this.unhover.bind(this),
 				"click":this.clicked.bindWithEvent(this)
 			});
+
+            return true;
 		}
 		
 		// no label found
@@ -370,7 +352,6 @@ Element.Helpers = new Class({
 		if(Browser.Engine.trident || Browser.Engine.presto){this.setProperty("unselectable","on");}
 		else if(Browser.Engine.gecko){this.setStyle("MozUserSelect","none");}
 		else if(Browser.Engine.webkit){this.setStyle("KhtmlUserSelect","none");}	
-	}
-	
+	}	
 });
 Element.implement(new Element.Helpers);

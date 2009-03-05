@@ -1,13 +1,29 @@
 CHANGE LOG FOR Custom Form Elements for Mootools 1.2
 ****************************************************
 
-01/16/09 - 0.8.3
-****************************************************
+###CHANGELOG
+
+
+# 01/16/09 - 0.8.4
+- workaround for opera bug #2207752
+- convenience wrapper for textarea: should now look the same in all browsers when scrolling contents
+- some select improvements
+- fixed ie regression in select field
+
+# 01/16/09 - 0.8.3
 - partially fixed bug #2207752 - scrollbar is still behaving strange due to mootools <> opera getStyle() buggy
 - fixed bug #2088490
 
-0.8beta
-****************************************************
+#0.8.2
+- addressed bugs 2059807, 2059805, 2059800
+- created Element.disableTextSelection for better reusability
+- random code sweeping (mootools 1.2 port of Element.inject ...)
 
-- initial upload
-- ported from 0.8beta for mootools 1.1
+#0.8.1
+- decoupling of addon tooltips and core
+- select now handles mousewheel scrolling
+- ie still buggy
+- some code sweeping
+
+#0.8b
+- initial port of cfe 0.8b for mootools 1.1
