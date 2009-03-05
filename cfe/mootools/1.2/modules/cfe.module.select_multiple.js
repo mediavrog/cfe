@@ -187,7 +187,7 @@ cfe.module.select_multiple = new Class({
 			
 			var selectit = this.origOptions[index];
 				selectit.selected = !selectit.selected;
-                selectit.selected?selectit.addClass("jsOptionSelected"):selectit.removeClass("jsOptionSelected");
+                selectit.selected?this.highlighted.addClass("jsOptionSelected"):this.highlighted.removeClass("jsOptionSelected");
 		}
 	},
 	

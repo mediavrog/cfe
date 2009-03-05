@@ -9,7 +9,7 @@ cfe.module.select = new Class({
 	
 	type: "Selector",
 	
-	selector: "select",
+	selector: "select:not(select[multiple])",
 	
 	options: {
 		size: 4,

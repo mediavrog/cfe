@@ -9,7 +9,7 @@ cfe.module.text = new Class({
 		
 	type: "Text",
 	
-	selector: "input[type=text]",
+	selector: "input[type=text]:not(input[class~=slider])",
 	
 	options: {
 		slidingDoors: true

@@ -19,7 +19,7 @@ cfe.addon = {};
 
 cfe.base = new Class({
 	
-	version: "0.8.2",
+	version: "0.8.4",
 	
 	options:{
 		scope: false,
@@ -172,7 +172,7 @@ cfe.base.implement(new Options,new Events);
 // basic generic module; may be extended by modules to start off with standard behaviours
 cfe.module.generic = new Class({
 	// type of cfe; e.g. Selector, Checkbox or Radiobutton
-	type : "interface",
+	type : "generic",
 	
 	// basic options for all cfes and always available
 	options: {
