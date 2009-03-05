@@ -1,1 +1,6 @@
+.clearfix {
+    zoom: 1;     /* triggers hasLayout */
+    display: block;     /* resets display for IE/Win */
+}
+
 * html .jsTextareaSlide.F{background-position: right -120px;}

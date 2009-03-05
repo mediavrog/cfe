@@ -45,7 +45,7 @@ cfe.module.select_multiple = new Class({
 
         window.addEvent("click", this.boundClickedOutsideListener);
 
-        this.a.addClass("jsSelectorMultiple");
+        this.a.addClass("jsSelectorMultiple clearfix");
 						
 	},
 	
@@ -59,7 +59,7 @@ cfe.module.select_multiple = new Class({
 		// get important css styles
 		//this.aWidth = this.a.getStyle("width").toInt();
 				
-		this.gfxHeight = this.a.getHeight()*this.options.size;
+		
 		
 		/* always shown */
 		this.container = new Element("div",{
@@ -79,8 +79,7 @@ cfe.module.select_multiple = new Class({
     	this.aliasOptions = new Element("div",{
 			"class": "js"+this.type+"C",
 			"styles":{
-				"height": this.gfxHeight,
-                "width": "100%",
+				"width": "100%",
 				"overflow":"hidden"
 			}
 		}).injectInside(this.cContent);
@@ -113,7 +112,10 @@ cfe.module.select_multiple = new Class({
 					
 		}.bind(this));
         oOpt = null;
-		
+
+        this.gfxHeight = this.aliasOptions.getFirst().getHeight()*this.options.size;
+        this.aliasOptions.setStyle("height", this.gfxHeight);
+        
 		this.aOptions = this.aliasOptions.getChildren();
 
         // scroller if scrolling enabled

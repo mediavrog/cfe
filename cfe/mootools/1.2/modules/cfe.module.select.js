@@ -42,6 +42,8 @@ cfe.module.select = new Class({
 		this.boundKeyListener = this.keyListener.bindWithEvent(this);
 		this.boundWheelListener = this.mouseListener.bindWithEvent(this);
 		this.boundClickedOutsideListener = this.clickOutsideListener.bindWithEvent(this);
+
+         this.a.addClass("jsSelectorSingle");
 						
 	},
 	

@@ -1,3 +1,12 @@
+.clearfix:after {
+    content: ".";
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden;
+}
+.clearfix {display: inline-block;}  /* for IE/Mac */
+
 form{clear:both;}
 
 form ul{
@@ -236,9 +245,12 @@ label.F{color:#cc3300;}
 .jsSelector1{width: 200px;}
 .jsSelector0{width: 283px;}
 
+.jsSelectorSingle{
+    height: 30px;
+}
+
 .jsSelector{
 	cursor: pointer;
-	height: 30px;
 	float:left;
 	background: url(../gfx/cfeSelectL.gif) no-repeat left top;
 }
