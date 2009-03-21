@@ -1,6 +1,1 @@
-.clearfix {
-    zoom: 1;     /* triggers hasLayout */
-    display: block;     /* resets display for IE/Win */
-}
-
-* html .jsTextareaSlide.F{background-position: right -120px;}
+*+html form ul li{width: 95%;}

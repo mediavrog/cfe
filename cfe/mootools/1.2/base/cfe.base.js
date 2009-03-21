@@ -1,357 +1,410 @@
 /*
 customFormElements for mootools 1.2 - style form elements on your own
-by Maik Vlcek (http://www.mediavrog.net) - MIT-style license.
-Copyright (c) 2008 Maik Vlcek (mediavrog.net)
+by Maik Vlcek (http://www.mediavrog.net)
+
+Copyright (c) Maik Vlcek (mediavrog.net)
 
 This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License
-as published by the Free Software Foundation; either version 3 of the License, or (at your option) any later version. 
+as published by the Free Software Foundation; either version 3 of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
 without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-See the GNU General Public License for more details. 
+See the GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License along with this program; if not, see <http://www.gnu.org/licenses/>.
-*/
+ */
 
 var cfe = {};
 cfe.module = {};
 cfe.addon = {};
 
-cfe.base = new Class({
-	
-	version: "0.8.4",
-	
-	options:{
-		scope: false,
-		
-		spacer: "gfx/spacer.gif",
-		
-		onInit: $empty,
-		onInitSingle: $empty,
-		onBeforeInitSingle: $empty,
-		onSetModuleOption: $empty,
-		onRegisterModule: $empty,
-		onUnregisterModule: $empty,
-		onComplete: $empty
-	},
-		
-	modules: {},
-	moduleOptions: {},
-	moduleOptionsAll: {},
-	
-	initialize: function(debug){
-		this.options.debug = debug | false;
-		
-		this.registerAllModules.bind(this)();
-		
-	},
-	
-	getVersion: function(){return this.version;},
-	
-	throwMsg: function(errText){
-		this.options.debug?alert(errText):"";
-	},
-	
-	/**
-	 * registeres all loaded modules onInitialize
-	 */
-	registerAllModules: function(){
-		
-		//console.log("Register all modules");
-		
-		$each(cfe.module, function(modObj, modType){
-			//console.log("Registering type "+modType);
-			if(modType != "generic")
-				this.registerModule(modType);
-				
-		}.bind(this));
-	},
-	
-	/* call to register module */
-	registerModule: function(mod){
-		
-		//console.log("Call to registerModule with arg:"+mod);
-		
-		modObj = cfe.module[mod];
-		
-		/*if(false){
-		//if(!modObj.prototype.build && !modObj.prototype.noBuild){
-			this.throwMsg.bind(this)("CustomFormElements: registration of Module '"+modObj.prototype.type+"' failed. It will NOT be available.\nReason: lack of obligatory 'build' function.");
-			return false;
-		}
-		else{*/
-			this.fireEvent("onRegisterModule", [mod,modObj]);
-			this.modules[mod] = modObj;
-			this.moduleOptions[mod] = {};
-			
-			return true;
-		//}
-	},
-	
-	registerModules: function(mods){
-		$each(mods,function(mod){
-			this.registerModule(mod);
-		},this);
-	},
-	
-	unregisterModule: function(mod){
-		modObj = cfe.module[mod];
-		
-		this.fireEvent("onUnregisterModule", [mod,modObj]);
-		delete this.modules[mod];
-	},
-	
-	unregisterModules: function(mods){
-		$each(mods,function(mod){
-			this.unregisterModule(mod);
-		},this);
-	},
-	/**
-	 * sets a single option for a specified module
-	 * if no module was given, it sets the options for all modules
-	 * 
-	 * @param {String} 	mod 	Name of the module
-	 * @param {String} 	opt 	Name of the option
-	 * @param {Mixed} 	val		The options value
-	 */
-	setModuleOption: function(mod,opt,val){
-		
-		modObj = cfe.module[mod];
-		
-		this.fireEvent("onSetModuleOption", [mod,modObj,opt,val]);
-		
-		if(!modObj){
-			this.moduleOptionsAll[opt] = val;
-		}
-		else{
-			this.moduleOptions[mod][opt] = val;
-		}
-	},
+cfe.version = "0.9";
+cfe.spacer = "spacer.gif";
 
-	setModuleOptions: function(mod,opt){
-		
-		$each(opt, function(optionValue, optionName){
-			this.setModuleOption(mod,optionName,optionValue);
-		}.bind(this));
-		
-	},
+// basic generic module; may be extended by modules to start off with standard, button-like behaviours
+cfe.generic = new Class(
+{
+    // type of cfe; derived elements may be Selector, Checkbox or Radiobutton
+    type : "Generic",
 
-	init: function(options){
+    // basic options for all cfes and always available
+    options: {
+        instanceID:0,           // set automatically
+        spacer: "",             // path to transparent spacer.gif; it's used for easy css-styling
+        aliasType: "span",      // the element's wrapper will be of this type
+        replaces: null,         // if this element shall replace an existing html form element, put it here
+        label: null,            // may pass any element as a label (toggling, hovering,..) for this cfe
+        name: "",
 
-		this.setOptions(this.options, options);
+        onMouseOver: Class.empty,   // event placeholders; may be used for custom events
+        onMouseOut: Class.empty,
+        onFocus: Class.empty,
+        onBlur: Class.empty,
+        onClick: Class.empty,
+        onPress: Class.empty,
+        onRelease: Class.empty,
+        onUpdate: Class.empty
+    },
 
-		if($type(this.options.scope) != "element"){
-			this.options.scope = $(document.body);
-		}
-
-		this.fireEvent("onInit");
-		
-		$each(this.modules,function(module,moduleName,i){
-			
-			var selector = module.prototype.selector;
-			
-			this.options.scope.getElements(selector).each(function(el,i){
-				
-				var basicOptions = {"instanceID": i,"spacer":this.options.spacer};
-
-				this.fireEvent("onBeforeInitSingle", [el,i,basicOptions]);
-			
-				var single = new module(el,$merge(basicOptions,$merge(this.moduleOptions[moduleName],this.moduleOptionsAll)));
-				
-				this.fireEvent("onInitSingle", single);
-				
-			},this);
-		},this);
-		
-		this.fireEvent("onComplete");
-	}
-});
-
-cfe.base.implement(new Options,new Events);
-
-// basic generic module; may be extended by modules to start off with standard behaviours
-cfe.module.generic = new Class({
-	// type of cfe; e.g. Selector, Checkbox or Radiobutton
-	type : "generic",
-	
-	// basic options for all cfes and always available
-	options: {
-		instanceID:0,
-		spacer:false,
-		aliasType: "span",
-		onHover: Class.empty,
-		onUnHover: Class.empty,
-		onFocus: Class.empty,
-		onBlur: Class.empty,
-		onClick: Class.empty	
-	},
-	
-	/**
+    /**
 	 * initialization of cfe
-	 * set options, add focus/blur-Events to original
-	 * [call procedeLabel] 			add events to label of cfe
-	 * !call build					must be implemented by cfe; 
-	 * 
+	 * set options, defines basic algorithm as template method
+	 *
 	 * @param {Object} original
 	 * @param {Object} opt
-	 */ 
-	initialize: function(original,opt){
-			this.setOptions(this.options, opt);
-			
-		// set original element and add focus/blur-Events
-			this.o = original.addEvents({
-				"focus": this.setFocus.bind(this),
-				"blur": this.removeFocus.bind(this)
-			});
+	 */
+    initialize: function(opt)
+    {
+        this.setOptions(this.options, opt);
+        
+        if(!this.options.spacer) this.options.spacer = cfe.spacer;
 
-        // store a reference to this cfe "in" the original form element
-			this.o.store("cfe", this);
+        // build standard wrapping element
+        this.buildWrapper.bind(this)();
 
-		// specific initialization
-			this.initializeAdv.bind(this)();
+        // prepares original html element for use with cfe
+        this.setupOriginal();
+
+        // add a label, if present
+        this.addLabel( $pick(this.o.getLabel(), this.setupLabel(this.options.label) ) );
+
+        // specific initialization
+        this.initializeAdv();
 
         // each cfe must implement this function
-			this.build.bind(this)();
+        this.build();
 
-	},
-	
-	// may be extended by cfe
-	initializeAdv: function(){
-		// get label for this element
-		this.procedeLabel.bind(this)();
-	},
-	
-	/**
-	 * checks for appropriate label and adds events if found 
+    },
+
+    /*
+     * some getter methods to retreive the "decorator" elements
+     */
+    getAlias: function()
+    {
+        return this.a;
+    },
+
+    getLabel: function()
+    {
+        return this.l;
+    },
+
+    getFull: function()
+    {
+        return [this.l, this.a];
+    },
+
+    /*
+     * methods related to creation of the alias
+     */
+    buildWrapper: function()
+    {
+        // create standard span as replacement
+        this.a = new Element(this.options.aliasType);
+
+        this.setupWrapper();
+    },
+
+    setupWrapper: function()
+    {
+        this.a.addClass("js"+this.type).addEvents({
+            mouseover: this.hover.bind(this),
+            mouseout: this.unhover.bind(this),
+            mousedown: this.press.bind(this),
+            mouseup: this.release.bind(this)
+        }).setStyle("cursor","pointer");
+    },
+
+    /*
+     * methods related to creation/handling of the original form element
+     */
+    setupOriginal: function()
+    {
+        // get original element
+        if($defined(this.options.replaces))
+        {
+            this.o = this.options.replaces;
+
+            // if this shall replace a form element, add id as class
+            this.a.addClass("js"+this.o.id).inject(this.o, 'before');
+        }
+        else // standalone
+        {
+            this.o = this.createOriginal();
+
+            if(this.options.id) this.o.setProperty("id", this.options.id);
+
+            if(this.options.name)
+            {
+                this.o.setProperty("name", this.options.name);
+                
+                if( !$chk(this.o.id)) this.o.setProperty("id", this.options.name+this.options.instanceID);
+            }
+            
+            if(this.options.value) this.o.setProperty("value", this.options.value);
+
+            this.a.adopt(this.o);
+        }
+
+        // little hack since mootools doesn't support selectors like input[name="fieldName[foo]"]
+        if( $chk(this.o.name) ) this.o.setProperty("clearname", this.o.name.replace("]", "b-.-d").replace("[", "d-.-b") );
+
+        this.o.addEvents({
+            focus: this.setFocus.bind(this),
+            blur: this.removeFocus.bind(this),
+            change: this.update.bind(this),
+            keydown: function(e){
+                if(new Event(e).key == "space") this.press();
+            }.bind(this),
+            keyup: function(e){
+                if(new Event(e).key == "space") this.release();
+            }.bind(this)
+        });
+
+        // store a reference to this cfe "in" the original form element
+        this.o.store("cfe", this);
+    },
+
+    createOriginal: function()
+    {
+        return new Element("img", {
+            "src": this.options.spacer,
+            "class": "spc"
+        });
+    },
+
+    /**
+	 * hides the original input element
 	 */
-	procedeLabel: function(){
-		
-		this.implicitLabel = false;
-		
-		// get label for original input element
-		if(this.o.id){
-			this.l = $$("label[for="+this.o.id+"]")[0];
-		}
-		
-		// no label was found for id, so try to get parent as label
-		if(!this.l){
-			this.l = this.o.getParent('label');
-			
-			if($type(this.l) == "element"){
-				this.implicitLabel = true;
-			}
-		}
-		
-		if(this.l){
-			
-			// remove for property
-			this.dontRemoveForFromLabel?"":this.l.removeProperty("for");
-			
-			// add adequate className, add stdEvents
-			this.l.addClass("for_"+ (this.o.id || (this.o.name+this.o.value).replace("]","-").replace("[","") )+" js"+this.type+"L");
+    hideOriginal: function()
+    {
+        // hide original input
+        this.o.setStyles({
+            position: "absolute",
+            left: "-999px"
+        });
 
-			// add stdevents
-			this.l.addEvents({
-				"mouseover": this.hover.bind(this),
-				"mouseout": this.unhover.bind(this),
-				"click":this.clicked.bindWithEvent(this)
-			});
+        // fix for internet explorer 7;
+        if(Browser.Engine.trident && !Browser.Features.query){
+            this.o.setStyles({
+                width: 0,
+                height: "1px"
+            });
+        }
+    },
 
-            return true;
-		}
-		
-		// no label found
-		else{
-			return false;
-		}
-	},
-	
-	/**
-	 * hides the original input element and creates a span as replacement/alias
+    /*
+     * methods related to creation/handling of the corresponding label
+     */
+    setupLabel: function()
+    {
+        if( $defined(this.options.label) ) return new Element("label").set("html", this.options.label).setProperty("for", this.o.id);
+        
+        return null;
+    },
+
+    addLabel: function(label)
+    {
+        if( !$defined(label) ) return;
+
+        this.l = label;
+
+        // remove for property
+        if(!this.dontRemoveForFromLabel) this.l.removeProperty("for");
+
+        // add adequate className, add stdEvents
+        this.l.addClass("js"+this.type+"L");
+
+        if(this.o.id || this.o.name) this.l.addClass("for_"+ (this.o.id || (this.o.name+this.o.value).replace("]","-").replace("[","") ));
+
+        // add stdevents
+        this.l.addEvents({
+            "mouseover": this.hover.bind(this),
+            "mouseout": this.unhover.bind(this),
+            "mousedown": this.press.bind(this),
+            "mouseup": this.release.bind(this)
+        });
+
+        if(!this.o.implicitLabel || (this.o.implicitLabel && !Browser.Engine.gecko)) this.l.addEvent("click", this.clicked.bindWithEvent(this));
+
+        this.addEvents({
+            "press": function()
+            {
+                this.l.addClass("P");
+            },
+            "release": function()
+            {
+                this.l.removeClass("P");
+            },
+            "mouseOver": function()
+            {
+                this.l.addClass("H");
+            },
+            "mouseOut": function()
+            {
+                this.l.removeClass("H");
+                this.l.removeClass("P");
+            },
+            "focus": function()
+            {
+                this.l.addClass("F");
+            },
+            "blur": function()
+            {
+                this.l.removeClass("F");
+                //this.l.removeClass("P");
+            }
+        });
+    },
+
+    // may be extended by cfe
+    initializeAdv: function()
+    {
+        if(!this.o.implicitLabel) this.a.addEvent("click", this.clicked.bindWithEvent(this));
+    },
+    
+    // must be implemented by cfe
+    build: function(){},
+    
+    /**
+	 * behaviour
 	 */
-	hideAndReplace: function(){
-		// hide original input
-			this.o.setStyles({"position":"absolute","left":"-999px"});
-			
-			// fix for internet explorer
-			if(Browser.Engine.trident){this.o.setStyles({"position":"static","width":"0"});}
-			
-		// create standard span as replacement
-			this.a = new Element(this.options.aliasType,{
-				"class": "js"+this.type+" "+"js"+this.o.id,
-				"events": {
-					"mouseover": this.hover.bind(this),
-					"mouseout": this.unhover.bind(this),
-					"click": this.setFocus.bind(this)	
-				}
-			}).setStyle("cursor","pointer").inject(this.o, 'before');
-			
-		// check for implicit labels;
-			if(!this.implicitLabel){
-				this.a.addEvent("click",this.clicked.bind(this));
-			}
-	},
+    
+    /**
+	 * standard press-behaviour
+	 * add press state to alias
+	 */
+    press: function()
+    {
+        this.a.addClass("P");
+        this.fireEvent("onPress");
+    },
 
-	/**
+    /**
+	 * standard press-behaviour
+	 * removes press state to alias
+	 */
+    release: function()
+    {
+        this.a.removeClass("P");
+        this.fireEvent("onRelease");
+    },
+
+    /**
 	 * standard mouseover-behaviour
-	 * add hover state to alias and label (if existent)
+	 * add hover state to alias
 	 */
-	hover: function(){
-		this.a.addClass("H");
-		this.l?this.l.addClass("H"):"";
-		
-		this.fireEvent("onHover");
-	},
-	
-	/**
+    hover: function()
+    {
+        this.a.addClass("H");
+        this.fireEvent("onMouseOver");
+    },
+
+    /**
 	 * standard mouseout-behaviour
-	 * removes hover state from alias and label (if existent)
+	 * removes hover state from alias
 	 */
-	unhover: function(){
-		this.a.removeClass("H");
-		this.l?this.l.removeClass("H"):"";
-		
-		this.fireEvent("onUnHover");
-	},
+    unhover: function()
+    {
+        this.a.removeClass("H");
 
-	/**
+        this.fireEvent("onMouseOut");
+
+        this.release();
+    },
+
+    /**
 	 * standard focus-behaviour
-	 * adds focus state to alias and label (if existent)
+	 * adds focus state to alias
 	 */
-	setFocus: function(){
-		this.a.addClass("F");
-		this.l?this.l.addClass("F"):"";
-		
-		this.fireEvent("onFocus");
-	},
+    setFocus: function()
+    {
+        this.a.addClass("F");
+        this.fireEvent("onFocus");
+    },
 
-	/**
+    /**
 	 * standard blur-behaviour
-	 * removes focus state from alias and label (if existent)
+	 * removes focus state from alias
 	 */
-	removeFocus: function(){
-		this.a.removeClass("F");
-		this.l?this.l.removeClass("F"):"";
-		
-		this.fireEvent("onBlur");
-	},
-	
-	clicked: function(){
-		this.o.focus();
-		//this.setFocus.bind(this)();
-		
-		this.fireEvent("onClick");
-	}
+    removeFocus: function()
+    {
+        //console.log("o blurred");
+        this.a.removeClass("F");
+        // if cfe gets blurred, also clear press state
+        //this.a.removeClass("P");
+        this.fireEvent("onBlur");
+    },
+
+    /*
+     * delegate click events to original item
+     */
+    clicked: function()
+    {
+        if( $chk(this.o.click) ) this.o.click();
+        this.o.focus();
+
+        this.fireEvent("onClick");
+    },
+
+    update: function()
+    {
+        this.fireEvent("onUpdate");
+    }
 });
-cfe.module.generic.implement(new Options,new Events);
+cfe.generic.implement(new Options,new Events);
 
 // extend Elements with some Helper functions
 Element.Helpers = new Class({
-	
-	disableTextSelection: function(){
-		if(Browser.Engine.trident || Browser.Engine.presto){this.setProperty("unselectable","on");}
-		else if(Browser.Engine.gecko){this.setStyle("MozUserSelect","none");}
-		else if(Browser.Engine.webkit){this.setStyle("KhtmlUserSelect","none");}	
-	}	
+
+    disableTextSelection: function(){
+        if(Browser.Engine.trident || Browser.Engine.presto){
+            this.setProperty("unselectable","on");
+        }
+        else if(Browser.Engine.gecko){
+            this.setStyle("MozUserSelect","none");
+        }
+        else if(Browser.Engine.webkit){
+            this.setStyle("KhtmlUserSelect","none");
+        }
+    },
+
+    getLabel: function()
+    {
+        var label = null;
+
+        // get label by id/for-combo
+        if(this.id) label = $$("label[for="+this.id+"]")[0];
+        
+        // no label was found for id/for, let's see if it's implicitly labelled
+        if(!label)
+        {
+            label = this.getParents('label')[0];
+
+            if(label) this.implicitLabel = true;
+        }
+
+        return label;
+    },
+
+    setSlidingDoors: function(dir, type, prefix)
+    {
+        var slide = null;
+        var wrapped = this;
+        prefix = $pick(prefix, "sd");
+
+        for(i = dir; i > 0; i--)
+        {
+            slide = new Element(type);
+            slide.addClass(i==dir?prefix:i==0?prefix+"Slide":prefix+"Slide"+i);
+
+            slide.grab(wrapped);
+            wrapped = slide;
+        }
+
+        wrapped = null;
+
+        return slide;
+    }
 });
 Element.implement(new Element.Helpers);

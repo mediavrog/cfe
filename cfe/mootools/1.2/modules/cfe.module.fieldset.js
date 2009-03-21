@@ -1,55 +1,36 @@
-/**
- * @author Maik
- */
+/****************************************/
+/* -name:> fieldset						*/
+/* ?help:> enhances fieldsets	 		*/
+/* !dep:>  generic      				*/
+/* +ok:>
+ * ff 3.0.7
+ * chrome
+ * opera
+ * safari
+ * ie 8
+ * ie 7
+/****************************************/
 cfe.module.fieldset = new Class({
-	
-	Extends: cfe.module.generic,
-	
+    
+	Extends: cfe.generic,
 	type: "Fieldset",
-	
 	selector: "fieldset",
 	
-	initializeAdv: function(){
-		
-		this.a = this.o;
-		
+    buildWrapper: function()
+    {
+        this.a = this.options.replaces;
+        this.setupWrapper();
+        this.a.setStyle("cursor","default");
+    },
+
+	build: function()
+    {
+		this.a.setProperty("tabindex", 0);
 	},
-	
-	build: function(){
-		
-		// create standard span as replacement
-		this.a.addEvents({
-				"mouseover": this.hover.bind(this),
-				"mouseout": this.unhover.bind(this),
-				"click": this.setFocus.bind(this)								
-			}
-		);
-		
-		window.addEvent("click", function(ev){
-			
-			var e = new Event(ev).stop();
-			
-			console.log(e);
-			
-			var aSize = this.a.getSize();
-			var aPos = this.a.getPosition();
-					
-			if( e.page.x < aPos.x || e.page.x > aPos.x+aSize.size.x || e.page.y < aPos.y || e.page.y > aPos.y+aSize.size.y ){
-				this.removeFocus();
-			}	
-		}.bind(this));			
-	},
-	
-	setFocus: function(){
-		this.a.addClass("A");
-				
-		this.fireEvent("onFocus");
-	},
-	
-	removeFocus: function(){
-		this.a.removeClass("A");
-		
-		this.fireEvent("onBlur");
-		
-	}
+
+    clicked: function()
+    {
+        this.a.addClass("F");
+        this.fireEvent("onClick");
+    }
 });

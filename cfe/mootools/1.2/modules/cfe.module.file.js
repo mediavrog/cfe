@@ -1,108 +1,154 @@
 /****************************************/
-/* §name:> fileupload					*/
+/* -name:> fileupload					*/
 /* ?help:> replaces file upload fields	*/
-/* !dep:>  core,interface				*/
+/* !dep:>  generic      				*/
+/* #bug:>  update event onMouseOut triggers even if nothing changed
+ * ff 3.0.7     - no pointer
+ * opera        - no pointer; no focus on label if ori focussed, click event triggers twice
+ * ie 8         - no focus on label if ori focussed
+ * ie 7         - no focus on label if ori focussed
 /****************************************/
 cfe.module.file = new Class({
+    
+	Extends: cfe.generic,
+    type: "File",
+    selector: "input[type=file]",
 	
-	Extends: cfe.module.generic,
+    options: {
+        fileIcons: true,
+        trimFilePath: true
+    },
 
-	type: "File",
-	
-	selector: "input[type=file]",
-	
-	options: {
-		fileIcons: true,
-		trimFilePath: true
-	},
-	
-	build: function(){
-		
-		this.a = new Element("div",{
-			"class": "js"+this.type+"Wrapper",
-			"events": {
-				"mouseover":this.hover.bind(this),
-				"mouseout":this.unhover.bind(this),
-				"mousemove":this.follow.bindWithEvent(this)
-			}
-		}).setStyle("overflow","hidden").injectBefore(this.o).adopt(this.o);
-				
-		this.initO.bind(this)();
-		
-		this.v = new Element("div",{"class": "js"+this.type+"Path"}).inject(this.a, 'after').addClass("hidden");
-		
-		this.options.fileIcons?this.fileIcon = new Element("img",{"src": this.options.spacer}).inject(this.v):"";
-		
-		this.path = new Element("span",{"class":"filePath"}).inject(this.v);
-		this.cross = new Element("img",{
-			"src": this.options.spacer,
-			"class":"delete"
-		}).addEvent("click",this.deleteCurrentFile.bind(this)).inject(this.v);
+    getFilePath: function()
+    {
+        return this.v;
+    },
 
-		this.updateFilePath.bind(this)();
-		this.unhover.bind(this)();
-	},
-	
-	initO: function(){
-		this.o.addEvents({
-			"mouseout":this.updateFilePath.bind(this),
-			"change": this.updateFilePath.bind(this)
-		});
+    getFull: function()
+    {
+        return [this.l, this.a, this.v];
+    },
+
+    initializeAdv: function()
+    {
+        // fixes safari double click bug
+        if(!this.o.implicitLabel && !Browser.Engine.webkit)
+        {
+            this.a.addEvent("click", this.clicked.bindWithEvent(this));
+        }
+    },
+
+    build: function()
+    {
+        this.a.addEvent("mousemove", this.follow.bindWithEvent(this)).setStyle("overflow","hidden");
+        this.o.inject(this.a);
+
+        this.initO();
+
+        // add filepath
+        this.v = new Element("div",{
+            "class": "js"+this.type+"Path"
+        }).inject(this.a, 'after').addClass("hidden");
 		
-		this.o.setStyles({"cursor":"pointer","opacity":"0","visibility":"visible","height": this.a.getHeight(),"width": "auto","position":"relative"});
-		if(window.gecko){this.o.setStyle("MozOpacity","0");}
-	},
-	
-	follow: function(e){
-		var ev = new Event(e);
-		this.o.setStyle("left",(ev.client.x-this.a.getLeft()-(this.o.getWidth()-30)));
+        if(this.options.fileIcons){
+            this.fileIcon = new Element("img",{
+                "src": this.options.spacer,
+                "class": "fileIcon"
+            }).inject(this.v);
+        }
 		
-		/* special treatment for internet explorer as the fileinput will not be cut off by overflow:hidden */
-		if(window.ie){
-			if(ev.client.x < this.a.getLeft() || ev.client.x > this.a.getLeft()+this.a.getWidth())
-				this.o.setStyle("left", -999);
-		}
-	},
+        this.path = new Element("span",{
+            "class":"filePath"
+        }).inject(this.v);
+        
+        this.cross = new cfe.generic().addEvent("click", this.deleteCurrentFile.bind(this)).getAlias().addClass("delete").inject(this.v);
+
+        this.update();
+    },
+
+    createOriginal: function()
+    {
+        return new Element("input",{
+            type: "file"
+        });
+    },
+
+    initO: function()
+    {
+        this.o.addEvent("mouseout", this.update.bind(this));
+        this.o.addEvent("change", this.update.bind(this));
+
+        this.o.setStyles({
+            cursor: "pointer",
+            opacity: "0",
+            visibility: "visible",
+            height: "100%",
+            width: "auto",
+            position: "relative"
+        });
+    },
 	
-	updateFilePath: function(){
-		if(this.o.value != ""){// && (this.path.get("text") != this.o.getProperty("value"))){
-				
-			var path = this.o.getProperty("value");
-			path = this.options.trimFilePath?this.trimFilePath(path):path;
-			this.path.set("html", path);
+    follow: function(e)
+    {
+        var ev = new Event(e);
+        this.o.setStyle("left",(ev.client.x-this.a.getLeft()-(this.o.getWidth()-30)));
+		
+        /* special treatment for internet explorer as the fileinput will not be cut off by overflow:hidden */
+        if(Browser.Engine.trident){
+            if(ev.client.x < this.a.getLeft() || ev.client.x > this.a.getLeft()+this.a.getWidth())
+                this.o.setStyle("left", -999);
+        }
+    },
+	
+    update: function()
+    {
+        if( this.o.value != "" )
+        {
+            this.oldValue = this.o.getProperty("value");
+            this.oldValue = this.options.trimFilePath?this.trimFilePath(this.oldValue):this.oldValue;
+            this.path.set("html", this.oldValue);
 			
-			if(this.options.fileIcons){
-				var ind = path.lastIndexOf(".");
-				this.fileIcon.setProperty("class",path.substring(++ind).toLowerCase());
-			}
-			this.v.removeClass("hidden");
-		}else{
-			this.path.set("html", "");
-			this.v.addClass("hidden");
-		}
-	},
+            if(this.options.fileIcons)
+            {
+                var ind = this.oldValue.lastIndexOf(".");
+                this.fileIcon.setProperty("class","fileIcon "+this.oldValue.substring(++ind).toLowerCase());
+            }
+            this.v.removeClass("hidden");
+        }
+        else
+        {
+            this.path.set("html", "");
+            this.v.addClass("hidden");
+        }
+
+        this.parent();
+    },
 	
-	deleteCurrentFile: function(){
-		var newFileinput = new Element("input",{
-			"type": "file",
-			"class": this.o.getProperty("class"),
-			"name": this.o.name,
-			"id": this.o.id
-		})
-		newFileinput.replaces(this.o);
-		this.o = newFileinput;
+    deleteCurrentFile: function()
+    {
+        // maybe better: this.setupOriginal()
+        var newFileinput = this.createOriginal();
+
+        newFileinput.addClass(this.o.getProperty("class")).setProperties({
+            name: this.o.name,
+            id: this.o.id
+        });
+        
+        newFileinput.replaces(this.o);
+        this.o = newFileinput;
 		
-		this.initO.bind(this)();
+        this.initO();
 		
-		this.updateFilePath.bind(this)();
-	},
+        this.update();
+    },
 	
-	trimFilePath: function(path){
-		var ind = false;
-		if(!(ind = path.lastIndexOf("\\")))
-			if(!(ind = path.lastIndexOf("\/")))
-				ind = 0;
+    trimFilePath: function(path)
+    {
+        var ind = false;
+        if(!(ind = path.lastIndexOf("\\")))
+            if(!(ind = path.lastIndexOf("\/")))
+                ind = 0;
 	
-		return path.substring(++ind);
-	}
+        return path.substring(++ind);
+    }
 });

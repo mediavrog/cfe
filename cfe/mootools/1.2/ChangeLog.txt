@@ -3,6 +3,18 @@ CHANGE LOG FOR Custom Form Elements for Mootools 1.2
 
 ###CHANGELOG
 
+# 21/03/09 - 0.9
+- cfe.addon.dependencies needs mootools core 1.2.1 - i recommend updating anyhow
+- cfe did a huge leap forward with many enhancements and the possibility, to create cfe by javascript
+- fixed textarea, textfield sliding doors bug
+- textarea now with even more sliding doors to make resizing in every direction possible (hello safari users)
+- heavily refactored code; cfe.base did grew a bit in favour of small module script sizes
+- cfe.base now contains the generic module and some helpers
+- the replacement class for whole forms has been outsourced to cfe.replace
+- better event handling; each element does now support hover, focus and pressed state (button-like)
+- the selectAll/deselectAll checkboxes addon is now separately available as addon
+- tested successfully in Safari 3.2.1, Firefox 3.0.7, Opera 9.64, Chrome 1.0, IE 7 and IE 8 (IE 6 not supported)
+- added cfe.replace.autostart.js for out-of-the-box-use
 
 # 01/16/09 - 0.8.4
 - workaround for opera bug #2207752

@@ -36,9 +36,13 @@ cfe.addon.toolTips = new Class({
             if(!forEl){
                 var cl = lbl.getProperty("class");
 				
-                if(cl){
-                    var forEl = cl.match(/for_[a-zA-Z0-9\-]+/).toString();
-                    el = $( forEl.replace(/for_/,"") );
+                if( $defined(cl) ){
+                    var forEl = cl.match(/for_[a-zA-Z0-9\-]+/);
+
+                    if(forEl){
+                        forEl = forEl.toString();
+                        el = $( forEl.replace(/for_/,"") );
+                    }                    
                 }
 				
                 if(!el){
@@ -51,7 +55,7 @@ cfe.addon.toolTips = new Class({
             if(el){
                 if($chk(qmTitle = el.getProperty("title"))){
 					
-                    el.setProperty("title","");
+                    el.setProperty("title","").setProperty("hint", qmTitle)
 					
                     var qm = new Element("img",{
                         "src": this.options.spacer,
@@ -71,7 +75,7 @@ cfe.addon.toolTips = new Class({
     }
 });
 
-cfe.base.implement(new cfe.addon.toolTips);
-cfe.base.prototype.addEvent("onComplete", function(){
+cfe.replace.implement(new cfe.addon.toolTips);
+cfe.replace.prototype.addEvent("onComplete", function(){
     this.initToolTips();
 });

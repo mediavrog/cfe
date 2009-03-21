@@ -1,49 +1,39 @@
 /****************************************/
-/* §name:> radiobuttons					*/
+/* -name:> radiobuttons					*/
 /* ?help:> replaces radiobuttons		*/
-/* !dep:>  core,interface				*/
+/* !dep:>  checkbox      				*/
+/* #bug:>
+ * ie 8         - rb alias w/o implicit labelling trigger update twice; ori triggers update twice
+ * ie 7         - rb alias w/o implicit labelling trigger update twice; ori triggers update twice
 /****************************************/
 cfe.module.radio = new Class({
-	
-	Extends: cfe.module.generic,
-	
-	type: "Radiobutton",
-	
-	selector: "input[type=radio]",
 
-	initializeAdv: function(){
-		this.parent();
-		this.hideAndReplace.bind(this)();
-		this.elName = this.o.getProperty("name").replace("]","").replace("[","-");
-	},
-	
-	build: function(){
-		// config alias
-		this.a.addClass("cfe_radiogroup_"+this.elName).adopt(new Element("img",{"src": this.options.spacer}));
-		this.o.checked?this.a.addClass("A"):"";
-		this.a.input = this.o;
-		this.o.addEvent("keydown",this.toggleBySpace.bindWithEvent(this));
-	},
-	
-	toggleBySpace: function(e){
-		var event = new Event(e);
-		event.key == 'space'?this.clicked.bind(this)():"";
-	},
-	
-	unhover: function(){
-		this.parent();
-		this.a.removeClass(!this.o.checked?"A":"");
-	},
-	
-	clicked: function(){
-		this.parent();
-		
-		$$(".cfe_radiogroup_"+this.elName).each(function(el){
-			el.input.removeProperty("checked");
-			el.removeClass(!el.input.checked?"A":"");
-		}.bind(this));
-	
-		this.o.checked = "true";
-		this.a.addClass("A");
-	}
+    Extends: cfe.module.checkbox,
+    type: "Radiobutton",
+    selector: "input[type=radio]",
+
+    createOriginal: function()
+    {
+        return new Element("input",{
+            "type": "radio",
+            "checked": this.options.checked
+        });
+    },
+
+    initializeAdv: function()
+    {
+        this.parent();
+        
+        if( !(Browser.Engine.trident || Browser.Engine.gecko) ) this.o.addEvent("click", this.update.bind(this));
+    },
+
+    check: function()
+    {
+        this.parent();
+
+        $$('input[clearName="'+this.o.getProperty("clearName")+'"]').each(function(el)
+        {
+            if(el != this.o) el.retrieve("cfe").uncheck();
+        }.bind(this));
+    }
 });

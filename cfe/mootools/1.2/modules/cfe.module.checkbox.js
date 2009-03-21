@@ -1,84 +1,86 @@
 /****************************************/
-/* �name:> checkbox						*/
+/* -name:> checkbox						*/
 /* ?help:> replaces checkboxes	 		*/
-/* !dep:>  core,interface				*/
+/* !dep:>  generic      				*/
+/* #bug:>
+ * opera        - ori update triggers twince when clicking the ori
+ * ie 8         - ori update triggers twince when clicking the ori
+ * ie 7         - ori update triggers twince when clicking the ori
 /****************************************/
 cfe.module.checkbox = new Class({
-	
-	Extends: cfe.module.generic,
-	
+    
+	Extends: cfe.generic,
 	type: "Checkbox",
-	
 	selector: "input[type=checkbox]",
-		
-	initializeAdv: function(){
-		this.parent();
-		this.hideAndReplace.bind(this)();
-	},
-	
-	build: function(){
-		// config alias
-		this.a.adopt(new Element("img",{"src": this.options.spacer}));
-		this.o.checked?this.a.addClass("A"):"";
-		
-		this.o.addEvent("keyup",this.toggleBySpace.bindWithEvent(this));
-	},
-	
-	toggleBySpace: function(ev){
 
-		if(ev.key == 'space'){
-			!this.o.checked?this.a.addClass("A"):this.a.removeClass("A");
-			
-			// little bugfix because when pressing space, the checkbox gets triggered twice - why
-			// maybe: space > (un)check input[type=checkbox] AND trigger label for input[type=checkbox]
-			if(this.implicitLabel)
-				this.o.checked = !this.o.checked;
-		}
-	},
-	
-	unhover: function(){
-		this.parent();
-		this.a.removeClass(this.o.checked!=true?"A":"");
-	},
-	
-	setStateTo: function(state)
+    getFull: function()
     {
-		state?this.check():this.uncheck();
-	},
-
-    check: function(){
-        this.o.checked = true;
-		this.a.addClass("A");
-		this.fireEvent("onActive");
+        return [this.a, this.l];
     },
 
-    uncheck: function(){
-        this.o.checked = false;
-		this.a.removeClass("A");
-		this.fireEvent("onInActive");
+    initializeAdv: function()
+    {
+        this.parent();
+        this.hideOriginal();
+
+        // important for resetting dynamically created cfe
+        this.o.defaultChecked = this.o.checked;
+
+        // fix for internet explorer and opera > raises new probs: see above
+        if(Browser.Engine.presto)
+        {
+            if(!this.o.implicitLabel){
+                this.a.addEvent( "click", this.update.bind(this) );
+                if(this.l)
+                {
+                    this.l.addEvent( "click", this.update.bind(this) );
+                }
+            }else
+            {
+                this.o.addEvent( "click", this.update.bind(this) );
+            }
+        }
+
+        if(Browser.Engine.trident)
+        {
+            this.o.addEvent( "click", this.update.bind(this) );
+        }
     },
 
-	clicked: function(){
-		this.parent();
-		this.setStateTo(!this.o.checked);
-	}
-});
+    createOriginal: function()
+    {
+        return new Element("input",{
+            type: "checkbox",
+            checked: this.options.checked
+            });
+    },
+	
+    build: function()
+    {
+        new Element("img",{"src": this.options.spacer, "class": "spc"}).inject(this.a, "top");
+        this.update();
+    },
 
-// implements selectAll/deselectAll functionality into custom form elements
-cfe.addon.selectCheckboxes = new Class({
-	
-	// select all checkboxes in scope
-	selectAll: function(scope){
-		(scope || $(document.body)).getElements("input[type='checkbox']")[0].each(function(el){
-			el.retrieve('cfe').check();
-		});
-	},
-	
-	// deselect all checkboxes in scope
-	deselectAll: function(scope){
-		(scope || $(document.body)).getElements("input[type='checkbox']")[0].each(function(el){
-			el.retrieve('cfe').uncheck();
-		});
-	}	
+    setStateTo: function(state)
+    {
+        state?this.check():this.uncheck();
+    },
+
+    check: function()
+    {
+        this.a.addClass("A");
+        this.fireEvent("onCheck");
+    },
+
+    uncheck: function()
+    {
+        this.a.removeClass("A");
+        this.fireEvent("onUncheck");
+    },
+
+    update: function()
+    {
+        this.setStateTo(this.o.checked);
+        this.parent();
+    }
 });
-cfe.base.implement(new cfe.addon.selectCheckboxes);

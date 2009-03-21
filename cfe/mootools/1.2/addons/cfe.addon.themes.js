@@ -31,5 +31,5 @@ cfe.addon.themes = new Class({
 	}
 });
 
-cfe.base.implement(new cfe.addon.themes);
-cfe.base.prototype.addEvent("onInit", function(){this.useTheme.attempt(this.options.theme,this);});
+cfe.replace.implement(new cfe.addon.themes);
+cfe.replace.prototype.addEvent("onInit", function(){this.useTheme.attempt(this.options.theme,this);});
