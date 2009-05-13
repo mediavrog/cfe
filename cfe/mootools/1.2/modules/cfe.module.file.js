@@ -36,6 +36,8 @@ cfe.module.file = new Class({
         {
             this.a.addEvent("click", this.clicked.bindWithEvent(this));
         }
+
+        if(this.isDisabled()) this.a.fireEvent("disable");
     },
 
     build: function()

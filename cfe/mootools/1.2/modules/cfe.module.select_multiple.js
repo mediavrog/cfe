@@ -29,7 +29,8 @@ cfe.module.select_multiple = new Class({
         var oOpt = new cfe.module.checkbox({
             label: el.innerHTML,
             checked: $chk(el.selected),
-            aliasType: "div"
+            aliasType: "div",
+            disabled: this.isDisabled()
         });
         oOpt.index = index;
 
@@ -61,8 +62,11 @@ cfe.module.select_multiple = new Class({
 	
     clicked: function()
     {
-        this.o.focus();
-        this.fireEvent("onClick");
+        if(!this.isDisabled())
+        {
+            this.o.focus();
+            this.fireEvent("onClick");
+        }
     },
     
     update: function()

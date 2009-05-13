@@ -160,6 +160,10 @@ cfe.module.select = new Class({
         
         this.aliasOptions = this.container;
 
+        if(this.cContent.getStyle("width").toInt() === 0){
+            var letFloat = true;
+        }
+
         // insert option elements
         this.origOptions.each(function(el,i)
         {
@@ -179,7 +183,7 @@ cfe.module.select = new Class({
         }
         
         if(this.gfxHeight != 0) this.aliasOptions.setStyle("height", this.gfxHeight);
-        if(this.gfxWidth != 0) this.aliasOptions.setStyle("width", this.gfxWidth);
+        if(this.gfxWidth != 0 && !letFloat) this.aliasOptions.setStyle("width", this.gfxWidth);
     },
 
     selectOption: function(index,stayOpenAfterSelect, dontScroll)
@@ -249,29 +253,32 @@ cfe.module.select = new Class({
 
     clicked: function(e)
     {
-        var ev = new Event(e);
-
-        if( $defined(ev.target) )
+        if(!this.isDisabled())
         {
-            var oTarget = $(ev.target);
+            var ev = new Event(e);
 
-            if( oTarget.getParent() == this.aliasOptions )
+            if( $defined(ev.target) )
             {
-                this.selectOption(oTarget.index, true, true);
-                this.hideContainer();
-                this.parent();
-                this.o.selectedIndex = oTarget.index;
-                return;
+                var oTarget = $(ev.target);
+
+                if( oTarget.getParent() == this.aliasOptions )
+                {
+                    this.selectOption(oTarget.index, true, true);
+                    this.hideContainer();
+                    this.parent();
+                    this.o.selectedIndex = oTarget.index;
+                    return;
+                }
+                else if(this.options.scrolling && oTarget.getParents("."+this.scrollerWrapper.getProperty("class"))[0] == this.scrollerWrapper)
+                {
+                    //console.log("no toggle");
+                    return;
+                }
             }
-            else if(this.options.scrolling && oTarget.getParents("."+this.scrollerWrapper.getProperty("class"))[0] == this.scrollerWrapper)
-            {
-                //console.log("no toggle");
-                return;
-            }
-        }
-        
+
         this.toggle();
         this.parent();
+        }        
     },
 
     toggle: function()

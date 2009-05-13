@@ -12,7 +12,7 @@ window.addEvent('domready', function()
 
         // set some options for select and file modules
         myCfe.setModuleOptions("select",{
-            scrolling: false,
+            scrolling: true,
             scollSteps: 5
         });
         
@@ -70,6 +70,11 @@ window.addEvent('domready', function()
                 this.a.getElement("img").tween('background-color', '#fff');
             });
         })
+
+        $("trigger").addEvent("click", function(e){
+            e.stop();
+            $("chb4").toggleDisabled();
+        });
 
         /* standalone elements
         var uli = new Element("ul");

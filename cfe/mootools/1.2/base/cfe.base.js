@@ -35,6 +35,7 @@ cfe.generic = new Class(
         replaces: null,         // if this element shall replace an existing html form element, put it here
         label: null,            // may pass any element as a label (toggling, hovering,..) for this cfe
         name: "",
+        disabled: false,        // setting this to true will create a disabled element
 
         onMouseOver: Class.empty,   // event placeholders; may be used for custom events
         onMouseOut: Class.empty,
@@ -111,7 +112,9 @@ cfe.generic = new Class(
             mouseover: this.hover.bind(this),
             mouseout: this.unhover.bind(this),
             mousedown: this.press.bind(this),
-            mouseup: this.release.bind(this)
+            mouseup: this.release.bind(this),
+            disable: this.disable.bind(this),
+            enable: this.enable.bind(this)
         }).setStyle("cursor","pointer");
     },
 
@@ -133,6 +136,8 @@ cfe.generic = new Class(
             this.o = this.createOriginal();
 
             if(this.options.id) this.o.setProperty("id", this.options.id);
+                
+            if(this.options.disabled) this.o.disable();
 
             if(this.options.name)
             {
@@ -158,11 +163,22 @@ cfe.generic = new Class(
             }.bind(this),
             keyup: function(e){
                 if(new Event(e).key == "space") this.release();
+            }.bind(this),
+            onDisable: function(){ 
+                this.a.fireEvent("disable");
+            }.bind(this),
+            onEnable: function(){  
+                this.a.fireEvent("enable");
             }.bind(this)
         });
 
         // store a reference to this cfe "in" the original form element
         this.o.store("cfe", this);
+    },
+
+    isDisabled: function()
+    {
+        return this.o.getProperty("disabled");
     },
 
     createOriginal: function()
@@ -219,48 +235,58 @@ cfe.generic = new Class(
 
         // add stdevents
         this.l.addEvents({
-            "mouseover": this.hover.bind(this),
-            "mouseout": this.unhover.bind(this),
-            "mousedown": this.press.bind(this),
-            "mouseup": this.release.bind(this)
+            mouseover: this.hover.bind(this),
+            mouseout: this.unhover.bind(this),
+            mousedown: this.press.bind(this),
+            mouseup: this.release.bind(this)
         });
 
         if(!this.o.implicitLabel || (this.o.implicitLabel && !Browser.Engine.gecko)) this.l.addEvent("click", this.clicked.bindWithEvent(this));
 
         this.addEvents({
-            "press": function()
+            "onPress": function()
             {
                 this.l.addClass("P");
             },
-            "release": function()
+            "onRelease": function()
             {
                 this.l.removeClass("P");
             },
-            "mouseOver": function()
+            "onMouseOver": function()
             {
                 this.l.addClass("H");
             },
-            "mouseOut": function()
+            "onMouseOut": function()
             {
                 this.l.removeClass("H");
                 this.l.removeClass("P");
             },
-            "focus": function()
+            "onFocus": function()
             {
                 this.l.addClass("F");
             },
-            "blur": function()
+            "onBlur": function()
             {
                 this.l.removeClass("F");
-                //this.l.removeClass("P");
+            //this.l.removeClass("P");
+            },
+            "onEnable": function()
+            {
+                this.l.removeClass("D");
+            },
+            "onDisable": function()
+            {
+                this.l.addClass("D");
             }
-        });
+        });        
     },
 
     // may be extended by cfe
     initializeAdv: function()
     {
         if(!this.o.implicitLabel) this.a.addEvent("click", this.clicked.bindWithEvent(this));
+
+        if(this.isDisabled()) this.a.fireEvent("disable");
     },
     
     // must be implemented by cfe
@@ -276,8 +302,11 @@ cfe.generic = new Class(
 	 */
     press: function()
     {
-        this.a.addClass("P");
-        this.fireEvent("onPress");
+        if(!this.isDisabled())
+        {
+            this.a.addClass("P");
+            this.fireEvent("onPress");
+        }
     },
 
     /**
@@ -286,37 +315,44 @@ cfe.generic = new Class(
 	 */
     release: function()
     {
-        this.a.removeClass("P");
-        this.fireEvent("onRelease");
+        if(!this.isDisabled())
+        {
+            this.a.removeClass("P");
+            this.fireEvent("onRelease");
+        }
     },
 
     /**
-	 * standard mouseover-behaviour
-	 * add hover state to alias
-	 */
+     * standard mouseover-behaviour
+     * add hover state to alias
+     */
     hover: function()
     {
-        this.a.addClass("H");
-        this.fireEvent("onMouseOver");
+        if(!this.isDisabled())
+        {
+            this.a.addClass("H");
+            this.fireEvent("onMouseOver");
+        }
     },
 
     /**
-	 * standard mouseout-behaviour
-	 * removes hover state from alias
-	 */
+     * standard mouseout-behaviour
+     * removes hover state from alias
+     */
     unhover: function()
     {
-        this.a.removeClass("H");
-
-        this.fireEvent("onMouseOut");
-
-        this.release();
+        if(!this.isDisabled())
+        {
+            this.a.removeClass("H");
+            this.fireEvent("onMouseOut");
+            this.release();
+        }
     },
 
     /**
-	 * standard focus-behaviour
-	 * adds focus state to alias
-	 */
+     * standard focus-behaviour
+     * adds focus state to alias
+     */
     setFocus: function()
     {
         this.a.addClass("F");
@@ -324,9 +360,9 @@ cfe.generic = new Class(
     },
 
     /**
-	 * standard blur-behaviour
-	 * removes focus state from alias
-	 */
+     * standard blur-behaviour
+     * removes focus state from alias
+     */
     removeFocus: function()
     {
         //console.log("o blurred");
@@ -334,6 +370,7 @@ cfe.generic = new Class(
         // if cfe gets blurred, also clear press state
         //this.a.removeClass("P");
         this.fireEvent("onBlur");
+
     },
 
     /*
@@ -341,15 +378,30 @@ cfe.generic = new Class(
      */
     clicked: function()
     {
-        if( $chk(this.o.click) ) this.o.click();
-        this.o.focus();
+        if(!this.isDisabled())
+        {
+            if( $chk(this.o.click) ) this.o.click();
+            this.o.focus();
 
-        this.fireEvent("onClick");
+            this.fireEvent("onClick");
+        }
     },
 
     update: function()
     {
         this.fireEvent("onUpdate");
+    },
+
+    enable: function()
+    {
+        this.a.removeClass("D");
+        this.fireEvent("onEnable");
+    },
+
+    disable: function()
+    {
+        this.a.addClass("D");
+        this.fireEvent("onDisable");
     }
 });
 cfe.generic.implement(new Options,new Events);
@@ -367,6 +419,42 @@ Element.Helpers = new Class({
         else if(Browser.Engine.webkit){
             this.setStyle("KhtmlUserSelect","none");
         }
+    },
+
+    disable: function()
+    {
+        if($type(this) === "element" && ["button", "input", "option", "optgroup", "select", "textarea"].contains( this.get("tag") )            )
+        {
+            this.setProperty("disabled", true);
+            this.fireEvent("onDisable");
+            return true;
+        }
+
+        return false;
+    },
+
+    enable: function()
+    {
+        if($type(this) === "element" && ["button", "input", "option", "optgroup", "select", "textarea"].contains( this.get("tag") )            )
+        {
+            this.setProperty("disabled", false);
+            this.fireEvent("onEnable");
+            return true;
+        }
+
+        return false;
+    },
+
+    toggleDisabled: function()
+    {
+        if($type(this) === "element" && ["button", "input", "option", "optgroup", "select", "textarea"].contains( this.get("tag") )            )
+        {
+            this.setProperty("disabled", !this.getProperty("disabled") );
+            this.fireEvent(this.getProperty("disabled")?"onDisable":"onEnable");
+            console.log(this.getProperty("disabled"));
+            return true;
+        }
+        return false;
     },
 
     getLabel: function()

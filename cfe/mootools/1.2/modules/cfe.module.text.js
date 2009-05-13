@@ -16,7 +16,13 @@ cfe.module.text = new Class({
 
     dontRemoveForFromLabel: true,
 
-    setupWrapper: function(){},
+    setupWrapper: function()
+    {
+       this.a.addClass("js"+this.type).addEvents({
+            disable: this.disable.bind(this),
+            enable: this.enable.bind(this)
+        });
+    },
 
     createOriginal: function()
     {

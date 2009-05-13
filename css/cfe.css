@@ -28,11 +28,6 @@ label.jsTextL ,label.jsPasswordL, label.jsFileL, label.jsSelectorL, label.jsText
 /*												*/
 /*  classes can be used in any combination		*/
  /**********************************************/
-
-input[name="radio2[hallo]"]{
-    width: 300px;
-}
-
 form *:focus{outline: none;}
 
  /* fieldsets */
@@ -61,6 +56,7 @@ fieldset.P, fieldset.F{
 label{cursor:pointer;}
 label.H{color:#339999;}
 label.F{color:#cc3300;}
+label.D{color:#999999;}
 
 /* tool tip related */
 .tip{border: 1px solid #339999;background-color: #fff;z-index:100;font-size:0.9em;color:#666;padding:2px 4px;}
@@ -89,7 +85,9 @@ label.F{color:#cc3300;}
 	height: 20px;
 }
 .jsTextSlide.F,.jsPasswordSlide.F{background-position: 0 -40px;}
+.jsTextSlide.D,.jsPasswordSlide.D{background-position: 0 -80px;}
 .jsTextSlide.F .jsText,.jsPasswordSlide.F .jsPassword{background-position: 100% -40px;}
+.jsTextSlide.D .jsText,.jsPasswordSlide.D .jsPassword{background-position: 100% -80px;}
 
 /* teaxtareas with sliding doors */
 .jstextarea1 textarea
@@ -124,6 +122,12 @@ label.F{color:#cc3300;}
 .jsTextareaSlide.F .jsTextareaSlide2{background-image: url(../gfx/cfeTextareaTR-H.gif);}
 .jsTextareaSlide.F .jsTextarea{background-image: url(../gfx/cfeTextareaBL.gif);}
 
+.jsTextareaSlide.D {background-image: url(../gfx/cfeTextareaB-D.gif);}
+.jsTextareaSlide.D .jsTextareaSlide1{background-image: url(../gfx/cfeTextareaT-D.gif);}
+.jsTextareaSlide.D .jsTextareaSlide2{background-image: url(../gfx/cfeTextareaTR-D.gif);}
+.jsTextareaSlide.D .jsTextarea{background-image: url(../gfx/cfeTextareaBL-D.gif);}
+
+
 /* checkboxes and radiobuttons */
 .jsCheckbox img,.jsRadiobutton img{
 	vertical-align: text-top;
@@ -145,6 +149,8 @@ label.F{color:#cc3300;}
 .jsCheckbox.F.H img,.jsRadiobutton.F.H img{background-position: 0 -240px;}
 .jsCheckbox.F.A.H img,.jsRadiobutton.F.A.H img{background-position: 0 -280px;}
 
+.jsCheckbox.D img,.jsRadiobutton.D img{background-position: 0 -320px;}
+.jsCheckbox.D.A img,.jsRadiobutton.D.A img{background-position: 0 -360px;}
 
 /* alternate checkboxes in second fieldset */
 .chb2 .jsCheckbox img{
@@ -169,6 +175,7 @@ label.F{color:#cc3300;}
 	background: url(../gfx/cfeFile.gif) no-repeat 0 3px;
 }
 .jsFile.H{background-position:0 -76px;}
+.jsFile.D{background-position:0 -236px;}
 
 .jsFile,.jsFileL{
 	float:left;display:inline;
@@ -248,14 +255,17 @@ label.F{color:#cc3300;}
 .jsButton.F{background-position: 0 -200px;}
 .jsButton.F.P{background-position: 0 -160px;}
 .jsButton.H.P{background-position: 0 -40px;}
+.jsButton.D{background-position: 0 -240px;}
 
 .jsButton.P span{background-position: 100% -40px;}
 .jsButton.H span{background-position: 100% -80px;}
 .jsButton.F span{background-position: 100% -200px;}
 .jsButton.F.P span{background-position: 100% -160px;}
 .jsButton.H.P span{background-position: 100% -40px;}
+.jsButton.D span{background-position: 100% -240px;}
 
 .jsButton.P .label{padding: 2px 0 0 2px;color: #666;}
+.jsButton.D .label{color: #999;}
 
  /*############################################*/
 /*  select boxes                    			*/
@@ -295,6 +305,10 @@ label.F{color:#cc3300;}
 .jsSelector.F .jsSelectorSlide{background-position: 100% -80px;}
 .jsSelector.H .jsSelectorArrow{background-position: 3px -36px}
 
+.jsSelector.D{background-position: 0 -120px;}
+.jsSelector.D .jsSelectorSlide{background-position: 100% -120px;}
+.jsSelector.D .jsSelectorArrow{background-position: 3px -106px}
+
 .jsSelectorArrow{
 	height: 20px;width: 20px;
 	background: url(../gfx/cfeSelectorArrow.gif) no-repeat 3px 4px;
@@ -308,6 +322,7 @@ label.F{color:#cc3300;}
 }
 
 .jsSelector .jsOptionSelected{padding:0 0 0 8px;margin:0 0 0 5px;}
+.jsSelector.D .jsOptionSelected, .jsSelector.D .jsOption{color:#999;}
 
 .jsOption{
 	padding: 6px 6px 4px 5px;
@@ -351,3 +366,8 @@ label.F{color:#cc3300;}
 	border:0; margin:0;
 	padding: 3px 3px 4px 3px;
 }
+
+.jsSelectorMultiple.D .jsSelectorContentSlide1 {background-image: url(../gfx/cfeTextareaB-D.gif);}
+.jsSelectorMultiple.D .jsSelectorContentSlide2{background-image: url(../gfx/cfeTextareaT-D.gif);}
+.jsSelectorMultiple.D .jsSelectorContentSlide3{background-image: url(../gfx/cfeTextareaTR-D.gif);}
+.jsSelectorMultiple.D .jsSelectorContentSlide1 .jsSelectorContent{background-image: url(../gfx/cfeTextareaBL-D.gif);}
