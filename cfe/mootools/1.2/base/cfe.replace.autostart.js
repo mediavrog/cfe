@@ -76,7 +76,27 @@ window.addEvent('domready', function()
             $("chb4").toggleDisabled();
         });
 
-        /* standalone elements
+        $("trigger2").addEvent("click", function(e){
+            e.stop();
+            $("sel-norm3").toggleDisabled();
+        });
+
+        $("trigger3").addEvent("click", function(e){
+            e.stop();
+            $("sel-mult2").toggleDisabled();
+        });
+        
+        $("triggertxt").addEvent("click", function(e){
+            e.stop();
+            $("input4").toggleDisabled();
+        });
+
+        $("triggerta").addEvent("click", function(e){
+            e.stop();
+            $("textarea2").toggleDisabled();
+        });
+
+        /* standalone elements */
         var uli = new Element("ul");
         $('standalone').adopt(uli);
 
@@ -138,45 +158,46 @@ window.addEvent('domready', function()
         li = new Element("li").adopt(file.getFull());
         uli.adopt(li);
 
-        var sel = new cfe.module.select({
-            instanceID: 106,
-            label: "Standalone Select",
-            name: "selectStandalone",
-            options: {
-                opt1: {
-                    label:"Option A"
-                },
-                opt2: {
-                    label: "Option B",
-                    selected: true
-                },
-                opt3: {
-                    label: "Option C"
-                }
-            }
-        });
-        li = new Element("li").adopt(sel.getFull());
-        uli.adopt(li);
-
-        var selm = new cfe.module.select_multiple({
-            instanceID: 107,
-            label: "Standalone Select Multipl",
-            name: "selectMultipleStandalone",
-            options: {
-                opt1: {
-                    label:"Option A",
-                    selected: true
-                },
-                opt2: {
-                    label: "Option B"
-                },
-                opt3: {
-                    label: "Option C"
-                }
-            }
-        });
-        li = new Element("li").adopt(selm.getFull());
-        uli.adopt(li);
+// still a few bugs to fix
+//        var sel = new cfe.module.select({
+//            instanceID: 106,
+//            label: "Standalone Select",
+//            name: "selectStandalone",
+//            options: {
+//                opt1: {
+//                    label:"Option A"
+//                },
+//                opt2: {
+//                    label: "Option B",
+//                    selected: true
+//                },
+//                opt3: {
+//                    label: "Option C"
+//                }
+//            }
+//        });
+//        li = new Element("li").adopt(sel.getFull());
+//        uli.adopt(li);
+//
+//        var selm = new cfe.module.select_multiple({
+//            instanceID: 107,
+//            label: "Standalone Select Multipl",
+//            name: "selectMultipleStandalone",
+//            options: {
+//                opt1: {
+//                    label:"Option A",
+//                    selected: true
+//                },
+//                opt2: {
+//                    label: "Option B"
+//                },
+//                opt3: {
+//                    label: "Option C"
+//                }
+//            }
+//        });
+//        li = new Element("li").adopt(selm.getFull());
+//        uli.adopt(li);
 
         var submit = new cfe.module.submit({
             instanceID: 108,
@@ -185,6 +206,6 @@ window.addEvent('domready', function()
         });
         li = new Element("li").adopt(submit.getFull());
         uli.adopt(li);
-        */
+        
 
     });

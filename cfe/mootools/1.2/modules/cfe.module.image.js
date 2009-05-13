@@ -76,5 +76,17 @@ cfe.module.image = new Class({
         this.parent();
         this.clearState();
         if(this.a.hasClass("F")) this.setState("F");
+    },
+
+    enable: function()
+    {
+        this.parent();
+        this.clearState();
+    },
+
+    disable: function()
+    {
+        this.parent();
+        this.setState("D");
     }
 });

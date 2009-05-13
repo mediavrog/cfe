@@ -15,13 +15,26 @@ cfe.module.select_multiple = new Class({
         scrolling: true,
         scrollSteps: 5
     },
-	
+
     build: function()
     {	
         this.a.addClass("jsSelectorMultiple jsSelectorMultiple"+this.options.instanceID);
         this.a.removeClass("jsSelector");
 
         this.buildContainer();
+
+        this.o.addEvents({
+            onDisable: function(){
+                this.aliasOptions.getChildren().each(function(el){
+                    el.getChildren("input")[0].disable();
+                });
+            }.bind(this),
+            onEnable: function(){
+                this.aliasOptions.getChildren().each(function(el){
+                   el.getChildren("input")[0].enable();
+                });
+            }.bind(this)
+        });
     },
 
     buildOption: function(el, index)
