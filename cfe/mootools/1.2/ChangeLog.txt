@@ -3,6 +3,11 @@ CHANGE LOG FOR Custom Form Elements for Mootools 1.2
 
 ###CHANGELOG
 
+# 14/05/09 - 0.91
+- support for disabled attribute
+- some css tweaks (thanks joss)
+- fix for width calculation of select multiple, when width is not given by css and scolling is enabled
+
 # 21/03/09 - 0.9
 - cfe.addon.dependencies needs mootools core 1.2.1 - i recommend updating anyhow
 - cfe did a huge leap forward with many enhancements and the possibility, to create cfe by javascript

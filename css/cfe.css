@@ -130,10 +130,11 @@ label.D{color:#999999;}
 
 /* checkboxes and radiobuttons */
 .jsCheckbox img,.jsRadiobutton img{
-	vertical-align: text-top;
+	vertical-align: middle;
 	width: 20px;
 	height: 20px;
 	background: no-repeat 0 0;
+    padding-bottom: 3px;
 }
 .jsCheckbox img{background-image: url(../gfx/checkboxes.png);}
 .jsRadiobutton img{background-image: url(../gfx/radiobuttons.png);}
