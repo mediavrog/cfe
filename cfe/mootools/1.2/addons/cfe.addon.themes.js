@@ -1,7 +1,6 @@
 /**
- * @classDescription this adds theming functionality to cfe
- * 
- * @additional dependencies: mootools plugin: Assets
+ * this adds theming functionality to cfe
+ * @class themes
  */
 
 cfe.addon.themes = new Class({

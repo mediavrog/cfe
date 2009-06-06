@@ -1,6 +1,10 @@
 /**
- * @classDescription this adds autotabbing functionality to cfe
- * 
+ * @module addon
+ */
+
+/**
+ * this adds autotabbing functionality to cfe
+ * @class autotab
  */
 cfe.addon.autotab = new Class({
 	

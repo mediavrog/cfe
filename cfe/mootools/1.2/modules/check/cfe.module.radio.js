@@ -1,11 +1,16 @@
-/****************************************/
-/* -name:> radiobuttons					*/
-/* ?help:> replaces radiobuttons		*/
-/* !dep:>  checkbox      				*/
-/* #bug:>
+/**
+ * replaces radiobuttons
+ *
+ * @class radio
+ * @namespace cfe.modules
+ *
+ * @requires checkbox
+ * @extends cfe.module.checkbox
+ *
+ * bug:
  * ie 8         - rb alias w/o implicit labelling trigger update twice; ori triggers update twice
  * ie 7         - rb alias w/o implicit labelling trigger update twice; ori triggers update twice
-/****************************************/
+ */
 cfe.module.radio = new Class({
 
     Extends: cfe.module.checkbox,

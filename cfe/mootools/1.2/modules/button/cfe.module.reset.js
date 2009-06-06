@@ -1,9 +1,16 @@
-/****************************************/
-/* -name:> reset						*/
-/* ?help:> replaces reset buttons		*/
-/* !dep:>  submit           			*/
-/* #bug:>  press then click outside > press state doesn't clear
-/****************************************/
+/**
+ * Provides replacement for input[type=reset]
+ *
+ * @class reset
+ * @namespace cfe.module
+ *
+ * @requires submit
+ * @extends cfe.module.submit
+ *
+ * @constructor
+ *
+ * bug: - press then click outside > press state doesn't clear
+ */
 cfe.module.reset = new Class({
 
     Extends: cfe.module.submit,

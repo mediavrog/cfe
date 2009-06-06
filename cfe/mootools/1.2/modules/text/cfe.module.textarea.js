@@ -1,8 +1,13 @@
-/****************************************/
-/* -name:> textarea						*/
-/* ?help:> replaces textarea elements 	*/
-/* !dep:>  generic  					*/
-/****************************************/
+/**
+ * replaces textarea
+ *
+ * @module text
+ * @namespace cfe.module
+ *
+ * @requires text
+ * @extends cfe.module.text
+ *
+ */
 cfe.module.textarea = new Class({
 
 	Extends: cfe.module.text,

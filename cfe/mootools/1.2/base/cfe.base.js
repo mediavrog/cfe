@@ -1,3 +1,10 @@
+/**
+ * The core of custom form elements. Includes cfe.generic and some slight addons to the native Element object. 
+ *
+ * @module core
+ * @namespace cfe
+ */
+
 /*
 customFormElements for mootools 1.2 - style form elements on your own
 by Maik Vlcek (http://www.mediavrog.net)
@@ -18,26 +25,68 @@ var cfe = {};
 cfe.module = {};
 cfe.addon = {};
 
-cfe.version = "0.9";
+cfe.version = "0.9.2";
 cfe.spacer = "spacer.gif";
 
-// basic generic module; may be extended by modules to start off with standard, button-like behaviours
+/**
+ * cfe.generic gets extended by modules to start off with standard, button-like behaviours.
+ * @class generic
+ */
 cfe.generic = new Class(
 {
-    // type of cfe; derived elements may be Selector, Checkbox or Radiobutton
+    /**
+     * Describes the type of this element (e.g. Selector, Checkbox or Radiobutton)
+     * @property type
+     * @type string
+     */
     type : "Generic",
 
-    // basic options for all cfes and always available
+    /**
+     * basic options for all cfes and always available
+     * @property options
+     */
     options: {
         instanceID:0,           // set automatically
-        spacer: "",             // path to transparent spacer.gif; it's used for easy css-styling
-        aliasType: "span",      // the element's wrapper will be of this type
-        replaces: null,         // if this element shall replace an existing html form element, put it here
-        label: null,            // may pass any element as a label (toggling, hovering,..) for this cfe
-        name: "",
-        disabled: false,        // setting this to true will create a disabled element
+        
+        /**
+         * path to transparent spacer.gif; it's used for easy css-styling
+         * @config spacer
+         * @type string
+         */
+        spacer: "",
 
-        onMouseOver: Class.empty,   // event placeholders; may be used for custom events
+        /**
+         * the element's wrapper will be of this type (e.g. span or div)
+         * @config aliasType
+         * @type string
+         */
+        aliasType: "span",
+
+        /**
+         * if this element shall replace an existing html form element, pass it here
+         * @config replaces
+         * @type HTMLElement
+         */
+        replaces: null,
+
+        /**
+         * may pass any element as a label (toggling, hovering,..) for this cfe
+         * @config label
+         * @type HTMLElement
+         */
+        label: null,
+
+        name: "",
+
+        /**
+         * setting this to true will create a disabled element
+         * @config disabled
+         * @type boolean
+         */
+        disabled: false,
+
+        // event placeholders; may be used to add custom events
+        onMouseOver: Class.empty,   
         onMouseOut: Class.empty,
         onFocus: Class.empty,
         onBlur: Class.empty,
@@ -48,11 +97,13 @@ cfe.generic = new Class(
     },
 
     /**
-	 * initialization of cfe
-	 * set options, defines basic algorithm as template method
+	 * constructor
+	 * set options, defines basic replacement and building algorithm for cfe (template method)
 	 *
-	 * @param {Object} original
-	 * @param {Object} opt
+     * @method initialize
+     * @constructor
+     *
+     * @param {Object} options
 	 */
     initialize: function(opt)
     {
@@ -77,26 +128,44 @@ cfe.generic = new Class(
 
     },
 
-    /*
-     * some getter methods to retreive the "decorator" elements
+    /**
+     * retreive the "decorator"
+     * 
+     * @method getAlias
+     * @return HTMLElement
      */
     getAlias: function()
     {
         return this.a;
     },
 
+    /**
+     * retreive the label
+     *
+     * @method getLabel
+     * @return HTMLElement
+     */
     getLabel: function()
     {
         return this.l;
     },
 
+    /**
+     * retreive the label and the alias
+     *
+     * @method getFull
+     * @return HTMLElement[label, alias]
+     */
     getFull: function()
     {
         return [this.l, this.a];
     },
 
-    /*
-     * methods related to creation of the alias
+    /**
+     * builds the "decorator"
+     *
+     * @method buildWrapper
+     * @protected
      */
     buildWrapper: function()
     {
@@ -106,6 +175,13 @@ cfe.generic = new Class(
         this.setupWrapper();
     },
 
+    /**
+     * adds events and mousepointer style to the "decorator"
+     * usually gets called by buildWrapper
+     *
+     * @method setupWrapper
+     * @protected
+     */
     setupWrapper: function()
     {
         this.a.addClass("js"+this.type).addEvents({
@@ -118,8 +194,12 @@ cfe.generic = new Class(
         }).setStyle("cursor","pointer");
     },
 
-    /*
-     * methods related to creation/handling of the original form element
+    /**
+     * handles the creation of the underlying original form element <br />
+     * stores a reference to the cfe object in the original form element
+     *
+     * @method setupOriginal
+     * @protected
      */
     setupOriginal: function()
     {
@@ -292,13 +372,11 @@ cfe.generic = new Class(
     // must be implemented by cfe
     build: function(){},
     
-    /**
-	 * behaviour
-	 */
     
     /**
 	 * standard press-behaviour
 	 * add press state to alias
+     * @event press
 	 */
     press: function()
     {
@@ -312,6 +390,7 @@ cfe.generic = new Class(
     /**
 	 * standard press-behaviour
 	 * removes press state to alias
+     * @event release
 	 */
     release: function()
     {
@@ -325,6 +404,7 @@ cfe.generic = new Class(
     /**
      * standard mouseover-behaviour
      * add hover state to alias
+     * @event hover
      */
     hover: function()
     {
@@ -338,6 +418,7 @@ cfe.generic = new Class(
     /**
      * standard mouseout-behaviour
      * removes hover state from alias
+     * @event unhover
      */
     unhover: function()
     {
@@ -352,6 +433,7 @@ cfe.generic = new Class(
     /**
      * standard focus-behaviour
      * adds focus state to alias
+     * @event onFocus
      */
     setFocus: function()
     {
@@ -362,6 +444,7 @@ cfe.generic = new Class(
     /**
      * standard blur-behaviour
      * removes focus state from alias
+     * @event onBlur
      */
     removeFocus: function()
     {
@@ -373,8 +456,9 @@ cfe.generic = new Class(
 
     },
 
-    /*
+    /**
      * delegate click events to original item
+     * @event onClick
      */
     clicked: function()
     {
@@ -387,17 +471,29 @@ cfe.generic = new Class(
         }
     },
 
+    /**
+     * fires if the original element changes
+     * @event onUpdate
+     */
     update: function()
     {
         this.fireEvent("onUpdate");
     },
 
+    /**
+     * if element get enabled
+     * @event onEnable
+     */
     enable: function()
     {
         this.a.removeClass("D");
         this.fireEvent("onEnable");
     },
 
+    /**
+     * if element get disabled
+     * @event onDisable
+     */
     disable: function()
     {
         this.a.addClass("D");
@@ -406,7 +502,11 @@ cfe.generic = new Class(
 });
 cfe.generic.implement(new Options,new Events);
 
-// extend Elements with some Helper functions
+/**
+ * extend Elements with some Helper functions
+ * @class Helpers
+ * @namespace Element
+ */
 Element.Helpers = new Class({
 
     disableTextSelection: function(){

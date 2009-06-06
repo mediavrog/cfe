@@ -1,12 +1,21 @@
-/****************************************/
-/* -name:> checkbox						*/
-/* ?help:> replaces checkboxes	 		*/
-/* !dep:>  generic      				*/
-/* #bug:>
+/**
+ * @module check
+ */
+
+/**
+ * replaces checkboxes
+ *
+ * @class checkbox
+ * @namespace cfe.modules
+ *
+ * @requires generic
+ * @extends cfe.generic
+ *
+ * bug:
  * opera        - ori update triggers twince when clicking the ori
  * ie 8         - ori update triggers twince when clicking the ori
  * ie 7         - ori update triggers twince when clicking the ori
-/****************************************/
+ */
 cfe.module.checkbox = new Class({
     
 	Extends: cfe.generic,

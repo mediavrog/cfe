@@ -1,8 +1,14 @@
-/****************************************/
-/* -name:> image						*/
-/* ?help:> replaces image buttons		*/
-/* !dep:>  generic  					*/
-/****************************************/
+/**
+ * Provides replacement for input[type=image]
+ *
+ * @class image
+ * @namespace cfe.module
+ *
+ * @requires generic
+ * @extends cfe.generic
+ *
+ * @constructor
+ */
 cfe.module.image = new Class({
     
     Extends: cfe.generic,

@@ -1,3 +1,6 @@
+/**
+ * @class noe
+ */
 window.addEvent('domready', function()
     {
         cfe.spacer = "gfx/spacer.gif";
@@ -8,7 +11,7 @@ window.addEvent('domready', function()
         myCfe.unregisterModule("fieldset");
 
         // add dependencies for checkbox with id 'chb23' by passing input elements
-        myCfe.addDependencies($("chb23"),["chb22","chb21"]);
+        //myCfe.addDependencies($("chb23"),["chb22","chb21"]);
 
         // set some options for select and file modules
         myCfe.setModuleOptions("select",{
@@ -50,7 +53,7 @@ window.addEvent('domready', function()
             this.deselectAll($$("fieldset.chb1"));
         }.bind(myCfe));
 
-        // mt 1.2 sample to tween label on hover and back onUnhover => use custom events
+         //mt 1.2 sample to tween label on hover and back onUnhover => use custom events
         $('chb1').retrieve("cfe").addEvent("mouseOver", function(){
             this.l.tween('margin-left', 10);
         });
@@ -71,6 +74,7 @@ window.addEvent('domready', function()
             });
         })
 
+        // sample for triggering disabled/enabled attribute on specific elements
         $("trigger").addEvent("click", function(e){
             e.stop();
             $("chb4").toggleDisabled();
@@ -85,7 +89,7 @@ window.addEvent('domready', function()
             e.stop();
             $("sel-mult2").toggleDisabled();
         });
-        
+
         $("triggertxt").addEvent("click", function(e){
             e.stop();
             $("input4").toggleDisabled();
@@ -97,66 +101,66 @@ window.addEvent('domready', function()
         });
 
         /* standalone elements */
-        var uli = new Element("ul");
-        $('standalone').adopt(uli);
-
-        var chb = new cfe.module.checkbox({
-            instanceID: 100,
-            label: "Standalone Checkbox",
-            name: "checkboxStandalone",
-            value: "standalone checkbox checked",
-            checked: true
-        });
-        var li = new Element("li").adopt(chb.getFull());
-        uli.adopt(li);
-    
-        var rb1 = new cfe.module.radio({
-            instanceID: 101,
-            label: "Standalone Radio 1",
-            name: "radioStandalone[]",
-            value: "standalone radio checked",
-            checked: true
-        });
-        li = new Element("li").adopt(rb1.getFull());
-        uli.adopt(li);
-
-        var rb2 = new cfe.module.radio({
-            instanceID: 102,
-            label: "Standalone Radio 2",
-            name: "radioStandalone[]",
-            value: "standalone radio2 checked",
-            checked: true
-        });
-        li = new Element("li").adopt(rb2.getFull());
-        uli.adopt(li);
-
-        var text = new cfe.module.text({
-            instanceID: 103,
-            id: "textStandaloneD",
-            label: "Standalone Textfield",
-            name: "textStandalone",
-            value: "standalone text"
-        });
-        li = new Element("li").adopt(text.getFull());
-        uli.adopt(li);
-
-        var ta = new cfe.module.textarea({
-            instanceID: 104,
-            label: "Standalone Textarea",
-            name: "textareaStandalone",
-            value: "standalone textarea"
-        });
-        li = new Element("li").adopt(ta.getFull());
-        uli.adopt(li);
-
-        var file = new cfe.module.file({
-            instanceID: 105,
-            label: "Standalone Fileselector",
-            name: "fileStandalone",
-            fileIcons: true
-        });
-        li = new Element("li").adopt(file.getFull());
-        uli.adopt(li);
+//        var uli = new Element("ul");
+//        $('standalone').adopt(uli);
+//
+//        var chb = new cfe.module.checkbox({
+//            instanceID: 100,
+//            label: "Standalone Checkbox",
+//            name: "checkboxStandalone",
+//            value: "standalone checkbox checked",
+//            checked: true
+//        });
+//        var li = new Element("li").adopt(chb.getFull());
+//        uli.adopt(li);
+//
+//        var rb1 = new cfe.module.radio({
+//            instanceID: 101,
+//            label: "Standalone Radio 1",
+//            name: "radioStandalone[]",
+//            value: "standalone radio checked",
+//            checked: true
+//        });
+//        li = new Element("li").adopt(rb1.getFull());
+//        uli.adopt(li);
+//
+//        var rb2 = new cfe.module.radio({
+//            instanceID: 102,
+//            label: "Standalone Radio 2",
+//            name: "radioStandalone[]",
+//            value: "standalone radio2 checked",
+//            checked: true
+//        });
+//        li = new Element("li").adopt(rb2.getFull());
+//        uli.adopt(li);
+//
+//        var text = new cfe.module.text({
+//            instanceID: 103,
+//            id: "textStandaloneD",
+//            label: "Standalone Textfield",
+//            name: "textStandalone",
+//            value: "standalone text"
+//        });
+//        li = new Element("li").adopt(text.getFull());
+//        uli.adopt(li);
+//
+//        var ta = new cfe.module.textarea({
+//            instanceID: 104,
+//            label: "Standalone Textarea",
+//            name: "textareaStandalone",
+//            value: "standalone textarea"
+//        });
+//        li = new Element("li").adopt(ta.getFull());
+//        uli.adopt(li);
+//
+//        var file = new cfe.module.file({
+//            instanceID: 105,
+//            label: "Standalone Fileselector",
+//            name: "fileStandalone",
+//            fileIcons: true
+//        });
+//        li = new Element("li").adopt(file.getFull());
+//        uli.adopt(li);
 
 // still a few bugs to fix
 //        var sel = new cfe.module.select({
@@ -199,13 +203,13 @@ window.addEvent('domready', function()
 //        li = new Element("li").adopt(selm.getFull());
 //        uli.adopt(li);
 
-        var submit = new cfe.module.submit({
-            instanceID: 108,
-            name: "submitStandalone",
-            value: "submit form"
-        });
-        li = new Element("li").adopt(submit.getFull());
-        uli.adopt(li);
+//        var submit = new cfe.module.submit({
+//            instanceID: 108,
+//            name: "submitStandalone",
+//            value: "submit form"
+//        });
+//        li = new Element("li").adopt(submit.getFull());
+//        uli.adopt(li);
         
 
     });

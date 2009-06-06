@@ -1,13 +1,23 @@
-/****************************************/
-/* -name:> fileupload					*/
-/* ?help:> replaces file upload fields	*/
-/* !dep:>  generic      				*/
-/* #bug:>  update event onMouseOut triggers even if nothing changed
+/**
+ * @module file
+ */
+
+/**
+ * replaces file upload fields
+ *
+ * @class file
+ * @namespace cfe.modules
+ *
+ * @requires generic
+ * @extends cfe.generic
+ *
+ * bug:
+ * update event onMouseOut triggers even if nothing changed
  * ff 3.0.7     - no pointer
  * opera        - no pointer; no focus on label if ori focussed, click event triggers twice
  * ie 8         - no focus on label if ori focussed
  * ie 7         - no focus on label if ori focussed
-/****************************************/
+ */
 cfe.module.file = new Class({
     
 	Extends: cfe.generic,

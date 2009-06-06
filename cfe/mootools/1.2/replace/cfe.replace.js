@@ -1,3 +1,11 @@
+/**
+ * replacement class for automated replacment of scoped form elements
+ *
+ * @module replace
+ * @namespace cfe
+ *
+ */
+
 cfe.replace = new Class(
 {
 	options:{
@@ -28,6 +36,7 @@ cfe.replace = new Class(
 	},
 	
 	/**
+     * @method registerAllModules
 	 * registeres all loaded modules onInitialize
 	 */
 	registerAllModules: function(){
@@ -80,7 +89,9 @@ cfe.replace = new Class(
 	/**
 	 * sets a single option for a specified module
 	 * if no module was given, it sets the options for all modules
-	 * 
+	 *
+     * @method setModuleOption
+     *
 	 * @param {String} 	mod 	Name of the module
 	 * @param {String} 	opt 	Name of the option
 	 * @param {Mixed} 	val		The options value

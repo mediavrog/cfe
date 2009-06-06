@@ -1,4 +1,5 @@
 /**
+ * @class toolTips
  * @author Maik
  */
 cfe.addon.toolTips = new Class({

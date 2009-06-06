@@ -1,8 +1,17 @@
-/****************************************/
-/* -name:> text							*/
-/* ?help:> replaces textfields			*/
-/* !dep:>  generic      				*/
-/****************************************/
+/**
+ * @module text
+ */
+
+/**
+ * replaces input[type=text]
+ *
+ * @class text
+ * @namespace cfe.module
+ *
+ * @requires generic
+ * @extends cfe.generic
+ *
+ */
 cfe.module.text = new Class({
 	
 	Extends: cfe.generic,
@@ -31,6 +40,11 @@ cfe.module.text = new Class({
         });
     },
 
+    /**
+     * customize the "decorator"
+     *
+     * @method build
+     */
 	build: function()
     {
 		if( $chk(this.options.slidingDoors) )

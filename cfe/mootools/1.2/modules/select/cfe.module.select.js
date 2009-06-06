@@ -1,9 +1,19 @@
-/****************************************/
-/* -name:> select						*/
-/* ?help:> replaces select-elements		*/
-/* !dep:>  generic      				*/
-/* #bug:>  height of options too small if option with linebreak; standalone and scrolling bug
-/****************************************/
+/**
+ * @module select
+ */
+
+/**
+ * replaces select fields
+ *
+ * @class select
+ * @namespace cfe.modules
+ *
+ * @requires generic
+ * @extends cfe.generic
+ *
+ * bug:
+ * height of options too small if option with linebreak; standalone and scrolling bug
+ */
 cfe.module.select = new Class({
 	
     Extends: cfe.generic,

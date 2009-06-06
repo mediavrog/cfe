@@ -1,15 +1,17 @@
-/****************************************/
-/* -name:> fieldset						*/
-/* ?help:> enhances fieldsets	 		*/
-/* !dep:>  generic      				*/
-/* +ok:>
- * ff 3.0.7
- * chrome
- * opera
- * safari
- * ie 8
- * ie 7
-/****************************************/
+/**
+ * @module group
+ */
+
+/**
+ * enhances fieldsets
+ *
+ * @module fieldset
+ * @namespace cfe.modules
+ *
+ * @requires generic
+ * @extends cfe.generic
+ *
+ */
 cfe.module.fieldset = new Class({
     
 	Extends: cfe.generic,

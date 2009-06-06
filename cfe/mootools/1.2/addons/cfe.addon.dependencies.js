@@ -1,4 +1,10 @@
 /**
+ * @module addon
+ */
+
+/**
+ * ujsd
+ * @class autotab
  * @author Maik
  */
 cfe.addon.dependencies = new Class({

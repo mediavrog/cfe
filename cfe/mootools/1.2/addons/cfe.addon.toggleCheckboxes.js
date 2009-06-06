@@ -1,9 +1,8 @@
-/****************************************/
-/* -name:> toggleCheckboxes					*/
-/* ?help:> implements selectAll/deselectAll functionality into custom form elements		*/
-/* !dep:>  checkbox      				*/
-/* +ok:> ff 3.0.7, chrome, opera
-/****************************************/
+/**
+ * implements selectAll/deselectAll functionality into custom form elements
+ * @class toggleCheckboxes
+ *
+ */
 cfe.addon.toggleCheckboxes = new Class({
 
     // select all checkboxes in scope

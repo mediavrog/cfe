@@ -1,9 +1,20 @@
-/****************************************/
-/* -name:> submit						*/
-/* ?help:> replaces submitbutton		*/
-/* !dep:>  generic      				*/
-/* #bug      - press then click outside > press state doesn't clear
-/****************************************/
+/**
+ * @module button
+ */
+
+/**
+ * Extends the generic module to replace inputs of type 'submit'
+ *
+ * @class submit
+ * @namespace cfe.module
+ * 
+ * @requires generic
+ * @extends cfe.generic
+ *
+ * @constructor
+ *
+ * bug: - press then click outside > press state doesn't clear
+ */
 cfe.module.submit = new Class({
 	
 	Extends: cfe.generic,
