@@ -1,0 +1,151 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html xmlns:yui="http://yuilibrary.com/rdf/1.0/yui.rdf#">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+	<title>API: text   cfe.module.textarea.js  (Custom Form Elements)</title>
+
+	<link rel="stylesheet" type="text/css" href="assets/reset-fonts-grids-min.css?stamp=1244302021.69" />
+	<link rel="stylesheet" type="text/css" href="assets/api.css?stamp=1244302021.69" />
+
+    <script type="text/javascript" src="assets/api-js?stamp=1244302021.69"></script>
+    <script type="text/javascript" src="assets/ac-js?stamp=1244302021.69"></script>
+</head>
+
+<body id="yahoo-com">
+
+<div id="doc3" class="yui-t2">
+	<div id="hd">
+        <h1><a href="http://customformelements.net" title="Custom Form Elements">Custom Form Elements</a></h1>
+
+        <div class="path">
+            <h3>text&nbsp;</h3> ::
+            <a href="./index.html" title="Custom Form Elements">Custom Form Elements</a>
+                &gt; <a href="./module_text.html" title="text">text</a>
+                    
+                     &gt; cfe.module.textarea.js (source view) 
+            <span class="subtitle">0.9.2</span>
+        </div>
+        
+	</div>
+
+	<div id="bd">
+		<div id="yui-main">
+            <div class="yui-b">
+			<div class="yui-ge">
+                <div class="yui-u first">
+            <form action="#" name="yui-classopts-form" method="get" id="yui-classopts-form">
+                <fieldset>
+                    <legend>Filters</legend>
+                <span class="classopts"><input type="checkbox" name="show_private" id="show_private" /> <label for="show_private">Show Private</label></span>
+                <span class="classopts"><input type="checkbox" name="show_protected" id="show_protected" /> <label for="show_protected">Show Protected</label></span>
+                <span class="classopts"><input type="checkbox" name="show_deprecated" id="show_deprecated" /> <label for="show_deprecated">Show Deprecated</label></span>
+                </fieldset>
+            </form>
+
+                    <div id="srcout">
+                        <style>
+                            #doc3 .classopts { display:none; }
+                        </style>
+<div class="highlight"><pre><span class="c">/**</span>
+<span class="c"> * replaces textarea</span>
+<span class="c"> *</span>
+<span class="c"> * @module text</span>
+<span class="c"> * @namespace cfe.module</span>
+<span class="c"> *</span>
+<span class="c"> * @requires text</span>
+<span class="c"> * @extends cfe.module.text</span>
+<span class="c"> *</span>
+<span class="c"> */</span>
+<span class="nx">cfe</span><span class="p">.</span><span class="nx">module</span><span class="p">.</span><span class="nx">textarea</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Class</span><span class="p">({</span>
+
+	<span class="nx">Extends</span><span class="o">:</span> <span class="nx">cfe</span><span class="p">.</span><span class="nx">module</span><span class="p">.</span><span class="nx">text</span><span class="o">,</span>
+	<span class="nx">type</span><span class="o">:</span><span class="s2">&quot;Textarea&quot;</span><span class="o">,</span>
+	<span class="nx">selector</span><span class="o">:</span> <span class="s2">&quot;textarea&quot;</span><span class="o">,</span>
+    
+    <span class="nx">options</span><span class="o">:</span> <span class="p">{</span>
+		<span class="nx">slidingDoors</span><span class="o">:</span> <span class="kc">true</span><span class="o">,</span>
+        <span class="nx">slidingDoorsCount</span><span class="o">:</span> <span class="mi">4</span>
+	<span class="p">}</span><span class="o">,</span>
+
+    <span class="nx">createOriginal</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="k">new</span> <span class="nx">Element</span><span class="p">(</span><span class="s2">&quot;textarea&quot;</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">});</span>
+</pre></div>
+                    </div>
+                </div>
+
+                <div class="yui-u nav rightNav">
+                    <form onsubmit="return false" id="propertysearch">
+                            Quickfinder: <input autocomplete="off" id="searchinput" />
+                            <div id="searchresults">
+                                &nbsp;
+                            </div>
+                    </form>
+
+
+
+
+
+                </div>
+
+
+			</div>
+            </div>
+		</div>
+		<div class="yui-b">
+            <div class="nav">
+
+                    <div id="moduleList" class="module">
+                        <h4>Modules</h4>
+                        <ul class="content">
+                                <li class=""><a href="module_addon.html" title="addon">addon</a></li>
+                                <li class=""><a href="module_button.html" title="button">button</a></li>
+                                <li class=""><a href="module_check.html" title="check">check</a></li>
+                                <li class=""><a href="module_core.html" title="core">core</a></li>
+                                <li class=""><a href="module_fieldset.html" title="fieldset">fieldset</a></li>
+                                <li class=""><a href="module_file.html" title="file">file</a></li>
+                                <li class=""><a href="module_group.html" title="group">group</a></li>
+                                <li class=""><a href="module_select.html" title="select">select</a></li>
+                                <li class="selected"><a href="module_text.html" title="text">text</a></li>
+                        </ul>
+                    </div>
+
+                    <div id="classList" class="module">
+                        <h4>Classes</h4>
+                        <ul class="content">
+                                <li class=""><a href="cfe.module.password.html" title="cfe.module.password">cfe.module.password</a></li>
+                                <li class=""><a href="cfe.module.slider.html" title="cfe.module.slider">cfe.module.slider</a></li>
+                                <li class=""><a href="cfe.module.text.html" title="cfe.module.text">cfe.module.text</a></li>
+                        </ul>
+                    </div>
+
+                    <div id="fileList" class="module">
+                        <h4>Files</h4>
+                        <ul class="content">        
+                                <li class=""><a href="cfe.module.password.js.html" title="cfe.module.password.js">cfe.module.password.js</a></li>
+                                <li class=""><a href="cfe.module.slider.js.html" title="cfe.module.slider.js">cfe.module.slider.js</a></li>
+                                <li class=""><a href="cfe.module.text.js.html" title="cfe.module.text.js">cfe.module.text.js</a></li>
+                                <li class="selected"><a href="cfe.module.textarea.js.html" title="cfe.module.textarea.js">cfe.module.textarea.js</a></li>
+                        </ul>
+                    </div>
+            </div>
+		</div>
+
+    <div id="ft"><a title="Jump to the top of this page" class="toplink" href="#hd">back to top</a>
+		 | &copy; 2007-2009
+		 | custom form elements <a title="mediavrog.net" href="http://mediavrog.net/blog/">mediavrog</a> project.
+         | documentation build with <a title="Yahoo! UI Library: YUI Doc" href="http://developer.yahoo.com/yui/yuidoc/">YUI Doc from Yahoo!</a>
+
+	</div>
+
+	</div>
+
+</div>
+<script type="text/javascript">
+    ALL_YUI_PROPS = [{"url": "cfe.module.text.html#method_build", "access": "", "host": "cfe.module.text", "type": "method", "name": "build"}, {"url": "cfe.module.password.html#method_createOriginal", "access": "", "host": "cfe.module.password", "type": "method", "name": "createOriginal"}, {"url": "cfe.module.password.html#property_selector", "access": "", "host": "cfe.module.password", "type": "property", "name": "selector"}, {"url": "cfe.module.password.html#property_type", "access": "", "host": "cfe.module.password", "type": "property", "name": "type"}];
+</script>
+
+</body>
+</html>

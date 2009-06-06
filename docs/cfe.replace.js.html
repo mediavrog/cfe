@@ -1,0 +1,245 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html xmlns:yui="http://yuilibrary.com/rdf/1.0/yui.rdf#">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+	<title>API: text   cfe.replace.js  (Custom Form Elements)</title>
+
+	<link rel="stylesheet" type="text/css" href="assets/reset-fonts-grids-min.css?stamp=1244282089.53" />
+	<link rel="stylesheet" type="text/css" href="assets/api.css?stamp=1244282089.53" />
+
+    <script type="text/javascript" src="assets/api-js?stamp=1244282089.53"></script>
+    <script type="text/javascript" src="assets/ac-js?stamp=1244282089.53"></script>
+</head>
+
+<body id="yahoo-com">
+
+<div id="doc3" class="yui-t2">
+	<div id="hd">
+        <h1><a href="http://customformelements.net" title="Custom Form Elements">Custom Form Elements</a></h1>
+        <h3>text&nbsp; <span class="subtitle">0.9.2</span></h3>
+        <a href="./index.html" title="Custom Form Elements">Custom Form Elements</a> 
+            &gt; <a href="./module_text.html" title="text">text</a>
+                
+                 &gt; cfe.replace.js (source view) 
+        <form onsubmit="return false">
+            <div id="propertysearch">
+                Search: <input autocomplete="off" id="searchinput" />
+                <div id="searchresults">
+                    &nbsp;
+                </div>
+            </div>
+        </form>
+	</div>
+
+	<div id="bd">
+		<div id="yui-main">
+			<div class="yui-b">
+            <form action="#" name="yui-classopts-form" method="get" id="yui-classopts-form">
+                <fieldset>
+                    <legend>Filters</legend>
+                <span class="classopts"><input type="checkbox" name="show_private" id="show_private" /> <label for="show_private">Show Private</label></span>
+                <span class="classopts"><input type="checkbox" name="show_protected" id="show_protected" /> <label for="show_protected">Show Protected</label></span>
+                <span class="classopts"><input type="checkbox" name="show_deprecated" id="show_deprecated" /> <label for="show_deprecated">Show Deprecated</label></span>
+                </fieldset>
+            </form>
+
+                    <div id="srcout">
+                        <style>
+                            #doc3 .classopts { display:none; }
+                        </style>
+<div class="highlight"><pre><span class="c">/**</span>
+<span class="c"> * replacement class for automated replacment of scoped form elements</span>
+<span class="c"> *</span>
+<span class="c"> * @module replace</span>
+<span class="c"> * @namespace cfe</span>
+<span class="c"> *</span>
+<span class="c"> */</span>
+
+<span class="nx">cfe</span><span class="p">.</span><span class="nx">replace</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Class</span><span class="p">(</span>
+<span class="p">{</span>
+	<span class="nx">options</span><span class="o">:</span><span class="p">{</span>
+		<span class="nx">scope</span><span class="o">:</span> <span class="kc">false</span><span class="o">,</span>
+		
+		<span class="nx">spacer</span><span class="o">:</span> <span class="s2">&quot;&quot;</span><span class="o">,</span>
+		
+		<span class="nx">onInit</span><span class="o">:</span> <span class="nx">$empty</span><span class="o">,</span>
+		<span class="nx">onInitSingle</span><span class="o">:</span> <span class="nx">$empty</span><span class="o">,</span>
+		<span class="nx">onBeforeInitSingle</span><span class="o">:</span> <span class="nx">$empty</span><span class="o">,</span>
+		<span class="nx">onSetModuleOption</span><span class="o">:</span> <span class="nx">$empty</span><span class="o">,</span>
+		<span class="nx">onRegisterModule</span><span class="o">:</span> <span class="nx">$empty</span><span class="o">,</span>
+		<span class="nx">onUnregisterModule</span><span class="o">:</span> <span class="nx">$empty</span><span class="o">,</span>
+		<span class="nx">onComplete</span><span class="o">:</span> <span class="nx">$empty</span>
+	<span class="p">}</span><span class="o">,</span>
+		
+	<span class="nx">modules</span><span class="o">:</span> <span class="p">{}</span><span class="o">,</span>
+	<span class="nx">moduleOptions</span><span class="o">:</span> <span class="p">{}</span><span class="o">,</span>
+	<span class="nx">moduleOptionsAll</span><span class="o">:</span> <span class="p">{}</span><span class="o">,</span>
+	
+	<span class="nx">initialize</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span>
+    <span class="p">{</span>
+
+        <span class="k">this</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">spacer</span> <span class="o">=</span> <span class="nx">cfe</span><span class="p">.</span><span class="nx">spacer</span><span class="o">;</span>
+		
+		<span class="k">this</span><span class="p">.</span><span class="nx">registerAllModules</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">)();</span>
+
+	<span class="p">}</span><span class="o">,</span>
+	
+	<span class="c">/**</span>
+<span class="c">	 * registeres all loaded modules onInitialize</span>
+<span class="c">	 */</span>
+	<span class="nx">registerAllModules</span><span class="o">:</span> <span class="kd">function</span><span class="p">(){</span>
+		
+		<span class="c">//console.log(&quot;Register all modules&quot;);</span>
+		
+		<span class="nx">$each</span><span class="p">(</span><span class="nx">cfe</span><span class="p">.</span><span class="nx">module</span><span class="o">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">modObj</span><span class="o">,</span> <span class="nx">modType</span><span class="p">){</span>
+			<span class="c">//console.log(&quot;Registering type &quot;+modType);</span>
+			<span class="k">if</span><span class="p">(</span><span class="nx">modType</span> <span class="o">!=</span> <span class="s2">&quot;Generic&quot;</span><span class="p">)</span>
+				<span class="k">this</span><span class="p">.</span><span class="nx">registerModule</span><span class="p">(</span><span class="nx">modType</span><span class="p">);</span>
+				
+		<span class="p">}.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">));</span>
+	<span class="p">}</span><span class="o">,</span>
+	
+	<span class="c">/* call to register module */</span>
+	<span class="nx">registerModule</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">mod</span><span class="p">){</span>
+		
+		<span class="c">//console.log(&quot;Call to registerModule with arg:&quot;+mod);</span>
+		<span class="nx">modObj</span> <span class="o">=</span> <span class="nx">cfe</span><span class="p">.</span><span class="nx">module</span><span class="p">[</span><span class="nx">mod</span><span class="p">];</span>
+		
+        <span class="k">this</span><span class="p">.</span><span class="nx">fireEvent</span><span class="p">(</span><span class="s2">&quot;onRegisterModule&quot;</span><span class="o">,</span> <span class="p">[</span><span class="nx">mod</span><span class="o">,</span><span class="nx">modObj</span><span class="p">]);</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">modules</span><span class="p">[</span><span class="nx">mod</span><span class="p">]</span> <span class="o">=</span> <span class="nx">modObj</span><span class="o">;</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">moduleOptions</span><span class="p">[</span><span class="nx">mod</span><span class="p">]</span> <span class="o">=</span> <span class="p">{};</span>
+
+        <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
+	<span class="p">}</span><span class="o">,</span>
+	
+	<span class="nx">registerModules</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">mods</span><span class="p">)</span>
+    <span class="p">{</span>
+		<span class="nx">$each</span><span class="p">(</span><span class="nx">mods</span><span class="o">,</span><span class="kd">function</span><span class="p">(</span><span class="nx">mod</span><span class="p">){</span>
+			<span class="k">this</span><span class="p">.</span><span class="nx">registerModule</span><span class="p">(</span><span class="nx">mod</span><span class="p">);</span>
+		<span class="p">}</span><span class="o">,</span><span class="k">this</span><span class="p">);</span>
+	<span class="p">}</span><span class="o">,</span>
+	
+	<span class="nx">unregisterModule</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">mod</span><span class="p">)</span>
+    <span class="p">{</span>
+		<span class="nx">modObj</span> <span class="o">=</span> <span class="nx">cfe</span><span class="p">.</span><span class="nx">module</span><span class="p">[</span><span class="nx">mod</span><span class="p">];</span>
+		
+		<span class="k">this</span><span class="p">.</span><span class="nx">fireEvent</span><span class="p">(</span><span class="s2">&quot;onUnregisterModule&quot;</span><span class="o">,</span> <span class="p">[</span><span class="nx">mod</span><span class="o">,</span><span class="nx">modObj</span><span class="p">]);</span>
+
+		<span class="nx">delete</span> <span class="k">this</span><span class="p">.</span><span class="nx">modules</span><span class="p">[</span><span class="nx">mod</span><span class="p">];</span>
+	<span class="p">}</span><span class="o">,</span>
+	
+	<span class="nx">unregisterModules</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">mods</span><span class="p">)</span>
+    <span class="p">{</span>
+		<span class="nx">$each</span><span class="p">(</span><span class="nx">mods</span><span class="o">,</span><span class="kd">function</span><span class="p">(</span><span class="nx">mod</span><span class="p">){</span>
+			<span class="k">this</span><span class="p">.</span><span class="nx">unregisterModule</span><span class="p">(</span><span class="nx">mod</span><span class="p">);</span>
+		<span class="p">}</span><span class="o">,</span><span class="k">this</span><span class="p">);</span>
+	<span class="p">}</span><span class="o">,</span>
+	<span class="c">/**</span>
+<span class="c">	 * sets a single option for a specified module</span>
+<span class="c">	 * if no module was given, it sets the options for all modules</span>
+<span class="c">	 * </span>
+<span class="c">	 * @param {String} 	mod 	Name of the module</span>
+<span class="c">	 * @param {String} 	opt 	Name of the option</span>
+<span class="c">	 * @param {Mixed} 	val		The options value</span>
+<span class="c">	 */</span>
+	<span class="nx">setModuleOption</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">mod</span><span class="o">,</span><span class="nx">opt</span><span class="o">,</span><span class="nx">val</span><span class="p">){</span>
+		
+		<span class="nx">modObj</span> <span class="o">=</span> <span class="nx">cfe</span><span class="p">.</span><span class="nx">module</span><span class="p">[</span><span class="nx">mod</span><span class="p">];</span>
+		
+		<span class="k">this</span><span class="p">.</span><span class="nx">fireEvent</span><span class="p">(</span><span class="s2">&quot;onSetModuleOption&quot;</span><span class="o">,</span> <span class="p">[</span><span class="nx">mod</span><span class="o">,</span><span class="nx">modObj</span><span class="o">,</span><span class="nx">opt</span><span class="o">,</span><span class="nx">val</span><span class="p">]);</span>
+		
+		<span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="nx">modObj</span><span class="p">){</span>
+			<span class="k">this</span><span class="p">.</span><span class="nx">moduleOptionsAll</span><span class="p">[</span><span class="nx">opt</span><span class="p">]</span> <span class="o">=</span> <span class="nx">val</span><span class="o">;</span>
+		<span class="p">}</span>
+		<span class="k">else</span><span class="p">{</span>
+			<span class="k">this</span><span class="p">.</span><span class="nx">moduleOptions</span><span class="p">[</span><span class="nx">mod</span><span class="p">][</span><span class="nx">opt</span><span class="p">]</span> <span class="o">=</span> <span class="nx">val</span><span class="o">;</span>
+		<span class="p">}</span>
+	<span class="p">}</span><span class="o">,</span>
+
+	<span class="nx">setModuleOptions</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">mod</span><span class="o">,</span><span class="nx">opt</span><span class="p">){</span>
+		
+		<span class="nx">$each</span><span class="p">(</span><span class="nx">opt</span><span class="o">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">optionValue</span><span class="o">,</span> <span class="nx">optionName</span><span class="p">){</span>
+			<span class="k">this</span><span class="p">.</span><span class="nx">setModuleOption</span><span class="p">(</span><span class="nx">mod</span><span class="o">,</span><span class="nx">optionName</span><span class="o">,</span><span class="nx">optionValue</span><span class="p">);</span>
+		<span class="p">}.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">));</span>
+		
+	<span class="p">}</span><span class="o">,</span>
+
+	<span class="nx">init</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">options</span><span class="p">){</span>
+
+		<span class="k">this</span><span class="p">.</span><span class="nx">setOptions</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">options</span><span class="o">,</span> <span class="nx">options</span><span class="p">);</span>
+
+		<span class="k">if</span><span class="p">(</span><span class="nx">$type</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">scope</span><span class="p">)</span> <span class="o">!=</span> <span class="s2">&quot;element&quot;</span><span class="p">){</span>
+			<span class="k">this</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">scope</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="nb">document</span><span class="p">.</span><span class="nx">body</span><span class="p">);</span>
+		<span class="p">}</span>
+
+		<span class="k">this</span><span class="p">.</span><span class="nx">fireEvent</span><span class="p">(</span><span class="s2">&quot;onInit&quot;</span><span class="p">);</span>
+		
+		<span class="nx">$each</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">modules</span><span class="o">,</span><span class="kd">function</span><span class="p">(</span><span class="nx">module</span><span class="o">,</span><span class="nx">moduleName</span><span class="o">,</span><span class="nx">i</span><span class="p">){</span>
+			
+			<span class="kd">var</span> <span class="nx">selector</span> <span class="o">=</span> <span class="nx">module</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">selector</span><span class="o">;</span>
+			
+			<span class="k">this</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">scope</span><span class="p">.</span><span class="nx">getElements</span><span class="p">(</span><span class="nx">selector</span><span class="p">).</span><span class="nx">each</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">el</span><span class="o">,</span><span class="nx">i</span><span class="p">){</span>
+				
+				<span class="kd">var</span> <span class="nx">basicOptions</span> <span class="o">=</span> <span class="p">{</span><span class="nx">instanceID</span><span class="o">:</span> <span class="nx">i</span><span class="o">,</span> <span class="nx">spacer</span><span class="o">:</span><span class="k">this</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">spacer</span><span class="o">,</span> <span class="nx">replaces</span><span class="o">:</span> <span class="nx">el</span><span class="p">};</span>
+
+				<span class="k">this</span><span class="p">.</span><span class="nx">fireEvent</span><span class="p">(</span><span class="s2">&quot;onBeforeInitSingle&quot;</span><span class="o">,</span> <span class="p">[</span><span class="nx">el</span><span class="o">,</span><span class="nx">i</span><span class="o">,</span><span class="nx">basicOptions</span><span class="p">]);</span>
+			
+				<span class="kd">var</span> <span class="nx">single</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">module</span><span class="p">(</span><span class="nx">$merge</span><span class="p">(</span><span class="nx">basicOptions</span><span class="o">,</span><span class="nx">$merge</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">moduleOptions</span><span class="p">[</span><span class="nx">moduleName</span><span class="p">]</span><span class="o">,</span><span class="k">this</span><span class="p">.</span><span class="nx">moduleOptionsAll</span><span class="p">)));</span>
+				
+				<span class="k">this</span><span class="p">.</span><span class="nx">fireEvent</span><span class="p">(</span><span class="s2">&quot;onInitSingle&quot;</span><span class="o">,</span> <span class="nx">single</span><span class="p">);</span>
+				
+			<span class="p">}</span><span class="o">,</span><span class="k">this</span><span class="p">);</span>
+		<span class="p">}</span><span class="o">,</span><span class="k">this</span><span class="p">);</span>
+		
+		<span class="k">this</span><span class="p">.</span><span class="nx">fireEvent</span><span class="p">(</span><span class="s2">&quot;onComplete&quot;</span><span class="p">);</span>
+	<span class="p">}</span>
+<span class="p">});</span>
+<span class="nx">cfe</span><span class="p">.</span><span class="nx">replace</span><span class="p">.</span><span class="nx">implement</span><span class="p">(</span><span class="k">new</span> <span class="nx">Options</span><span class="o">,</span><span class="k">new</span> <span class="nx">Events</span><span class="p">);</span>
+</pre></div>
+                    </div>
+			</div>
+		</div>
+		<div class="yui-b">
+            <div class="nav">
+
+                    <div id="moduleList" class="module">
+                        <h4>Modules</h4>
+                        <ul class="content">
+                                <li class=""><a href="module_checkbox.html" title="checkbox">checkbox</a></li>
+                                <li class=""><a href="module_fieldset.html" title="fieldset">fieldset</a></li>
+                                <li class=""><a href="module_file.html" title="file">file</a></li>
+                                <li class=""><a href="module_generic.html" title="generic">generic</a></li>
+                                <li class=""><a href="module_replace.html" title="replace">replace</a></li>
+                                <li class=""><a href="module_select.html" title="select">select</a></li>
+                                <li class=""><a href="module_submit.html" title="submit">submit</a></li>
+                                <li class="selected"><a href="module_text.html" title="text">text</a></li>
+                        </ul>
+                    </div>
+
+
+                    <div id="fileList" class="module">
+                        <h4>Files</h4>
+                        <ul class="content">        
+                                <li class=""><a href="cfe.module.textarea.js.html" title="cfe.module.textarea.js">cfe.module.textarea.js</a></li>
+                                <li class="selected"><a href="cfe.replace.js.html" title="cfe.replace.js">cfe.replace.js</a></li>
+                        </ul>
+                    </div>
+
+
+
+
+
+            </div>
+		</div>
+	</div>
+	<div id="ft">
+        <hr />
+        Copyright &copy; 2009 Mediavrog. All rights reserved.
+	</div>
+</div>
+<script type="text/javascript">
+    ALL_YUI_PROPS = [];
+</script>
+
+</body>
+</html>

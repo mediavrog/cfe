@@ -1,0 +1,217 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html xmlns:yui="http://yuilibrary.com/rdf/1.0/yui.rdf#">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+	<title>API: select   cfe.module.select.multiple.js  (Custom Form Elements)</title>
+
+	<link rel="stylesheet" type="text/css" href="assets/reset-fonts-grids-min.css?stamp=1244302022.05" />
+	<link rel="stylesheet" type="text/css" href="assets/api.css?stamp=1244302022.05" />
+
+    <script type="text/javascript" src="assets/api-js?stamp=1244302022.05"></script>
+    <script type="text/javascript" src="assets/ac-js?stamp=1244302022.05"></script>
+</head>
+
+<body id="yahoo-com">
+
+<div id="doc3" class="yui-t2">
+	<div id="hd">
+        <h1><a href="http://customformelements.net" title="Custom Form Elements">Custom Form Elements</a></h1>
+
+        <div class="path">
+            <h3>select&nbsp;</h3> ::
+            <a href="./index.html" title="Custom Form Elements">Custom Form Elements</a>
+                &gt; <a href="./module_select.html" title="select">select</a>
+                    
+                     &gt; cfe.module.select.multiple.js (source view) 
+            <span class="subtitle">0.9.2</span>
+        </div>
+        
+	</div>
+
+	<div id="bd">
+		<div id="yui-main">
+            <div class="yui-b">
+			<div class="yui-ge">
+                <div class="yui-u first">
+            <form action="#" name="yui-classopts-form" method="get" id="yui-classopts-form">
+                <fieldset>
+                    <legend>Filters</legend>
+                <span class="classopts"><input type="checkbox" name="show_private" id="show_private" /> <label for="show_private">Show Private</label></span>
+                <span class="classopts"><input type="checkbox" name="show_protected" id="show_protected" /> <label for="show_protected">Show Protected</label></span>
+                <span class="classopts"><input type="checkbox" name="show_deprecated" id="show_deprecated" /> <label for="show_deprecated">Show Deprecated</label></span>
+                </fieldset>
+            </form>
+
+                    <div id="srcout">
+                        <style>
+                            #doc3 .classopts { display:none; }
+                        </style>
+<div class="highlight"><pre><span class="c">/**</span>
+<span class="c"> * replaces select fields with attribute multiple set</span>
+<span class="c"> *</span>
+<span class="c"> * @class select_multiple</span>
+<span class="c"> * @namespace cfe.module</span>
+<span class="c"> *</span>
+<span class="c"> * @requires select</span>
+<span class="c"> * @extends cfe.module.select</span>
+<span class="c"> *</span>
+<span class="c"> * bug:</span>
+<span class="c"> * mouseWheel support needed</span>
+<span class="c"> */</span>
+<span class="nx">cfe</span><span class="p">.</span><span class="nx">module</span><span class="p">.</span><span class="nx">select_multiple</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Class</span><span class="p">({</span>
+	
+    <span class="nx">Extends</span><span class="o">:</span> <span class="nx">cfe</span><span class="p">.</span><span class="nx">module</span><span class="p">.</span><span class="nx">select</span><span class="o">,</span>
+    <span class="nx">type</span><span class="o">:</span> <span class="s2">&quot;Selector&quot;</span><span class="o">,</span>
+    <span class="nx">selector</span><span class="o">:</span> <span class="s2">&quot;select[multiple]&quot;</span><span class="o">,</span>
+	
+    <span class="nx">options</span><span class="o">:</span> <span class="p">{</span>
+        <span class="nx">size</span><span class="o">:</span> <span class="mi">4</span><span class="o">,</span>
+        <span class="nx">scrolling</span><span class="o">:</span> <span class="kc">true</span><span class="o">,</span>
+        <span class="nx">scrollSteps</span><span class="o">:</span> <span class="mi">5</span>
+    <span class="p">}</span><span class="o">,</span>
+
+    <span class="nx">build</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span>
+    <span class="p">{</span>	
+        <span class="k">this</span><span class="p">.</span><span class="nx">a</span><span class="p">.</span><span class="nx">addClass</span><span class="p">(</span><span class="s2">&quot;jsSelectorMultiple jsSelectorMultiple&quot;</span><span class="o">+</span><span class="k">this</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">instanceID</span><span class="p">);</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">a</span><span class="p">.</span><span class="nx">removeClass</span><span class="p">(</span><span class="s2">&quot;jsSelector&quot;</span><span class="p">);</span>
+
+        <span class="k">this</span><span class="p">.</span><span class="nx">buildContainer</span><span class="p">();</span>
+
+        <span class="k">this</span><span class="p">.</span><span class="nx">o</span><span class="p">.</span><span class="nx">addEvents</span><span class="p">({</span>
+            <span class="nx">onDisable</span><span class="o">:</span> <span class="kd">function</span><span class="p">(){</span>
+                <span class="k">this</span><span class="p">.</span><span class="nx">aliasOptions</span><span class="p">.</span><span class="nx">getChildren</span><span class="p">().</span><span class="nx">each</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">el</span><span class="p">){</span>
+                    <span class="nx">el</span><span class="p">.</span><span class="nx">getChildren</span><span class="p">(</span><span class="s2">&quot;input&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">].</span><span class="nx">disable</span><span class="p">();</span>
+                <span class="p">});</span>
+            <span class="p">}.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">)</span><span class="o">,</span>
+            <span class="nx">onEnable</span><span class="o">:</span> <span class="kd">function</span><span class="p">(){</span>
+                <span class="k">this</span><span class="p">.</span><span class="nx">aliasOptions</span><span class="p">.</span><span class="nx">getChildren</span><span class="p">().</span><span class="nx">each</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">el</span><span class="p">){</span>
+                   <span class="nx">el</span><span class="p">.</span><span class="nx">getChildren</span><span class="p">(</span><span class="s2">&quot;input&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">].</span><span class="nx">enable</span><span class="p">();</span>
+                <span class="p">});</span>
+            <span class="p">}.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">)</span>
+        <span class="p">});</span>
+    <span class="p">}</span><span class="o">,</span>
+
+    <span class="nx">buildOption</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">el</span><span class="o">,</span> <span class="nx">index</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="kd">var</span> <span class="nx">oOpt</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">cfe</span><span class="p">.</span><span class="nx">module</span><span class="p">.</span><span class="nx">checkbox</span><span class="p">({</span>
+            <span class="kd">label</span><span class="o">:</span> <span class="nx">el</span><span class="p">.</span><span class="nx">innerHTML</span><span class="o">,</span>
+            <span class="nx">checked</span><span class="o">:</span> <span class="nx">$chk</span><span class="p">(</span><span class="nx">el</span><span class="p">.</span><span class="nx">selected</span><span class="p">)</span><span class="o">,</span>
+            <span class="nx">aliasType</span><span class="o">:</span> <span class="s2">&quot;div&quot;</span><span class="o">,</span>
+            <span class="nx">disabled</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">isDisabled</span><span class="p">()</span>
+        <span class="p">});</span>
+        <span class="nx">oOpt</span><span class="p">.</span><span class="nx">index</span> <span class="o">=</span> <span class="nx">index</span><span class="o">;</span>
+
+        <span class="nx">oOpt</span><span class="p">.</span><span class="nx">addEvents</span><span class="p">({</span>
+            <span class="s2">&quot;check&quot;</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">index</span><span class="p">){</span>
+                <span class="k">this</span><span class="p">.</span><span class="nx">origOptions</span><span class="p">[</span><span class="nx">index</span><span class="p">].</span><span class="nx">selected</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
+                <span class="k">this</span><span class="p">.</span><span class="nx">o</span><span class="p">.</span><span class="nx">fireEvent</span><span class="p">(</span><span class="s2">&quot;change&quot;</span><span class="p">)</span>
+            <span class="p">}.</span><span class="nx">pass</span><span class="p">(</span><span class="nx">index</span><span class="o">,</span> <span class="k">this</span><span class="p">)</span><span class="o">,</span>
+            <span class="s2">&quot;uncheck&quot;</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">index</span><span class="p">){</span>
+                <span class="k">this</span><span class="p">.</span><span class="nx">origOptions</span><span class="p">[</span><span class="nx">index</span><span class="p">].</span><span class="nx">selected</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span>
+                <span class="k">this</span><span class="p">.</span><span class="nx">o</span><span class="p">.</span><span class="nx">fireEvent</span><span class="p">(</span><span class="s2">&quot;change&quot;</span><span class="p">)</span>
+            <span class="p">}.</span><span class="nx">pass</span><span class="p">(</span><span class="nx">index</span><span class="o">,</span> <span class="k">this</span><span class="p">)</span>
+        <span class="p">});</span>
+
+        <span class="nx">oOpt</span><span class="p">.</span><span class="nx">getAlias</span><span class="p">().</span><span class="nx">addClass</span><span class="p">(</span><span class="s2">&quot;jsOption jsOption&quot;</span><span class="o">+</span><span class="nx">index</span><span class="p">).</span><span class="nx">disableTextSelection</span><span class="p">();</span>
+        <span class="nx">oOpt</span><span class="p">.</span><span class="nx">getLabel</span><span class="p">().</span><span class="nx">removeEvents</span><span class="p">().</span><span class="nx">inject</span><span class="p">(</span><span class="nx">oOpt</span><span class="p">.</span><span class="nx">getAlias</span><span class="p">());</span>
+
+        <span class="k">return</span> <span class="nx">oOpt</span><span class="p">.</span><span class="nx">getAlias</span><span class="p">();</span>
+    <span class="p">}</span><span class="o">,</span>
+
+    <span class="nx">selectOption</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">index</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="nx">index</span> <span class="o">=</span> <span class="nx">index</span><span class="p">.</span><span class="nx">limit</span><span class="p">(</span><span class="mi">0</span><span class="o">,</span><span class="k">this</span><span class="p">.</span><span class="nx">origOptions</span><span class="p">.</span><span class="nx">length</span><span class="o">-</span><span class="mi">1</span><span class="p">);</span>
+
+        <span class="k">this</span><span class="p">.</span><span class="nx">highlightOption</span><span class="p">(</span><span class="nx">index</span><span class="p">);</span>
+    <span class="p">}</span><span class="o">,</span>
+
+    <span class="nx">scrollToSelectedItem</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">index</span><span class="p">){}</span><span class="o">,</span>
+	
+    <span class="nx">clicked</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="k">this</span><span class="p">.</span><span class="nx">isDisabled</span><span class="p">())</span>
+        <span class="p">{</span>
+            <span class="k">this</span><span class="p">.</span><span class="nx">o</span><span class="p">.</span><span class="nx">focus</span><span class="p">();</span>
+            <span class="k">this</span><span class="p">.</span><span class="nx">fireEvent</span><span class="p">(</span><span class="s2">&quot;onClick&quot;</span><span class="p">);</span>
+        <span class="p">}</span>
+    <span class="p">}</span><span class="o">,</span>
+    
+    <span class="nx">update</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">fireEvent</span><span class="p">(</span><span class="s2">&quot;onUpdate&quot;</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">});</span>
+</pre></div>
+                    </div>
+                </div>
+
+                <div class="yui-u nav rightNav">
+                    <form onsubmit="return false" id="propertysearch">
+                            Quickfinder: <input autocomplete="off" id="searchinput" />
+                            <div id="searchresults">
+                                &nbsp;
+                            </div>
+                    </form>
+
+
+
+
+
+                </div>
+
+
+			</div>
+            </div>
+		</div>
+		<div class="yui-b">
+            <div class="nav">
+
+                    <div id="moduleList" class="module">
+                        <h4>Modules</h4>
+                        <ul class="content">
+                                <li class=""><a href="module_addon.html" title="addon">addon</a></li>
+                                <li class=""><a href="module_button.html" title="button">button</a></li>
+                                <li class=""><a href="module_check.html" title="check">check</a></li>
+                                <li class=""><a href="module_core.html" title="core">core</a></li>
+                                <li class=""><a href="module_fieldset.html" title="fieldset">fieldset</a></li>
+                                <li class=""><a href="module_file.html" title="file">file</a></li>
+                                <li class=""><a href="module_group.html" title="group">group</a></li>
+                                <li class="selected"><a href="module_select.html" title="select">select</a></li>
+                                <li class=""><a href="module_text.html" title="text">text</a></li>
+                        </ul>
+                    </div>
+
+                    <div id="classList" class="module">
+                        <h4>Classes</h4>
+                        <ul class="content">
+                                <li class=""><a href="cfe.module.select_multiple.html" title="cfe.module.select_multiple">cfe.module.select_multiple</a></li>
+                                <li class=""><a href="cfe.modules.select.html" title="cfe.modules.select">cfe.modules.select</a></li>
+                        </ul>
+                    </div>
+
+                    <div id="fileList" class="module">
+                        <h4>Files</h4>
+                        <ul class="content">        
+                                <li class=""><a href="cfe.module.select.js.html" title="cfe.module.select.js">cfe.module.select.js</a></li>
+                                <li class="selected"><a href="cfe.module.select.multiple.js.html" title="cfe.module.select.multiple.js">cfe.module.select.multiple.js</a></li>
+                        </ul>
+                    </div>
+            </div>
+		</div>
+
+    <div id="ft"><a title="Jump to the top of this page" class="toplink" href="#hd">back to top</a>
+		 | &copy; 2007-2009
+		 | custom form elements <a title="mediavrog.net" href="http://mediavrog.net/blog/">mediavrog</a> project.
+         | documentation build with <a title="Yahoo! UI Library: YUI Doc" href="http://developer.yahoo.com/yui/yuidoc/">YUI Doc from Yahoo!</a>
+
+	</div>
+
+	</div>
+
+</div>
+<script type="text/javascript">
+    ALL_YUI_PROPS = [];
+</script>
+
+</body>
+</html>

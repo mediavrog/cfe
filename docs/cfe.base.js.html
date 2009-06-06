@@ -1,0 +1,719 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html xmlns:yui="http://yuilibrary.com/rdf/1.0/yui.rdf#">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+	<title>API: core   cfe.base.js  (Custom Form Elements)</title>
+
+	<link rel="stylesheet" type="text/css" href="assets/reset-fonts-grids-min.css?stamp=1244302018.59" />
+	<link rel="stylesheet" type="text/css" href="assets/api.css?stamp=1244302018.59" />
+
+    <script type="text/javascript" src="assets/api-js?stamp=1244302018.59"></script>
+    <script type="text/javascript" src="assets/ac-js?stamp=1244302018.59"></script>
+</head>
+
+<body id="yahoo-com">
+
+<div id="doc3" class="yui-t2">
+	<div id="hd">
+        <h1><a href="http://customformelements.net" title="Custom Form Elements">Custom Form Elements</a></h1>
+
+        <div class="path">
+            <h3>core&nbsp;</h3> ::
+            <a href="./index.html" title="Custom Form Elements">Custom Form Elements</a>
+                &gt; <a href="./module_core.html" title="core">core</a>
+                    
+                     &gt; cfe.base.js (source view) 
+            <span class="subtitle">0.9.2</span>
+        </div>
+        
+	</div>
+
+	<div id="bd">
+		<div id="yui-main">
+            <div class="yui-b">
+			<div class="yui-ge">
+                <div class="yui-u first">
+            <form action="#" name="yui-classopts-form" method="get" id="yui-classopts-form">
+                <fieldset>
+                    <legend>Filters</legend>
+                <span class="classopts"><input type="checkbox" name="show_private" id="show_private" /> <label for="show_private">Show Private</label></span>
+                <span class="classopts"><input type="checkbox" name="show_protected" id="show_protected" /> <label for="show_protected">Show Protected</label></span>
+                <span class="classopts"><input type="checkbox" name="show_deprecated" id="show_deprecated" /> <label for="show_deprecated">Show Deprecated</label></span>
+                </fieldset>
+            </form>
+
+                    <div id="srcout">
+                        <style>
+                            #doc3 .classopts { display:none; }
+                        </style>
+<div class="highlight"><pre><span class="c">/**</span>
+<span class="c"> * The core of custom form elements. Includes cfe.generic and some slight addons to the native Element object. </span>
+<span class="c"> *</span>
+<span class="c"> * @module core</span>
+<span class="c"> * @namespace cfe</span>
+<span class="c"> */</span>
+
+<span class="c">/*</span>
+<span class="c">customFormElements for mootools 1.2 - style form elements on your own</span>
+<span class="c">by Maik Vlcek (http://www.mediavrog.net)</span>
+
+<span class="c">Copyright (c) Maik Vlcek (mediavrog.net)</span>
+
+<span class="c">This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License</span>
+<span class="c">as published by the Free Software Foundation; either version 3 of the License, or (at your option) any later version.</span>
+
+<span class="c">This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;</span>
+<span class="c">without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.</span>
+<span class="c">See the GNU General Public License for more details.</span>
+
+<span class="c">You should have received a copy of the GNU General Public License along with this program; if not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
+<span class="c"> */</span>
+
+<span class="kd">var</span> <span class="nx">cfe</span> <span class="o">=</span> <span class="p">{};</span>
+<span class="nx">cfe</span><span class="p">.</span><span class="nx">module</span> <span class="o">=</span> <span class="p">{};</span>
+<span class="nx">cfe</span><span class="p">.</span><span class="nx">addon</span> <span class="o">=</span> <span class="p">{};</span>
+
+<span class="nx">cfe</span><span class="p">.</span><span class="nx">version</span> <span class="o">=</span> <span class="s2">&quot;0.9.2&quot;</span><span class="o">;</span>
+<span class="nx">cfe</span><span class="p">.</span><span class="nx">spacer</span> <span class="o">=</span> <span class="s2">&quot;spacer.gif&quot;</span><span class="o">;</span>
+
+<span class="c">/**</span>
+<span class="c"> * cfe.generic gets extended by modules to start off with standard, button-like behaviours.</span>
+<span class="c"> * @class generic</span>
+<span class="c"> */</span>
+<span class="nx">cfe</span><span class="p">.</span><span class="nx">generic</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Class</span><span class="p">(</span>
+<span class="p">{</span>
+    <span class="c">/**</span>
+<span class="c">     * Describes the type of this element (e.g. Selector, Checkbox or Radiobutton)</span>
+<span class="c">     * @property type</span>
+<span class="c">     * @type string</span>
+<span class="c">     */</span>
+    <span class="nx">type</span> <span class="o">:</span> <span class="s2">&quot;Generic&quot;</span><span class="o">,</span>
+
+    <span class="c">/**</span>
+<span class="c">     * basic options for all cfes and always available</span>
+<span class="c">     * @property options</span>
+<span class="c">     */</span>
+    <span class="nx">options</span><span class="o">:</span> <span class="p">{</span>
+        <span class="nx">instanceID</span><span class="o">:</span><span class="mi">0</span><span class="o">,</span>           <span class="c">// set automatically</span>
+        
+        <span class="c">/**</span>
+<span class="c">         * path to transparent spacer.gif; it&#39;s used for easy css-styling</span>
+<span class="c">         * @config spacer</span>
+<span class="c">         * @type string</span>
+<span class="c">         */</span>
+        <span class="nx">spacer</span><span class="o">:</span> <span class="s2">&quot;&quot;</span><span class="o">,</span>
+
+        <span class="c">/**</span>
+<span class="c">         * the element&#39;s wrapper will be of this type (e.g. span or div)</span>
+<span class="c">         * @config aliasType</span>
+<span class="c">         * @type string</span>
+<span class="c">         */</span>
+        <span class="nx">aliasType</span><span class="o">:</span> <span class="s2">&quot;span&quot;</span><span class="o">,</span>
+
+        <span class="c">/**</span>
+<span class="c">         * if this element shall replace an existing html form element, pass it here</span>
+<span class="c">         * @config replaces</span>
+<span class="c">         * @type HTMLElement</span>
+<span class="c">         */</span>
+        <span class="nx">replaces</span><span class="o">:</span> <span class="kc">null</span><span class="o">,</span>
+
+        <span class="c">/**</span>
+<span class="c">         * may pass any element as a label (toggling, hovering,..) for this cfe</span>
+<span class="c">         * @config label</span>
+<span class="c">         * @type HTMLElement</span>
+<span class="c">         */</span>
+        <span class="kd">label</span><span class="o">:</span> <span class="kc">null</span><span class="o">,</span>
+
+        <span class="nx">name</span><span class="o">:</span> <span class="s2">&quot;&quot;</span><span class="o">,</span>
+
+        <span class="c">/**</span>
+<span class="c">         * setting this to true will create a disabled element</span>
+<span class="c">         * @config disabled</span>
+<span class="c">         * @type boolean</span>
+<span class="c">         */</span>
+        <span class="nx">disabled</span><span class="o">:</span> <span class="kc">false</span><span class="o">,</span>
+
+        <span class="c">// event placeholders; may be used to add custom events</span>
+        <span class="nx">onMouseOver</span><span class="o">:</span> <span class="nx">Class</span><span class="p">.</span><span class="nx">empty</span><span class="o">,</span>   
+        <span class="nx">onMouseOut</span><span class="o">:</span> <span class="nx">Class</span><span class="p">.</span><span class="nx">empty</span><span class="o">,</span>
+        <span class="nx">onFocus</span><span class="o">:</span> <span class="nx">Class</span><span class="p">.</span><span class="nx">empty</span><span class="o">,</span>
+        <span class="nx">onBlur</span><span class="o">:</span> <span class="nx">Class</span><span class="p">.</span><span class="nx">empty</span><span class="o">,</span>
+        <span class="nx">onClick</span><span class="o">:</span> <span class="nx">Class</span><span class="p">.</span><span class="nx">empty</span><span class="o">,</span>
+        <span class="nx">onPress</span><span class="o">:</span> <span class="nx">Class</span><span class="p">.</span><span class="nx">empty</span><span class="o">,</span>
+        <span class="nx">onRelease</span><span class="o">:</span> <span class="nx">Class</span><span class="p">.</span><span class="nx">empty</span><span class="o">,</span>
+        <span class="nx">onUpdate</span><span class="o">:</span> <span class="nx">Class</span><span class="p">.</span><span class="nx">empty</span>
+    <span class="p">}</span><span class="o">,</span>
+
+    <span class="c">/**</span>
+<span class="c">	 * constructor</span>
+<span class="c">	 * set options, defines basic replacement and building algorithm for cfe (template method)</span>
+<span class="c">	 *</span>
+<span class="c">     * @method initialize</span>
+<span class="c">     * @constructor</span>
+<span class="c">     *</span>
+<span class="c">     * @param {Object} options</span>
+<span class="c">	 */</span>
+    <span class="nx">initialize</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">opt</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">setOptions</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">options</span><span class="o">,</span> <span class="nx">opt</span><span class="p">);</span>
+        
+        <span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="k">this</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">spacer</span><span class="p">)</span> <span class="k">this</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">spacer</span> <span class="o">=</span> <span class="nx">cfe</span><span class="p">.</span><span class="nx">spacer</span><span class="o">;</span>
+
+        <span class="c">// build standard wrapping element</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">buildWrapper</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">)();</span>
+
+        <span class="c">// prepares original html element for use with cfe</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">setupOriginal</span><span class="p">();</span>
+
+        <span class="c">// add a label, if present</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">addLabel</span><span class="p">(</span> <span class="nx">$pick</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">o</span><span class="p">.</span><span class="nx">getLabel</span><span class="p">()</span><span class="o">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">setupLabel</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="kd">label</span><span class="p">)</span> <span class="p">)</span> <span class="p">);</span>
+
+        <span class="c">// specific initialization</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">initializeAdv</span><span class="p">();</span>
+
+        <span class="c">// each cfe must implement this function</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">build</span><span class="p">();</span>
+
+    <span class="p">}</span><span class="o">,</span>
+
+    <span class="c">/**</span>
+<span class="c">     * retreive the &quot;decorator&quot;</span>
+<span class="c">     * </span>
+<span class="c">     * @method getAlias</span>
+<span class="c">     * @return HTMLElement</span>
+<span class="c">     */</span>
+    <span class="nx">getAlias</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">a</span><span class="o">;</span>
+    <span class="p">}</span><span class="o">,</span>
+
+    <span class="c">/**</span>
+<span class="c">     * retreive the label</span>
+<span class="c">     *</span>
+<span class="c">     * @method getLabel</span>
+<span class="c">     * @return HTMLElement</span>
+<span class="c">     */</span>
+    <span class="nx">getLabel</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">l</span><span class="o">;</span>
+    <span class="p">}</span><span class="o">,</span>
+
+    <span class="c">/**</span>
+<span class="c">     * retreive the label and the alias</span>
+<span class="c">     *</span>
+<span class="c">     * @method getFull</span>
+<span class="c">     * @return HTMLElement[label, alias]</span>
+<span class="c">     */</span>
+    <span class="nx">getFull</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="p">[</span><span class="k">this</span><span class="p">.</span><span class="nx">l</span><span class="o">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">a</span><span class="p">];</span>
+    <span class="p">}</span><span class="o">,</span>
+
+    <span class="c">/**</span>
+<span class="c">     * builds the &quot;decorator&quot;</span>
+<span class="c">     *</span>
+<span class="c">     * @method buildWrapper</span>
+<span class="c">     * @protected</span>
+<span class="c">     */</span>
+    <span class="nx">buildWrapper</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="c">// create standard span as replacement</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">a</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Element</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">aliasType</span><span class="p">);</span>
+
+        <span class="k">this</span><span class="p">.</span><span class="nx">setupWrapper</span><span class="p">();</span>
+    <span class="p">}</span><span class="o">,</span>
+
+    <span class="c">/**</span>
+<span class="c">     * adds events and mousepointer style to the &quot;decorator&quot;</span>
+<span class="c">     * usually gets called by buildWrapper</span>
+<span class="c">     *</span>
+<span class="c">     * @method setupWrapper</span>
+<span class="c">     * @protected</span>
+<span class="c">     */</span>
+    <span class="nx">setupWrapper</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">a</span><span class="p">.</span><span class="nx">addClass</span><span class="p">(</span><span class="s2">&quot;js&quot;</span><span class="o">+</span><span class="k">this</span><span class="p">.</span><span class="nx">type</span><span class="p">).</span><span class="nx">addEvents</span><span class="p">({</span>
+            <span class="nx">mouseover</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">hover</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">)</span><span class="o">,</span>
+            <span class="nx">mouseout</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">unhover</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">)</span><span class="o">,</span>
+            <span class="nx">mousedown</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">press</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">)</span><span class="o">,</span>
+            <span class="nx">mouseup</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">release</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">)</span><span class="o">,</span>
+            <span class="nx">disable</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">disable</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">)</span><span class="o">,</span>
+            <span class="nx">enable</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">enable</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">)</span>
+        <span class="p">}).</span><span class="nx">setStyle</span><span class="p">(</span><span class="s2">&quot;cursor&quot;</span><span class="o">,</span><span class="s2">&quot;pointer&quot;</span><span class="p">);</span>
+    <span class="p">}</span><span class="o">,</span>
+
+    <span class="c">/**</span>
+<span class="c">     * handles the creation of the underlying original form element &lt;br /&gt;</span>
+<span class="c">     * stores a reference to the cfe object in the original form element</span>
+<span class="c">     *</span>
+<span class="c">     * @method setupOriginal</span>
+<span class="c">     * @protected</span>
+<span class="c">     */</span>
+    <span class="nx">setupOriginal</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="c">// get original element</span>
+        <span class="k">if</span><span class="p">(</span><span class="nx">$defined</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">replaces</span><span class="p">))</span>
+        <span class="p">{</span>
+            <span class="k">this</span><span class="p">.</span><span class="nx">o</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">replaces</span><span class="o">;</span>
+
+            <span class="c">// if this shall replace a form element, add id as class</span>
+            <span class="k">this</span><span class="p">.</span><span class="nx">a</span><span class="p">.</span><span class="nx">addClass</span><span class="p">(</span><span class="s2">&quot;js&quot;</span><span class="o">+</span><span class="k">this</span><span class="p">.</span><span class="nx">o</span><span class="p">.</span><span class="nx">id</span><span class="p">).</span><span class="nx">inject</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">o</span><span class="o">,</span> <span class="s1">&#39;before&#39;</span><span class="p">);</span>
+        <span class="p">}</span>
+        <span class="k">else</span> <span class="c">// standalone</span>
+        <span class="p">{</span>
+            <span class="k">this</span><span class="p">.</span><span class="nx">o</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">createOriginal</span><span class="p">();</span>
+
+            <span class="k">if</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">id</span><span class="p">)</span> <span class="k">this</span><span class="p">.</span><span class="nx">o</span><span class="p">.</span><span class="nx">setProperty</span><span class="p">(</span><span class="s2">&quot;id&quot;</span><span class="o">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">id</span><span class="p">);</span>
+                
+            <span class="k">if</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">disabled</span><span class="p">)</span> <span class="k">this</span><span class="p">.</span><span class="nx">o</span><span class="p">.</span><span class="nx">disable</span><span class="p">();</span>
+
+            <span class="k">if</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">name</span><span class="p">)</span>
+            <span class="p">{</span>
+                <span class="k">this</span><span class="p">.</span><span class="nx">o</span><span class="p">.</span><span class="nx">setProperty</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="o">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">name</span><span class="p">);</span>
+                
+                <span class="k">if</span><span class="p">(</span> <span class="o">!</span><span class="nx">$chk</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">o</span><span class="p">.</span><span class="nx">id</span><span class="p">))</span> <span class="k">this</span><span class="p">.</span><span class="nx">o</span><span class="p">.</span><span class="nx">setProperty</span><span class="p">(</span><span class="s2">&quot;id&quot;</span><span class="o">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">name</span><span class="o">+</span><span class="k">this</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">instanceID</span><span class="p">);</span>
+            <span class="p">}</span>
+            
+            <span class="k">if</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">value</span><span class="p">)</span> <span class="k">this</span><span class="p">.</span><span class="nx">o</span><span class="p">.</span><span class="nx">setProperty</span><span class="p">(</span><span class="s2">&quot;value&quot;</span><span class="o">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">value</span><span class="p">);</span>
+
+            <span class="k">this</span><span class="p">.</span><span class="nx">a</span><span class="p">.</span><span class="nx">adopt</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">o</span><span class="p">);</span>
+        <span class="p">}</span>
+
+        <span class="c">// little hack since mootools doesn&#39;t support selectors like input[name=&quot;fieldName[foo]&quot;]</span>
+        <span class="k">if</span><span class="p">(</span> <span class="nx">$chk</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">o</span><span class="p">.</span><span class="nx">name</span><span class="p">)</span> <span class="p">)</span> <span class="k">this</span><span class="p">.</span><span class="nx">o</span><span class="p">.</span><span class="nx">setProperty</span><span class="p">(</span><span class="s2">&quot;clearname&quot;</span><span class="o">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">o</span><span class="p">.</span><span class="nx">name</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="s2">&quot;]&quot;</span><span class="o">,</span> <span class="s2">&quot;b-.-d&quot;</span><span class="p">).</span><span class="nx">replace</span><span class="p">(</span><span class="s2">&quot;[&quot;</span><span class="o">,</span> <span class="s2">&quot;d-.-b&quot;</span><span class="p">)</span> <span class="p">);</span>
+
+        <span class="k">this</span><span class="p">.</span><span class="nx">o</span><span class="p">.</span><span class="nx">addEvents</span><span class="p">({</span>
+            <span class="nx">focus</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">setFocus</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">)</span><span class="o">,</span>
+            <span class="nx">blur</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">removeFocus</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">)</span><span class="o">,</span>
+            <span class="nx">change</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">update</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">)</span><span class="o">,</span>
+            <span class="nx">keydown</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">e</span><span class="p">){</span>
+                <span class="k">if</span><span class="p">(</span><span class="k">new</span> <span class="nx">Event</span><span class="p">(</span><span class="nx">e</span><span class="p">).</span><span class="nx">key</span> <span class="o">==</span> <span class="s2">&quot;space&quot;</span><span class="p">)</span> <span class="k">this</span><span class="p">.</span><span class="nx">press</span><span class="p">();</span>
+            <span class="p">}.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">)</span><span class="o">,</span>
+            <span class="nx">keyup</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">e</span><span class="p">){</span>
+                <span class="k">if</span><span class="p">(</span><span class="k">new</span> <span class="nx">Event</span><span class="p">(</span><span class="nx">e</span><span class="p">).</span><span class="nx">key</span> <span class="o">==</span> <span class="s2">&quot;space&quot;</span><span class="p">)</span> <span class="k">this</span><span class="p">.</span><span class="nx">release</span><span class="p">();</span>
+            <span class="p">}.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">)</span><span class="o">,</span>
+            <span class="nx">onDisable</span><span class="o">:</span> <span class="kd">function</span><span class="p">(){</span> 
+                <span class="k">this</span><span class="p">.</span><span class="nx">a</span><span class="p">.</span><span class="nx">fireEvent</span><span class="p">(</span><span class="s2">&quot;disable&quot;</span><span class="p">);</span>
+            <span class="p">}.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">)</span><span class="o">,</span>
+            <span class="nx">onEnable</span><span class="o">:</span> <span class="kd">function</span><span class="p">(){</span>  
+                <span class="k">this</span><span class="p">.</span><span class="nx">a</span><span class="p">.</span><span class="nx">fireEvent</span><span class="p">(</span><span class="s2">&quot;enable&quot;</span><span class="p">);</span>
+            <span class="p">}.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">)</span>
+        <span class="p">});</span>
+
+        <span class="c">// store a reference to this cfe &quot;in&quot; the original form element</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">o</span><span class="p">.</span><span class="nx">store</span><span class="p">(</span><span class="s2">&quot;cfe&quot;</span><span class="o">,</span> <span class="k">this</span><span class="p">);</span>
+    <span class="p">}</span><span class="o">,</span>
+
+    <span class="nx">isDisabled</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">o</span><span class="p">.</span><span class="nx">getProperty</span><span class="p">(</span><span class="s2">&quot;disabled&quot;</span><span class="p">);</span>
+    <span class="p">}</span><span class="o">,</span>
+
+    <span class="nx">createOriginal</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="k">new</span> <span class="nx">Element</span><span class="p">(</span><span class="s2">&quot;img&quot;</span><span class="o">,</span> <span class="p">{</span>
+            <span class="s2">&quot;src&quot;</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">spacer</span><span class="o">,</span>
+            <span class="s2">&quot;class&quot;</span><span class="o">:</span> <span class="s2">&quot;spc&quot;</span>
+        <span class="p">});</span>
+    <span class="p">}</span><span class="o">,</span>
+
+    <span class="c">/**</span>
+<span class="c">	 * hides the original input element</span>
+<span class="c">	 */</span>
+    <span class="nx">hideOriginal</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="c">// hide original input</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">o</span><span class="p">.</span><span class="nx">setStyles</span><span class="p">({</span>
+            <span class="nx">position</span><span class="o">:</span> <span class="s2">&quot;absolute&quot;</span><span class="o">,</span>
+            <span class="nx">left</span><span class="o">:</span> <span class="s2">&quot;-999px&quot;</span>
+        <span class="p">});</span>
+
+        <span class="c">// fix for internet explorer 7;</span>
+        <span class="k">if</span><span class="p">(</span><span class="nx">Browser</span><span class="p">.</span><span class="nx">Engine</span><span class="p">.</span><span class="nx">trident</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="nx">Browser</span><span class="p">.</span><span class="nx">Features</span><span class="p">.</span><span class="nx">query</span><span class="p">){</span>
+            <span class="k">this</span><span class="p">.</span><span class="nx">o</span><span class="p">.</span><span class="nx">setStyles</span><span class="p">({</span>
+                <span class="nx">width</span><span class="o">:</span> <span class="mi">0</span><span class="o">,</span>
+                <span class="nx">height</span><span class="o">:</span> <span class="s2">&quot;1px&quot;</span>
+            <span class="p">});</span>
+        <span class="p">}</span>
+    <span class="p">}</span><span class="o">,</span>
+
+    <span class="c">/*</span>
+<span class="c">     * methods related to creation/handling of the corresponding label</span>
+<span class="c">     */</span>
+    <span class="nx">setupLabel</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="k">if</span><span class="p">(</span> <span class="nx">$defined</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="kd">label</span><span class="p">)</span> <span class="p">)</span> <span class="k">return</span> <span class="k">new</span> <span class="nx">Element</span><span class="p">(</span><span class="s2">&quot;label&quot;</span><span class="p">).</span><span class="nx">set</span><span class="p">(</span><span class="s2">&quot;html&quot;</span><span class="o">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="kd">label</span><span class="p">).</span><span class="nx">setProperty</span><span class="p">(</span><span class="s2">&quot;for&quot;</span><span class="o">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">o</span><span class="p">.</span><span class="nx">id</span><span class="p">);</span>
+        
+        <span class="k">return</span> <span class="kc">null</span><span class="o">;</span>
+    <span class="p">}</span><span class="o">,</span>
+
+    <span class="nx">addLabel</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="kd">label</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">if</span><span class="p">(</span> <span class="o">!</span><span class="nx">$defined</span><span class="p">(</span><span class="kd">label</span><span class="p">)</span> <span class="p">)</span> <span class="k">return</span><span class="o">;</span>
+
+        <span class="k">this</span><span class="p">.</span><span class="nx">l</span> <span class="o">=</span> <span class="kd">label</span><span class="o">;</span>
+
+        <span class="c">// remove for property</span>
+        <span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="k">this</span><span class="p">.</span><span class="nx">dontRemoveForFromLabel</span><span class="p">)</span> <span class="k">this</span><span class="p">.</span><span class="nx">l</span><span class="p">.</span><span class="nx">removeProperty</span><span class="p">(</span><span class="s2">&quot;for&quot;</span><span class="p">);</span>
+
+        <span class="c">// add adequate className, add stdEvents</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">l</span><span class="p">.</span><span class="nx">addClass</span><span class="p">(</span><span class="s2">&quot;js&quot;</span><span class="o">+</span><span class="k">this</span><span class="p">.</span><span class="nx">type</span><span class="o">+</span><span class="s2">&quot;L&quot;</span><span class="p">);</span>
+
+        <span class="k">if</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">o</span><span class="p">.</span><span class="nx">id</span> <span class="o">||</span> <span class="k">this</span><span class="p">.</span><span class="nx">o</span><span class="p">.</span><span class="nx">name</span><span class="p">)</span> <span class="k">this</span><span class="p">.</span><span class="nx">l</span><span class="p">.</span><span class="nx">addClass</span><span class="p">(</span><span class="s2">&quot;for_&quot;</span><span class="o">+</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">o</span><span class="p">.</span><span class="nx">id</span> <span class="o">||</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">o</span><span class="p">.</span><span class="nx">name</span><span class="o">+</span><span class="k">this</span><span class="p">.</span><span class="nx">o</span><span class="p">.</span><span class="nx">value</span><span class="p">).</span><span class="nx">replace</span><span class="p">(</span><span class="s2">&quot;]&quot;</span><span class="o">,</span><span class="s2">&quot;-&quot;</span><span class="p">).</span><span class="nx">replace</span><span class="p">(</span><span class="s2">&quot;[&quot;</span><span class="o">,</span><span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="p">));</span>
+
+        <span class="c">// add stdevents</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">l</span><span class="p">.</span><span class="nx">addEvents</span><span class="p">({</span>
+            <span class="nx">mouseover</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">hover</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">)</span><span class="o">,</span>
+            <span class="nx">mouseout</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">unhover</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">)</span><span class="o">,</span>
+            <span class="nx">mousedown</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">press</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">)</span><span class="o">,</span>
+            <span class="nx">mouseup</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">release</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">)</span>
+        <span class="p">});</span>
+
+        <span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="k">this</span><span class="p">.</span><span class="nx">o</span><span class="p">.</span><span class="nx">implicitLabel</span> <span class="o">||</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">o</span><span class="p">.</span><span class="nx">implicitLabel</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="nx">Browser</span><span class="p">.</span><span class="nx">Engine</span><span class="p">.</span><span class="nx">gecko</span><span class="p">))</span> <span class="k">this</span><span class="p">.</span><span class="nx">l</span><span class="p">.</span><span class="nx">addEvent</span><span class="p">(</span><span class="s2">&quot;click&quot;</span><span class="o">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">clicked</span><span class="p">.</span><span class="nx">bindWithEvent</span><span class="p">(</span><span class="k">this</span><span class="p">));</span>
+
+        <span class="k">this</span><span class="p">.</span><span class="nx">addEvents</span><span class="p">({</span>
+            <span class="s2">&quot;onPress&quot;</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span>
+            <span class="p">{</span>
+                <span class="k">this</span><span class="p">.</span><span class="nx">l</span><span class="p">.</span><span class="nx">addClass</span><span class="p">(</span><span class="s2">&quot;P&quot;</span><span class="p">);</span>
+            <span class="p">}</span><span class="o">,</span>
+            <span class="s2">&quot;onRelease&quot;</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span>
+            <span class="p">{</span>
+                <span class="k">this</span><span class="p">.</span><span class="nx">l</span><span class="p">.</span><span class="nx">removeClass</span><span class="p">(</span><span class="s2">&quot;P&quot;</span><span class="p">);</span>
+            <span class="p">}</span><span class="o">,</span>
+            <span class="s2">&quot;onMouseOver&quot;</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span>
+            <span class="p">{</span>
+                <span class="k">this</span><span class="p">.</span><span class="nx">l</span><span class="p">.</span><span class="nx">addClass</span><span class="p">(</span><span class="s2">&quot;H&quot;</span><span class="p">);</span>
+            <span class="p">}</span><span class="o">,</span>
+            <span class="s2">&quot;onMouseOut&quot;</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span>
+            <span class="p">{</span>
+                <span class="k">this</span><span class="p">.</span><span class="nx">l</span><span class="p">.</span><span class="nx">removeClass</span><span class="p">(</span><span class="s2">&quot;H&quot;</span><span class="p">);</span>
+                <span class="k">this</span><span class="p">.</span><span class="nx">l</span><span class="p">.</span><span class="nx">removeClass</span><span class="p">(</span><span class="s2">&quot;P&quot;</span><span class="p">);</span>
+            <span class="p">}</span><span class="o">,</span>
+            <span class="s2">&quot;onFocus&quot;</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span>
+            <span class="p">{</span>
+                <span class="k">this</span><span class="p">.</span><span class="nx">l</span><span class="p">.</span><span class="nx">addClass</span><span class="p">(</span><span class="s2">&quot;F&quot;</span><span class="p">);</span>
+            <span class="p">}</span><span class="o">,</span>
+            <span class="s2">&quot;onBlur&quot;</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span>
+            <span class="p">{</span>
+                <span class="k">this</span><span class="p">.</span><span class="nx">l</span><span class="p">.</span><span class="nx">removeClass</span><span class="p">(</span><span class="s2">&quot;F&quot;</span><span class="p">);</span>
+            <span class="c">//this.l.removeClass(&quot;P&quot;);</span>
+            <span class="p">}</span><span class="o">,</span>
+            <span class="s2">&quot;onEnable&quot;</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span>
+            <span class="p">{</span>
+                <span class="k">this</span><span class="p">.</span><span class="nx">l</span><span class="p">.</span><span class="nx">removeClass</span><span class="p">(</span><span class="s2">&quot;D&quot;</span><span class="p">);</span>
+            <span class="p">}</span><span class="o">,</span>
+            <span class="s2">&quot;onDisable&quot;</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span>
+            <span class="p">{</span>
+                <span class="k">this</span><span class="p">.</span><span class="nx">l</span><span class="p">.</span><span class="nx">addClass</span><span class="p">(</span><span class="s2">&quot;D&quot;</span><span class="p">);</span>
+            <span class="p">}</span>
+        <span class="p">});</span>        
+    <span class="p">}</span><span class="o">,</span>
+
+    <span class="c">// may be extended by cfe</span>
+    <span class="nx">initializeAdv</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="k">this</span><span class="p">.</span><span class="nx">o</span><span class="p">.</span><span class="nx">implicitLabel</span><span class="p">)</span> <span class="k">this</span><span class="p">.</span><span class="nx">a</span><span class="p">.</span><span class="nx">addEvent</span><span class="p">(</span><span class="s2">&quot;click&quot;</span><span class="o">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">clicked</span><span class="p">.</span><span class="nx">bindWithEvent</span><span class="p">(</span><span class="k">this</span><span class="p">));</span>
+
+        <span class="k">if</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">isDisabled</span><span class="p">())</span> <span class="k">this</span><span class="p">.</span><span class="nx">a</span><span class="p">.</span><span class="nx">fireEvent</span><span class="p">(</span><span class="s2">&quot;disable&quot;</span><span class="p">);</span>
+    <span class="p">}</span><span class="o">,</span>
+    
+    <span class="c">// must be implemented by cfe</span>
+    <span class="nx">build</span><span class="o">:</span> <span class="kd">function</span><span class="p">(){}</span><span class="o">,</span>
+    
+    
+    <span class="c">/**</span>
+<span class="c">	 * standard press-behaviour</span>
+<span class="c">	 * add press state to alias</span>
+<span class="c">     * @event press</span>
+<span class="c">	 */</span>
+    <span class="nx">press</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="k">this</span><span class="p">.</span><span class="nx">isDisabled</span><span class="p">())</span>
+        <span class="p">{</span>
+            <span class="k">this</span><span class="p">.</span><span class="nx">a</span><span class="p">.</span><span class="nx">addClass</span><span class="p">(</span><span class="s2">&quot;P&quot;</span><span class="p">);</span>
+            <span class="k">this</span><span class="p">.</span><span class="nx">fireEvent</span><span class="p">(</span><span class="s2">&quot;onPress&quot;</span><span class="p">);</span>
+        <span class="p">}</span>
+    <span class="p">}</span><span class="o">,</span>
+
+    <span class="c">/**</span>
+<span class="c">	 * standard press-behaviour</span>
+<span class="c">	 * removes press state to alias</span>
+<span class="c">     * @event release</span>
+<span class="c">	 */</span>
+    <span class="nx">release</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="k">this</span><span class="p">.</span><span class="nx">isDisabled</span><span class="p">())</span>
+        <span class="p">{</span>
+            <span class="k">this</span><span class="p">.</span><span class="nx">a</span><span class="p">.</span><span class="nx">removeClass</span><span class="p">(</span><span class="s2">&quot;P&quot;</span><span class="p">);</span>
+            <span class="k">this</span><span class="p">.</span><span class="nx">fireEvent</span><span class="p">(</span><span class="s2">&quot;onRelease&quot;</span><span class="p">);</span>
+        <span class="p">}</span>
+    <span class="p">}</span><span class="o">,</span>
+
+    <span class="c">/**</span>
+<span class="c">     * standard mouseover-behaviour</span>
+<span class="c">     * add hover state to alias</span>
+<span class="c">     * @event hover</span>
+<span class="c">     */</span>
+    <span class="nx">hover</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="k">this</span><span class="p">.</span><span class="nx">isDisabled</span><span class="p">())</span>
+        <span class="p">{</span>
+            <span class="k">this</span><span class="p">.</span><span class="nx">a</span><span class="p">.</span><span class="nx">addClass</span><span class="p">(</span><span class="s2">&quot;H&quot;</span><span class="p">);</span>
+            <span class="k">this</span><span class="p">.</span><span class="nx">fireEvent</span><span class="p">(</span><span class="s2">&quot;onMouseOver&quot;</span><span class="p">);</span>
+        <span class="p">}</span>
+    <span class="p">}</span><span class="o">,</span>
+
+    <span class="c">/**</span>
+<span class="c">     * standard mouseout-behaviour</span>
+<span class="c">     * removes hover state from alias</span>
+<span class="c">     * @event unhover</span>
+<span class="c">     */</span>
+    <span class="nx">unhover</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="k">this</span><span class="p">.</span><span class="nx">isDisabled</span><span class="p">())</span>
+        <span class="p">{</span>
+            <span class="k">this</span><span class="p">.</span><span class="nx">a</span><span class="p">.</span><span class="nx">removeClass</span><span class="p">(</span><span class="s2">&quot;H&quot;</span><span class="p">);</span>
+            <span class="k">this</span><span class="p">.</span><span class="nx">fireEvent</span><span class="p">(</span><span class="s2">&quot;onMouseOut&quot;</span><span class="p">);</span>
+            <span class="k">this</span><span class="p">.</span><span class="nx">release</span><span class="p">();</span>
+        <span class="p">}</span>
+    <span class="p">}</span><span class="o">,</span>
+
+    <span class="c">/**</span>
+<span class="c">     * standard focus-behaviour</span>
+<span class="c">     * adds focus state to alias</span>
+<span class="c">     * @event onFocus</span>
+<span class="c">     */</span>
+    <span class="nx">setFocus</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">a</span><span class="p">.</span><span class="nx">addClass</span><span class="p">(</span><span class="s2">&quot;F&quot;</span><span class="p">);</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">fireEvent</span><span class="p">(</span><span class="s2">&quot;onFocus&quot;</span><span class="p">);</span>
+    <span class="p">}</span><span class="o">,</span>
+
+    <span class="c">/**</span>
+<span class="c">     * standard blur-behaviour</span>
+<span class="c">     * removes focus state from alias</span>
+<span class="c">     * @event onBlur</span>
+<span class="c">     */</span>
+    <span class="nx">removeFocus</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="c">//console.log(&quot;o blurred&quot;);</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">a</span><span class="p">.</span><span class="nx">removeClass</span><span class="p">(</span><span class="s2">&quot;F&quot;</span><span class="p">);</span>
+        <span class="c">// if cfe gets blurred, also clear press state</span>
+        <span class="c">//this.a.removeClass(&quot;P&quot;);</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">fireEvent</span><span class="p">(</span><span class="s2">&quot;onBlur&quot;</span><span class="p">);</span>
+
+    <span class="p">}</span><span class="o">,</span>
+
+    <span class="c">/**</span>
+<span class="c">     * delegate click events to original item</span>
+<span class="c">     * @event onClick</span>
+<span class="c">     */</span>
+    <span class="nx">clicked</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="k">this</span><span class="p">.</span><span class="nx">isDisabled</span><span class="p">())</span>
+        <span class="p">{</span>
+            <span class="k">if</span><span class="p">(</span> <span class="nx">$chk</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">o</span><span class="p">.</span><span class="nx">click</span><span class="p">)</span> <span class="p">)</span> <span class="k">this</span><span class="p">.</span><span class="nx">o</span><span class="p">.</span><span class="nx">click</span><span class="p">();</span>
+            <span class="k">this</span><span class="p">.</span><span class="nx">o</span><span class="p">.</span><span class="nx">focus</span><span class="p">();</span>
+
+            <span class="k">this</span><span class="p">.</span><span class="nx">fireEvent</span><span class="p">(</span><span class="s2">&quot;onClick&quot;</span><span class="p">);</span>
+        <span class="p">}</span>
+    <span class="p">}</span><span class="o">,</span>
+
+    <span class="c">/**</span>
+<span class="c">     * fires if the original element changes</span>
+<span class="c">     * @event onUpdate</span>
+<span class="c">     */</span>
+    <span class="nx">update</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">fireEvent</span><span class="p">(</span><span class="s2">&quot;onUpdate&quot;</span><span class="p">);</span>
+    <span class="p">}</span><span class="o">,</span>
+
+    <span class="c">/**</span>
+<span class="c">     * if element get enabled</span>
+<span class="c">     * @event onEnable</span>
+<span class="c">     */</span>
+    <span class="nx">enable</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">a</span><span class="p">.</span><span class="nx">removeClass</span><span class="p">(</span><span class="s2">&quot;D&quot;</span><span class="p">);</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">fireEvent</span><span class="p">(</span><span class="s2">&quot;onEnable&quot;</span><span class="p">);</span>
+    <span class="p">}</span><span class="o">,</span>
+
+    <span class="c">/**</span>
+<span class="c">     * if element get disabled</span>
+<span class="c">     * @event onDisable</span>
+<span class="c">     */</span>
+    <span class="nx">disable</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">a</span><span class="p">.</span><span class="nx">addClass</span><span class="p">(</span><span class="s2">&quot;D&quot;</span><span class="p">);</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">fireEvent</span><span class="p">(</span><span class="s2">&quot;onDisable&quot;</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">});</span>
+<span class="nx">cfe</span><span class="p">.</span><span class="nx">generic</span><span class="p">.</span><span class="nx">implement</span><span class="p">(</span><span class="k">new</span> <span class="nx">Options</span><span class="o">,</span><span class="k">new</span> <span class="nx">Events</span><span class="p">);</span>
+
+<span class="c">/**</span>
+<span class="c"> * extend Elements with some Helper functions</span>
+<span class="c"> * @class Helpers</span>
+<span class="c"> * @namespace Element</span>
+<span class="c"> */</span>
+<span class="nx">Element</span><span class="p">.</span><span class="nx">Helpers</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Class</span><span class="p">({</span>
+
+    <span class="nx">disableTextSelection</span><span class="o">:</span> <span class="kd">function</span><span class="p">(){</span>
+        <span class="k">if</span><span class="p">(</span><span class="nx">Browser</span><span class="p">.</span><span class="nx">Engine</span><span class="p">.</span><span class="nx">trident</span> <span class="o">||</span> <span class="nx">Browser</span><span class="p">.</span><span class="nx">Engine</span><span class="p">.</span><span class="nx">presto</span><span class="p">){</span>
+            <span class="k">this</span><span class="p">.</span><span class="nx">setProperty</span><span class="p">(</span><span class="s2">&quot;unselectable&quot;</span><span class="o">,</span><span class="s2">&quot;on&quot;</span><span class="p">);</span>
+        <span class="p">}</span>
+        <span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="nx">Browser</span><span class="p">.</span><span class="nx">Engine</span><span class="p">.</span><span class="nx">gecko</span><span class="p">){</span>
+            <span class="k">this</span><span class="p">.</span><span class="nx">setStyle</span><span class="p">(</span><span class="s2">&quot;MozUserSelect&quot;</span><span class="o">,</span><span class="s2">&quot;none&quot;</span><span class="p">);</span>
+        <span class="p">}</span>
+        <span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="nx">Browser</span><span class="p">.</span><span class="nx">Engine</span><span class="p">.</span><span class="nx">webkit</span><span class="p">){</span>
+            <span class="k">this</span><span class="p">.</span><span class="nx">setStyle</span><span class="p">(</span><span class="s2">&quot;KhtmlUserSelect&quot;</span><span class="o">,</span><span class="s2">&quot;none&quot;</span><span class="p">);</span>
+        <span class="p">}</span>
+    <span class="p">}</span><span class="o">,</span>
+
+    <span class="nx">disable</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="k">if</span><span class="p">(</span><span class="nx">$type</span><span class="p">(</span><span class="k">this</span><span class="p">)</span> <span class="o">===</span> <span class="s2">&quot;element&quot;</span> <span class="o">&amp;&amp;</span> <span class="p">[</span><span class="s2">&quot;button&quot;</span><span class="o">,</span> <span class="s2">&quot;input&quot;</span><span class="o">,</span> <span class="s2">&quot;option&quot;</span><span class="o">,</span> <span class="s2">&quot;optgroup&quot;</span><span class="o">,</span> <span class="s2">&quot;select&quot;</span><span class="o">,</span> <span class="s2">&quot;textarea&quot;</span><span class="p">].</span><span class="nx">contains</span><span class="p">(</span> <span class="k">this</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s2">&quot;tag&quot;</span><span class="p">)</span> <span class="p">)</span>            <span class="p">)</span>
+        <span class="p">{</span>
+            <span class="k">this</span><span class="p">.</span><span class="nx">setProperty</span><span class="p">(</span><span class="s2">&quot;disabled&quot;</span><span class="o">,</span> <span class="kc">true</span><span class="p">);</span>
+            <span class="k">this</span><span class="p">.</span><span class="nx">fireEvent</span><span class="p">(</span><span class="s2">&quot;onDisable&quot;</span><span class="p">);</span>
+            <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
+        <span class="p">}</span>
+
+        <span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
+    <span class="p">}</span><span class="o">,</span>
+
+    <span class="nx">enable</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="k">if</span><span class="p">(</span><span class="nx">$type</span><span class="p">(</span><span class="k">this</span><span class="p">)</span> <span class="o">===</span> <span class="s2">&quot;element&quot;</span> <span class="o">&amp;&amp;</span> <span class="p">[</span><span class="s2">&quot;button&quot;</span><span class="o">,</span> <span class="s2">&quot;input&quot;</span><span class="o">,</span> <span class="s2">&quot;option&quot;</span><span class="o">,</span> <span class="s2">&quot;optgroup&quot;</span><span class="o">,</span> <span class="s2">&quot;select&quot;</span><span class="o">,</span> <span class="s2">&quot;textarea&quot;</span><span class="p">].</span><span class="nx">contains</span><span class="p">(</span> <span class="k">this</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s2">&quot;tag&quot;</span><span class="p">)</span> <span class="p">)</span>            <span class="p">)</span>
+        <span class="p">{</span>
+            <span class="k">this</span><span class="p">.</span><span class="nx">setProperty</span><span class="p">(</span><span class="s2">&quot;disabled&quot;</span><span class="o">,</span> <span class="kc">false</span><span class="p">);</span>
+            <span class="k">this</span><span class="p">.</span><span class="nx">fireEvent</span><span class="p">(</span><span class="s2">&quot;onEnable&quot;</span><span class="p">);</span>
+            <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
+        <span class="p">}</span>
+
+        <span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
+    <span class="p">}</span><span class="o">,</span>
+
+    <span class="nx">toggleDisabled</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="k">if</span><span class="p">(</span><span class="nx">$type</span><span class="p">(</span><span class="k">this</span><span class="p">)</span> <span class="o">===</span> <span class="s2">&quot;element&quot;</span> <span class="o">&amp;&amp;</span> <span class="p">[</span><span class="s2">&quot;button&quot;</span><span class="o">,</span> <span class="s2">&quot;input&quot;</span><span class="o">,</span> <span class="s2">&quot;option&quot;</span><span class="o">,</span> <span class="s2">&quot;optgroup&quot;</span><span class="o">,</span> <span class="s2">&quot;select&quot;</span><span class="o">,</span> <span class="s2">&quot;textarea&quot;</span><span class="p">].</span><span class="nx">contains</span><span class="p">(</span> <span class="k">this</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s2">&quot;tag&quot;</span><span class="p">)</span> <span class="p">)</span>            <span class="p">)</span>
+        <span class="p">{</span>
+            <span class="k">this</span><span class="p">.</span><span class="nx">setProperty</span><span class="p">(</span><span class="s2">&quot;disabled&quot;</span><span class="o">,</span> <span class="o">!</span><span class="k">this</span><span class="p">.</span><span class="nx">getProperty</span><span class="p">(</span><span class="s2">&quot;disabled&quot;</span><span class="p">)</span> <span class="p">);</span>
+            <span class="k">this</span><span class="p">.</span><span class="nx">fireEvent</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">getProperty</span><span class="p">(</span><span class="s2">&quot;disabled&quot;</span><span class="p">)</span><span class="o">?</span><span class="s2">&quot;onDisable&quot;</span><span class="o">:</span><span class="s2">&quot;onEnable&quot;</span><span class="p">);</span>
+            <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">getProperty</span><span class="p">(</span><span class="s2">&quot;disabled&quot;</span><span class="p">));</span>
+            <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
+    <span class="p">}</span><span class="o">,</span>
+
+    <span class="nx">getLabel</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="kd">var</span> <span class="kd">label</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+
+        <span class="c">// get label by id/for-combo</span>
+        <span class="k">if</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">id</span><span class="p">)</span> <span class="kd">label</span> <span class="o">=</span> <span class="nx">$$</span><span class="p">(</span><span class="s2">&quot;label[for=&quot;</span><span class="o">+</span><span class="k">this</span><span class="p">.</span><span class="nx">id</span><span class="o">+</span><span class="s2">&quot;]&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">];</span>
+        
+        <span class="c">// no label was found for id/for, let&#39;s see if it&#39;s implicitly labelled</span>
+        <span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="kd">label</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="kd">label</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">getParents</span><span class="p">(</span><span class="s1">&#39;label&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">];</span>
+
+            <span class="k">if</span><span class="p">(</span><span class="kd">label</span><span class="p">)</span> <span class="k">this</span><span class="p">.</span><span class="nx">implicitLabel</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
+        <span class="p">}</span>
+
+        <span class="k">return</span> <span class="kd">label</span><span class="o">;</span>
+    <span class="p">}</span><span class="o">,</span>
+
+    <span class="nx">setSlidingDoors</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">dir</span><span class="o">,</span> <span class="nx">type</span><span class="o">,</span> <span class="nx">prefix</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="kd">var</span> <span class="nx">slide</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+        <span class="kd">var</span> <span class="nx">wrapped</span> <span class="o">=</span> <span class="k">this</span><span class="o">;</span>
+        <span class="nx">prefix</span> <span class="o">=</span> <span class="nx">$pick</span><span class="p">(</span><span class="nx">prefix</span><span class="o">,</span> <span class="s2">&quot;sd&quot;</span><span class="p">);</span>
+
+        <span class="k">for</span><span class="p">(</span><span class="nx">i</span> <span class="o">=</span> <span class="nx">dir</span><span class="o">;</span> <span class="nx">i</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="o">;</span> <span class="nx">i</span><span class="o">--</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="nx">slide</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Element</span><span class="p">(</span><span class="nx">type</span><span class="p">);</span>
+            <span class="nx">slide</span><span class="p">.</span><span class="nx">addClass</span><span class="p">(</span><span class="nx">i</span><span class="o">==</span><span class="nx">dir</span><span class="o">?</span><span class="nx">prefix</span><span class="o">:</span><span class="nx">i</span><span class="o">==</span><span class="mi">0</span><span class="o">?</span><span class="nx">prefix</span><span class="o">+</span><span class="s2">&quot;Slide&quot;</span><span class="o">:</span><span class="nx">prefix</span><span class="o">+</span><span class="s2">&quot;Slide&quot;</span><span class="o">+</span><span class="nx">i</span><span class="p">);</span>
+
+            <span class="nx">slide</span><span class="p">.</span><span class="nx">grab</span><span class="p">(</span><span class="nx">wrapped</span><span class="p">);</span>
+            <span class="nx">wrapped</span> <span class="o">=</span> <span class="nx">slide</span><span class="o">;</span>
+        <span class="p">}</span>
+
+        <span class="nx">wrapped</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+
+        <span class="k">return</span> <span class="nx">slide</span><span class="o">;</span>
+    <span class="p">}</span>
+<span class="p">});</span>
+<span class="nx">Element</span><span class="p">.</span><span class="nx">implement</span><span class="p">(</span><span class="k">new</span> <span class="nx">Element</span><span class="p">.</span><span class="nx">Helpers</span><span class="p">);</span>
+</pre></div>
+                    </div>
+                </div>
+
+                <div class="yui-u nav rightNav">
+                    <form onsubmit="return false" id="propertysearch">
+                            Quickfinder: <input autocomplete="off" id="searchinput" />
+                            <div id="searchresults">
+                                &nbsp;
+                            </div>
+                    </form>
+
+
+
+
+
+                </div>
+
+
+			</div>
+            </div>
+		</div>
+		<div class="yui-b">
+            <div class="nav">
+
+                    <div id="moduleList" class="module">
+                        <h4>Modules</h4>
+                        <ul class="content">
+                                <li class=""><a href="module_addon.html" title="addon">addon</a></li>
+                                <li class=""><a href="module_button.html" title="button">button</a></li>
+                                <li class=""><a href="module_check.html" title="check">check</a></li>
+                                <li class="selected"><a href="module_core.html" title="core">core</a></li>
+                                <li class=""><a href="module_fieldset.html" title="fieldset">fieldset</a></li>
+                                <li class=""><a href="module_file.html" title="file">file</a></li>
+                                <li class=""><a href="module_group.html" title="group">group</a></li>
+                                <li class=""><a href="module_select.html" title="select">select</a></li>
+                                <li class=""><a href="module_text.html" title="text">text</a></li>
+                        </ul>
+                    </div>
+
+                    <div id="classList" class="module">
+                        <h4>Classes</h4>
+                        <ul class="content">
+                                <li class=""><a href="cfe.generic.html" title="cfe.generic">cfe.generic</a></li>
+                                <li class=""><a href="Element.Helpers.html" title="Element.Helpers">Element.Helpers</a></li>
+                        </ul>
+                    </div>
+
+                    <div id="fileList" class="module">
+                        <h4>Files</h4>
+                        <ul class="content">        
+                                <li class="selected"><a href="cfe.base.js.html" title="cfe.base.js">cfe.base.js</a></li>
+                        </ul>
+                    </div>
+            </div>
+		</div>
+
+    <div id="ft"><a title="Jump to the top of this page" class="toplink" href="#hd">back to top</a>
+		 | &copy; 2007-2009
+		 | custom form elements <a title="mediavrog.net" href="http://mediavrog.net/blog/">mediavrog</a> project.
+         | documentation build with <a title="Yahoo! UI Library: YUI Doc" href="http://developer.yahoo.com/yui/yuidoc/">YUI Doc from Yahoo!</a>
+
+	</div>
+
+	</div>
+
+</div>
+<script type="text/javascript">
+    ALL_YUI_PROPS = [{"url": "cfe.generic.html#config_aliasType", "access": "", "host": "cfe.generic", "type": "config", "name": "aliasType"}, {"url": "cfe.generic.html#method_buildWrapper", "access": "protected", "host": "cfe.generic", "type": "method", "name": "buildWrapper"}, {"url": "cfe.generic.html#config_disabled", "access": "", "host": "cfe.generic", "type": "config", "name": "disabled"}, {"url": "cfe.generic.html#method_getAlias", "access": "", "host": "cfe.generic", "type": "method", "name": "getAlias"}, {"url": "cfe.generic.html#method_getFull", "access": "", "host": "cfe.generic", "type": "method", "name": "getFull"}, {"url": "cfe.generic.html#method_getLabel", "access": "", "host": "cfe.generic", "type": "method", "name": "getLabel"}, {"url": "cfe.generic.html#method_hideOriginal", "access": "", "host": "cfe.generic", "type": "method", "name": "hideOriginal"}, {"url": "cfe.generic.html#event_hover", "access": "", "host": "cfe.generic", "type": "event", "name": "hover"}, {"url": "cfe.generic.html#method_initialize", "access": "", "host": "cfe.generic", "type": "method", "name": "initialize"}, {"url": "cfe.generic.html#config_label", "access": "", "host": "cfe.generic", "type": "config", "name": "label"}, {"url": "cfe.generic.html#event_onBlur", "access": "", "host": "cfe.generic", "type": "event", "name": "onBlur"}, {"url": "cfe.generic.html#event_onClick", "access": "", "host": "cfe.generic", "type": "event", "name": "onClick"}, {"url": "cfe.generic.html#event_onDisable", "access": "", "host": "cfe.generic", "type": "event", "name": "onDisable"}, {"url": "cfe.generic.html#event_onEnable", "access": "", "host": "cfe.generic", "type": "event", "name": "onEnable"}, {"url": "cfe.generic.html#event_onFocus", "access": "", "host": "cfe.generic", "type": "event", "name": "onFocus"}, {"url": "cfe.generic.html#event_onUpdate", "access": "", "host": "cfe.generic", "type": "event", "name": "onUpdate"}, {"url": "cfe.generic.html#property_options", "access": "", "host": "cfe.generic", "type": "property", "name": "options"}, {"url": "cfe.generic.html#event_press", "access": "", "host": "cfe.generic", "type": "event", "name": "press"}, {"url": "cfe.generic.html#event_release", "access": "", "host": "cfe.generic", "type": "event", "name": "release"}, {"url": "cfe.generic.html#config_replaces", "access": "", "host": "cfe.generic", "type": "config", "name": "replaces"}, {"url": "cfe.generic.html#method_setupOriginal", "access": "protected", "host": "cfe.generic", "type": "method", "name": "setupOriginal"}, {"url": "cfe.generic.html#method_setupWrapper", "access": "protected", "host": "cfe.generic", "type": "method", "name": "setupWrapper"}, {"url": "cfe.generic.html#config_spacer", "access": "", "host": "cfe.generic", "type": "config", "name": "spacer"}, {"url": "cfe.generic.html#property_type", "access": "", "host": "cfe.generic", "type": "property", "name": "type"}, {"url": "cfe.generic.html#event_unhover", "access": "", "host": "cfe.generic", "type": "event", "name": "unhover"}];
+</script>
+
+</body>
+</html>

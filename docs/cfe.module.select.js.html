@@ -1,0 +1,475 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html xmlns:yui="http://yuilibrary.com/rdf/1.0/yui.rdf#">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+	<title>API: select   cfe.module.select.js  (Custom Form Elements)</title>
+
+	<link rel="stylesheet" type="text/css" href="assets/reset-fonts-grids-min.css?stamp=1244302022.05" />
+	<link rel="stylesheet" type="text/css" href="assets/api.css?stamp=1244302022.05" />
+
+    <script type="text/javascript" src="assets/api-js?stamp=1244302022.05"></script>
+    <script type="text/javascript" src="assets/ac-js?stamp=1244302022.05"></script>
+</head>
+
+<body id="yahoo-com">
+
+<div id="doc3" class="yui-t2">
+	<div id="hd">
+        <h1><a href="http://customformelements.net" title="Custom Form Elements">Custom Form Elements</a></h1>
+
+        <div class="path">
+            <h3>select&nbsp;</h3> ::
+            <a href="./index.html" title="Custom Form Elements">Custom Form Elements</a>
+                &gt; <a href="./module_select.html" title="select">select</a>
+                    
+                     &gt; cfe.module.select.js (source view) 
+            <span class="subtitle">0.9.2</span>
+        </div>
+        
+	</div>
+
+	<div id="bd">
+		<div id="yui-main">
+            <div class="yui-b">
+			<div class="yui-ge">
+                <div class="yui-u first">
+            <form action="#" name="yui-classopts-form" method="get" id="yui-classopts-form">
+                <fieldset>
+                    <legend>Filters</legend>
+                <span class="classopts"><input type="checkbox" name="show_private" id="show_private" /> <label for="show_private">Show Private</label></span>
+                <span class="classopts"><input type="checkbox" name="show_protected" id="show_protected" /> <label for="show_protected">Show Protected</label></span>
+                <span class="classopts"><input type="checkbox" name="show_deprecated" id="show_deprecated" /> <label for="show_deprecated">Show Deprecated</label></span>
+                </fieldset>
+            </form>
+
+                    <div id="srcout">
+                        <style>
+                            #doc3 .classopts { display:none; }
+                        </style>
+<div class="highlight"><pre><span class="c">/**</span>
+<span class="c"> * @module select</span>
+<span class="c"> */</span>
+
+<span class="c">/**</span>
+<span class="c"> * replaces select fields</span>
+<span class="c"> *</span>
+<span class="c"> * @class select</span>
+<span class="c"> * @namespace cfe.modules</span>
+<span class="c"> *</span>
+<span class="c"> * @requires generic</span>
+<span class="c"> * @extends cfe.generic</span>
+<span class="c"> *</span>
+<span class="c"> * bug:</span>
+<span class="c"> * height of options too small if option with linebreak; standalone and scrolling bug</span>
+<span class="c"> */</span>
+<span class="nx">cfe</span><span class="p">.</span><span class="nx">module</span><span class="p">.</span><span class="nx">select</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Class</span><span class="p">({</span>
+	
+    <span class="nx">Extends</span><span class="o">:</span> <span class="nx">cfe</span><span class="p">.</span><span class="nx">generic</span><span class="o">,</span>
+    <span class="nx">type</span><span class="o">:</span> <span class="s2">&quot;Selector&quot;</span><span class="o">,</span>
+    <span class="nx">selector</span><span class="o">:</span> <span class="s2">&quot;select:not(select[multiple])&quot;</span><span class="o">,</span>
+	
+    <span class="nx">options</span><span class="o">:</span> <span class="p">{</span>
+        <span class="nx">size</span><span class="o">:</span> <span class="mi">4</span><span class="o">,</span>
+        <span class="nx">scrolling</span><span class="o">:</span> <span class="kc">true</span><span class="o">,</span>
+        <span class="nx">scrollSteps</span><span class="o">:</span> <span class="mi">5</span>
+    <span class="p">}</span><span class="o">,</span>
+
+    <span class="nx">initializeAdv</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">parent</span><span class="p">();</span>
+		
+        <span class="k">this</span><span class="p">.</span><span class="nx">hideOriginal</span><span class="p">();</span>
+
+        <span class="k">this</span><span class="p">.</span><span class="nx">o</span><span class="p">.</span><span class="nx">addEvent</span><span class="p">(</span><span class="s2">&quot;keyup&quot;</span><span class="o">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">keyup</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">));</span>
+
+        <span class="k">this</span><span class="p">.</span><span class="nx">origOptions</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">o</span><span class="p">.</span><span class="nx">getChildren</span><span class="p">();</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">selectedIndex</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">o</span><span class="p">.</span><span class="nx">selectedIndex</span> <span class="o">||</span> <span class="mi">0</span><span class="o">;</span>
+		
+        <span class="c">// key indices</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">kind</span> <span class="o">=</span> <span class="p">[];</span>
+		
+        <span class="c">// integrity check</span>
+        <span class="k">if</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">size</span> <span class="o">&gt;</span> <span class="k">this</span><span class="p">.</span><span class="nx">origOptions</span><span class="p">.</span><span class="nx">length</span> <span class="o">||</span> <span class="k">this</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">scrolling</span> <span class="o">!=</span> <span class="kc">true</span><span class="p">)</span> <span class="k">this</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">size</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">origOptions</span><span class="p">.</span><span class="nx">length</span><span class="o">;</span>
+        
+        <span class="c">// needed for adding and removing events</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">boundWheelListener</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">mouseListener</span><span class="p">.</span><span class="nx">bindWithEvent</span><span class="p">(</span><span class="k">this</span><span class="p">);</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">boundClickedOutsideListener</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">clickOutsideListener</span><span class="p">.</span><span class="nx">bindWithEvent</span><span class="p">(</span><span class="k">this</span><span class="p">);</span>
+       
+    <span class="p">}</span><span class="o">,</span>
+
+    <span class="nx">createOriginal</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="kd">var</span> <span class="nx">ori</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Element</span><span class="p">(</span><span class="s2">&quot;select&quot;</span><span class="p">);</span>
+
+        <span class="k">if</span><span class="p">(</span> <span class="nx">$chk</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">options</span><span class="p">)</span> <span class="p">)</span>
+        <span class="p">{</span>
+            <span class="k">for</span><span class="p">(</span><span class="kd">var</span> <span class="nx">key</span> <span class="k">in</span> <span class="k">this</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">options</span><span class="p">)</span>
+            <span class="p">{</span>
+                <span class="nx">ori</span><span class="p">.</span><span class="nx">adopt</span><span class="p">(</span> <span class="k">new</span> <span class="nx">Element</span><span class="p">(</span><span class="s2">&quot;option&quot;</span><span class="o">,</span> <span class="p">{</span>
+                    <span class="nx">value</span><span class="o">:</span> <span class="nx">key</span><span class="o">,</span>
+                    <span class="nx">selected</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">options</span><span class="p">[</span><span class="nx">key</span><span class="p">].</span><span class="nx">selected</span><span class="o">?</span><span class="s2">&quot;selected&quot;</span><span class="o">:</span><span class="s2">&quot;&quot;</span>
+                <span class="p">}).</span><span class="nx">set</span><span class="p">(</span><span class="s2">&quot;html&quot;</span><span class="o">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">options</span><span class="p">[</span><span class="nx">key</span><span class="p">].</span><span class="kd">label</span> <span class="p">)</span> <span class="p">);</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="nx">ori</span><span class="o">;</span>
+    <span class="p">}</span><span class="o">,</span>
+
+    <span class="nx">build</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="c">/* build the select element showing the currently selected item */</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">a</span><span class="p">.</span><span class="nx">addClass</span><span class="p">(</span><span class="s2">&quot;js&quot;</span><span class="o">+</span><span class="k">this</span><span class="p">.</span><span class="nx">type</span><span class="o">+</span><span class="k">this</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">instanceID</span><span class="p">);</span>
+		
+        <span class="k">this</span><span class="p">.</span><span class="nx">arrow</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Element</span><span class="p">(</span><span class="s2">&quot;img&quot;</span><span class="o">,</span><span class="p">{</span>
+            <span class="s2">&quot;class&quot;</span><span class="o">:</span> <span class="s2">&quot;js&quot;</span><span class="o">+</span><span class="k">this</span><span class="p">.</span><span class="nx">type</span><span class="o">+</span><span class="s2">&quot;Arrow&quot;</span><span class="o">,</span>
+            <span class="s2">&quot;src&quot;</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">spacer</span><span class="o">,</span>
+            <span class="s2">&quot;styles&quot;</span><span class="o">:</span> <span class="p">{</span>
+                <span class="s2">&quot;float&quot;</span><span class="o">:</span><span class="s2">&quot;right&quot;</span><span class="o">,</span>
+                <span class="s2">&quot;display&quot;</span><span class="o">:</span><span class="s2">&quot;inline&quot;</span>
+            <span class="p">}</span>
+        <span class="p">}).</span><span class="nx">injectInside</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">a</span><span class="p">);</span>
+		
+        <span class="k">this</span><span class="p">.</span><span class="nx">ai</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Element</span><span class="p">(</span><span class="s2">&quot;span&quot;</span><span class="p">).</span><span class="nx">addClass</span><span class="p">(</span><span class="s2">&quot;js&quot;</span><span class="o">+</span><span class="k">this</span><span class="p">.</span><span class="nx">type</span><span class="o">+</span><span class="s2">&quot;Slide&quot;</span><span class="p">).</span><span class="nx">injectInside</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">a</span><span class="p">).</span><span class="nx">adopt</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">arrow</span><span class="p">);</span>
+
+        <span class="k">this</span><span class="p">.</span><span class="nx">activeEl</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Element</span><span class="p">(</span><span class="s2">&quot;span&quot;</span><span class="o">,</span><span class="p">{</span>
+            <span class="s2">&quot;class&quot;</span><span class="o">:</span> <span class="s2">&quot;jsOptionSelected&quot;</span><span class="o">,</span>
+            <span class="s2">&quot;styles&quot;</span><span class="o">:</span> <span class="p">{</span>
+                <span class="s2">&quot;float&quot;</span><span class="o">:</span><span class="s2">&quot;left&quot;</span><span class="o">,</span>
+                <span class="s2">&quot;display&quot;</span><span class="o">:</span><span class="s2">&quot;inline&quot;</span>
+            <span class="p">}</span>
+        <span class="p">}).</span><span class="nx">set</span><span class="p">(</span><span class="s1">&#39;html&#39;</span><span class="o">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">origOptions</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nx">get</span><span class="p">(</span><span class="s2">&quot;text&quot;</span><span class="p">)</span> <span class="p">).</span><span class="nx">injectBefore</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">arrow</span><span class="p">);</span>
+			
+        <span class="c">/* build container which shows on click */</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">buildContainer</span><span class="p">();</span>
+       
+        <span class="c">// select default option</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">selectOption</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">selectedIndex</span><span class="o">,</span> <span class="kc">false</span><span class="o">,</span> <span class="kc">true</span><span class="p">);</span>
+    <span class="p">}</span><span class="o">,</span>
+
+    <span class="nx">buildOption</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">el</span><span class="o">,</span> <span class="nx">index</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="kd">var</span> <span class="nx">oOpt</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Element</span><span class="p">(</span><span class="s2">&quot;div&quot;</span><span class="o">,</span><span class="p">{</span>
+            <span class="s2">&quot;class&quot;</span><span class="o">:</span> <span class="s2">&quot;jsOption jsOption&quot;</span><span class="o">+</span><span class="nx">index</span><span class="o">,</span>
+            <span class="s2">&quot;events&quot;</span><span class="o">:</span><span class="p">{</span>
+                <span class="s2">&quot;mouseover&quot;</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">highlightOption</span><span class="p">.</span><span class="nx">pass</span><span class="p">([</span><span class="nx">index</span><span class="o">,</span><span class="kc">true</span><span class="p">]</span><span class="o">,</span><span class="k">this</span><span class="p">)</span><span class="o">,</span>
+                <span class="s2">&quot;mouseout&quot;</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">highlightOption</span><span class="p">.</span><span class="nx">pass</span><span class="p">([</span><span class="nx">index</span><span class="o">,</span><span class="kc">true</span><span class="p">]</span><span class="o">,</span><span class="k">this</span><span class="p">)</span>
+            <span class="p">}</span>
+        <span class="p">}).</span><span class="nx">set</span><span class="p">(</span><span class="s1">&#39;html&#39;</span><span class="o">,</span> <span class="nx">el</span><span class="p">.</span><span class="nx">innerHTML</span><span class="p">);</span>
+
+        <span class="nx">oOpt</span><span class="p">.</span><span class="nx">index</span> <span class="o">=</span> <span class="nx">index</span><span class="o">;</span>
+        <span class="nx">oOpt</span><span class="p">.</span><span class="nx">disableTextSelection</span><span class="p">();</span>
+
+        <span class="k">return</span> <span class="nx">oOpt</span><span class="o">;</span>
+    <span class="p">}</span><span class="o">,</span>
+
+    <span class="nx">setupScrolling</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="c">// slider config</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">scrollerWrapper</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Element</span><span class="p">(</span><span class="s2">&quot;div&quot;</span><span class="o">,</span><span class="p">{</span>
+            <span class="s2">&quot;class&quot;</span><span class="o">:</span> <span class="s2">&quot;js&quot;</span><span class="o">+</span><span class="k">this</span><span class="p">.</span><span class="nx">type</span><span class="o">+</span><span class="s2">&quot;ScrollerWrapper&quot;</span><span class="o">,</span>
+            <span class="s2">&quot;styles&quot;</span><span class="o">:</span><span class="p">{</span>
+                <span class="nx">height</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">gfxHeight</span>
+            <span class="p">}</span>
+        <span class="p">}).</span><span class="nx">injectInside</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">cContent</span><span class="p">);</span>
+
+        <span class="k">this</span><span class="p">.</span><span class="nx">scrollerTop</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">cfe</span><span class="p">.</span><span class="nx">generic</span><span class="p">().</span><span class="nx">getAlias</span><span class="p">().</span><span class="nx">addClass</span><span class="p">(</span><span class="s2">&quot;scrollTop&quot;</span><span class="p">).</span><span class="nx">addEvent</span><span class="p">(</span><span class="s2">&quot;click&quot;</span><span class="o">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">ev</span><span class="p">){</span>
+            <span class="k">this</span><span class="p">.</span><span class="nx">moveScroller</span><span class="p">.</span><span class="nx">pass</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="o">*</span><span class="k">this</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">scrollSteps</span><span class="o">,</span><span class="k">this</span><span class="p">)();</span>
+        <span class="p">}.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">));</span>
+
+        <span class="k">this</span><span class="p">.</span><span class="nx">scrollerBottom</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">cfe</span><span class="p">.</span><span class="nx">generic</span><span class="p">().</span><span class="nx">getAlias</span><span class="p">().</span><span class="nx">addClass</span><span class="p">(</span><span class="s2">&quot;scrollBottom&quot;</span><span class="p">).</span><span class="nx">addEvent</span><span class="p">(</span><span class="s2">&quot;click&quot;</span><span class="o">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">ev</span><span class="p">){</span>
+            <span class="k">this</span><span class="p">.</span><span class="nx">moveScroller</span><span class="p">.</span><span class="nx">pass</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">scrollSteps</span><span class="o">,</span><span class="k">this</span><span class="p">)();</span>
+        <span class="p">}.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">));</span>
+
+        <span class="k">this</span><span class="p">.</span><span class="nx">scrollerKnob</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Element</span><span class="p">(</span><span class="s2">&quot;span&quot;</span><span class="o">,</span><span class="p">{</span>
+            <span class="s2">&quot;class&quot;</span><span class="o">:</span> <span class="s2">&quot;scrollKnob spc&quot;</span>
+        <span class="p">});</span>
+
+        <span class="k">this</span><span class="p">.</span><span class="nx">scrollerBack</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Element</span><span class="p">(</span><span class="s2">&quot;div&quot;</span><span class="p">);</span>
+
+        <span class="k">this</span><span class="p">.</span><span class="nx">scrollerBack</span><span class="p">.</span><span class="nx">adopt</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">scrollerKnob</span><span class="p">);</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">scrollerWrapper</span><span class="p">.</span><span class="nx">adopt</span><span class="p">([</span><span class="k">this</span><span class="p">.</span><span class="nx">scrollerTop</span><span class="o">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">scrollerBack</span><span class="o">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">scrollerBottom</span><span class="p">]);</span>
+
+        <span class="k">this</span><span class="p">.</span><span class="nx">scrollerBack</span><span class="p">.</span><span class="nx">setStyle</span><span class="p">(</span><span class="s2">&quot;height&quot;</span><span class="o">,</span><span class="k">this</span><span class="p">.</span><span class="nx">gfxHeight</span> <span class="o">-</span> <span class="mi">2</span><span class="o">*</span><span class="k">this</span><span class="p">.</span><span class="nx">scrollerTop</span><span class="p">.</span><span class="nx">getFirst</span><span class="p">().</span><span class="nx">getHeight</span><span class="p">());</span>
+
+        <span class="c">// slider</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">sliderSteps</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">aliasOptions</span><span class="p">.</span><span class="nx">getScrollSize</span><span class="p">().</span><span class="nx">y</span> <span class="o">-</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">size</span><span class="o">*</span><span class="k">this</span><span class="p">.</span><span class="nx">aliasOptions</span><span class="p">.</span><span class="nx">getScrollSize</span><span class="p">().</span><span class="nx">y</span><span class="o">/</span><span class="k">this</span><span class="p">.</span><span class="nx">aOptions</span><span class="p">.</span><span class="nx">length</span><span class="p">);</span>
+
+        <span class="k">this</span><span class="p">.</span><span class="nx">slider</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Slider</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">scrollerBack</span><span class="o">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">scrollerKnob</span><span class="o">,</span> <span class="p">{</span>
+            <span class="nx">steps</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">sliderSteps</span><span class="o">,</span>
+            <span class="nx">mode</span><span class="o">:</span> <span class="s2">&quot;vertical&quot;</span> <span class="o">,</span>
+            <span class="nx">onChange</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">step</span><span class="p">){</span>
+                <span class="k">this</span><span class="p">.</span><span class="nx">aliasOptions</span><span class="p">.</span><span class="nx">scrollTo</span><span class="p">(</span><span class="kc">false</span><span class="o">,</span><span class="nx">step</span><span class="p">);</span>
+            <span class="p">}.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">)</span>
+        <span class="p">}).</span><span class="nx">set</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+    <span class="p">}</span><span class="o">,</span>
+    
+    <span class="nx">buildContainer</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="c">/* always shown */</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">container</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Element</span><span class="p">(</span><span class="s2">&quot;div&quot;</span><span class="o">,</span><span class="p">{</span>
+            <span class="s2">&quot;class&quot;</span><span class="o">:</span> <span class="s2">&quot;js&quot;</span><span class="o">+</span><span class="k">this</span><span class="p">.</span><span class="nx">type</span><span class="o">+</span><span class="s2">&quot;Container&quot;</span><span class="o">,</span>
+            <span class="s2">&quot;styles&quot;</span><span class="o">:</span><span class="p">{</span>
+                <span class="s2">&quot;overflow&quot;</span><span class="o">:</span><span class="s2">&quot;hidden&quot;</span>
+            <span class="p">}</span>
+        <span class="p">});</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">container</span><span class="p">.</span><span class="nx">setSlidingDoors</span><span class="p">(</span><span class="mi">4</span><span class="o">,</span> <span class="s2">&quot;div&quot;</span><span class="o">,</span> <span class="s2">&quot;jsSelectorContent&quot;</span><span class="p">).</span><span class="nx">injectInside</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">a</span><span class="p">);</span>
+
+        <span class="k">this</span><span class="p">.</span><span class="nx">cContent</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">container</span><span class="p">.</span><span class="nx">getParent</span><span class="p">();</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">containerSlide</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">cContent</span><span class="p">.</span><span class="nx">getParents</span><span class="p">(</span><span class="s2">&quot;.jsSelectorContentSlide1&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">];</span>
+        
+        <span class="k">this</span><span class="p">.</span><span class="nx">aliasOptions</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">container</span><span class="o">;</span>
+
+        <span class="k">if</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">cContent</span><span class="p">.</span><span class="nx">getStyle</span><span class="p">(</span><span class="s2">&quot;width&quot;</span><span class="p">).</span><span class="nx">toInt</span><span class="p">()</span> <span class="o">===</span> <span class="mi">0</span><span class="p">){</span>
+            <span class="kd">var</span> <span class="nx">letFloat</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
+        <span class="p">}</span>
+
+        <span class="c">// insert option elements</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">origOptions</span><span class="p">.</span><span class="nx">each</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">el</span><span class="o">,</span><span class="nx">i</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="k">this</span><span class="p">.</span><span class="nx">buildOption</span><span class="p">(</span><span class="nx">el</span><span class="o">,</span> <span class="nx">i</span><span class="p">).</span><span class="nx">inject</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">aliasOptions</span><span class="p">);</span>
+        <span class="p">}.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">));</span>
+
+        <span class="k">this</span><span class="p">.</span><span class="nx">aOptions</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">aliasOptions</span><span class="p">.</span><span class="nx">getChildren</span><span class="p">();</span>
+
+        <span class="k">this</span><span class="p">.</span><span class="nx">gfxHeight</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">aOptions</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nx">getHeight</span><span class="p">()</span><span class="o">*</span><span class="k">this</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">size</span><span class="o">;</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">gfxWidth</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">cContent</span><span class="p">.</span><span class="nx">getWidth</span><span class="p">()</span><span class="o">-</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">cContent</span><span class="p">.</span><span class="nx">getStyle</span><span class="p">(</span><span class="s2">&quot;padding-left&quot;</span><span class="p">)).</span><span class="nx">toInt</span><span class="p">()</span><span class="o">-</span><span class="k">this</span><span class="p">.</span><span class="nx">cContent</span><span class="p">.</span><span class="nx">getStyle</span><span class="p">(</span><span class="s2">&quot;padding-right&quot;</span><span class="p">).</span><span class="nx">toInt</span><span class="p">();</span>
+
+        <span class="c">// scroller if scrolling enabled</span>
+        <span class="k">if</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">scrolling</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="k">this</span><span class="p">.</span><span class="nx">setupScrolling</span><span class="p">();</span>
+            <span class="k">this</span><span class="p">.</span><span class="nx">gfxWidth</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">gfxWidth</span><span class="o">-</span><span class="k">this</span><span class="p">.</span><span class="nx">scrollerWrapper</span><span class="p">.</span><span class="nx">getWidth</span><span class="p">();</span>
+        <span class="p">}</span>
+        
+        <span class="k">if</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">gfxHeight</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">this</span><span class="p">.</span><span class="nx">aliasOptions</span><span class="p">.</span><span class="nx">setStyle</span><span class="p">(</span><span class="s2">&quot;height&quot;</span><span class="o">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">gfxHeight</span><span class="p">);</span>
+        <span class="k">if</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">gfxWidth</span> <span class="o">!=</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="nx">letFloat</span><span class="p">)</span> <span class="k">this</span><span class="p">.</span><span class="nx">aliasOptions</span><span class="p">.</span><span class="nx">setStyle</span><span class="p">(</span><span class="s2">&quot;width&quot;</span><span class="o">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">gfxWidth</span><span class="p">);</span>
+    <span class="p">}</span><span class="o">,</span>
+
+    <span class="nx">selectOption</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">index</span><span class="o">,</span><span class="nx">stayOpenAfterSelect</span><span class="o">,</span> <span class="nx">dontScroll</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="nx">index</span> <span class="o">=</span> <span class="nx">index</span><span class="p">.</span><span class="nx">limit</span><span class="p">(</span><span class="mi">0</span><span class="o">,</span><span class="k">this</span><span class="p">.</span><span class="nx">origOptions</span><span class="p">.</span><span class="nx">length</span><span class="o">-</span><span class="mi">1</span><span class="p">);</span>
+
+        <span class="k">this</span><span class="p">.</span><span class="nx">highlightOption</span><span class="p">(</span><span class="nx">index</span><span class="o">,</span> <span class="nx">dontScroll</span><span class="p">);</span>
+
+        <span class="k">this</span><span class="p">.</span><span class="nx">selectedIndex</span> <span class="o">=</span> <span class="nx">index</span><span class="o">;</span>
+
+        <span class="k">this</span><span class="p">.</span><span class="nx">activeEl</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s1">&#39;html&#39;</span><span class="o">,</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">aOptions</span><span class="p">[</span><span class="nx">index</span><span class="p">]).</span><span class="nx">innerHTML</span><span class="p">);</span>
+
+        <span class="k">if</span><span class="p">(</span> <span class="o">!</span><span class="nx">$chk</span><span class="p">(</span><span class="nx">stayOpenAfterSelect</span><span class="p">)</span> <span class="p">)</span> <span class="k">this</span><span class="p">.</span><span class="nx">hideContainer</span><span class="p">();</span>
+    <span class="p">}</span><span class="o">,</span>
+
+    <span class="nx">highlightOption</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">index</span><span class="o">,</span> <span class="nx">dontScroll</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="nx">index</span> <span class="o">=</span> <span class="nx">index</span><span class="p">.</span><span class="nx">limit</span><span class="p">(</span><span class="mi">0</span><span class="o">,</span><span class="k">this</span><span class="p">.</span><span class="nx">origOptions</span><span class="p">.</span><span class="nx">length</span><span class="o">-</span><span class="mi">1</span><span class="p">);</span>
+        
+        <span class="k">if</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">highlighted</span><span class="p">)</span> <span class="k">this</span><span class="p">.</span><span class="nx">highlighted</span><span class="p">.</span><span class="nx">removeClass</span><span class="p">(</span><span class="s2">&quot;H&quot;</span><span class="p">);</span>
+        
+        <span class="k">this</span><span class="p">.</span><span class="nx">highlighted</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">aOptions</span><span class="p">[</span><span class="nx">index</span><span class="p">].</span><span class="nx">addClass</span><span class="p">(</span><span class="s2">&quot;H&quot;</span><span class="p">);</span>
+
+        <span class="k">this</span><span class="p">.</span><span class="nx">highlightedIndex</span> <span class="o">=</span> <span class="nx">index</span><span class="o">;</span>
+
+        <span class="k">if</span><span class="p">(</span> <span class="o">!</span><span class="nx">$chk</span><span class="p">(</span><span class="nx">dontScroll</span><span class="p">)</span> <span class="p">)</span> <span class="k">this</span><span class="p">.</span><span class="nx">scrollToSelectedItem</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">highlightedIndex</span><span class="p">);</span>
+    <span class="p">}</span><span class="o">,</span>
+	
+    <span class="nx">scrollToSelectedItem</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">index</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">if</span><span class="p">(</span> <span class="k">this</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">scrolling</span> <span class="p">)</span> <span class="k">this</span><span class="p">.</span><span class="nx">slider</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">sliderSteps</span><span class="o">/</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">aOptions</span><span class="p">.</span><span class="nx">length</span><span class="o">-</span><span class="k">this</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">size</span><span class="p">))</span><span class="o">*</span><span class="nx">index</span> <span class="p">);</span>
+    <span class="p">}</span><span class="o">,</span>
+
+    <span class="nx">moveScroller</span><span class="o">:</span><span class="kd">function</span><span class="p">(</span><span class="nx">by</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="kd">var</span> <span class="nx">scrol</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">aliasOptions</span><span class="p">.</span><span class="nx">getScroll</span><span class="p">().</span><span class="nx">y</span><span class="o">;</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">slider</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span> <span class="nx">scrol</span><span class="o">+</span><span class="nx">by</span><span class="o">&lt;</span><span class="k">this</span><span class="p">.</span><span class="nx">sliderSteps</span><span class="o">?</span><span class="nx">scrol</span><span class="o">+</span><span class="nx">by</span><span class="o">:</span><span class="k">this</span><span class="p">.</span><span class="nx">sliderSteps</span> <span class="p">);</span>
+    <span class="p">}</span><span class="o">,</span>
+
+    <span class="nx">hideContainer</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="nx">$</span><span class="p">(</span><span class="nb">document</span><span class="p">.</span><span class="nx">body</span><span class="p">).</span><span class="nx">removeEvent</span><span class="p">(</span><span class="s2">&quot;mousewheel&quot;</span><span class="o">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">boundWheelListener</span><span class="p">);</span>
+        <span class="nx">$</span><span class="p">(</span><span class="nb">document</span><span class="p">.</span><span class="nx">body</span><span class="p">).</span><span class="nx">removeEvent</span><span class="p">(</span><span class="s2">&quot;click&quot;</span><span class="o">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">boundClickedOutsideListener</span><span class="p">);</span>
+        
+        <span class="k">this</span><span class="p">.</span><span class="nx">containerSlide</span><span class="p">.</span><span class="nx">setStyle</span><span class="p">(</span><span class="s2">&quot;display&quot;</span><span class="o">,</span><span class="s2">&quot;none&quot;</span><span class="p">);</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">shown</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span>
+    <span class="p">}</span><span class="o">,</span>
+
+    <span class="nx">showContainer</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span>
+    <span class="p">{</span>
+       <span class="nx">$</span><span class="p">(</span><span class="nb">document</span><span class="p">.</span><span class="nx">body</span><span class="p">).</span><span class="nx">addEvent</span><span class="p">(</span><span class="s2">&quot;mousewheel&quot;</span><span class="o">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">boundWheelListener</span><span class="p">);</span>
+       <span class="nx">$</span><span class="p">(</span><span class="nb">document</span><span class="p">.</span><span class="nx">body</span><span class="p">).</span><span class="nx">addEvent</span><span class="p">(</span><span class="s2">&quot;click&quot;</span><span class="o">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">boundClickedOutsideListener</span><span class="p">);</span>
+
+        <span class="c">// show container</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">containerSlide</span><span class="p">.</span><span class="nx">setStyles</span><span class="p">({</span>
+            <span class="nx">display</span><span class="o">:</span><span class="s2">&quot;block&quot;</span><span class="o">,</span>
+            <span class="nx">position</span><span class="o">:</span><span class="s2">&quot;absolute&quot;</span><span class="o">,</span>
+            <span class="nx">top</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">a</span><span class="p">.</span><span class="nx">getTop</span><span class="p">()</span><span class="o">,</span>
+            <span class="nx">left</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">a</span><span class="p">.</span><span class="nx">getLeft</span><span class="p">()</span><span class="o">,</span>
+            <span class="s2">&quot;z-index&quot;</span><span class="o">:</span> <span class="mi">1000</span> <span class="o">-</span> <span class="k">this</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">instanceID</span>
+        <span class="p">});</span>
+        
+        <span class="k">this</span><span class="p">.</span><span class="nx">shown</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
+
+        <span class="k">this</span><span class="p">.</span><span class="nx">highlightOption</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">o</span><span class="p">.</span><span class="nx">selectedIndex</span><span class="p">);</span>
+    <span class="p">}</span><span class="o">,</span>
+
+    <span class="nx">clicked</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">e</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="k">this</span><span class="p">.</span><span class="nx">isDisabled</span><span class="p">())</span>
+        <span class="p">{</span>
+            <span class="kd">var</span> <span class="nx">ev</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Event</span><span class="p">(</span><span class="nx">e</span><span class="p">);</span>
+
+            <span class="k">if</span><span class="p">(</span> <span class="nx">$defined</span><span class="p">(</span><span class="nx">ev</span><span class="p">.</span><span class="nx">target</span><span class="p">)</span> <span class="p">)</span>
+            <span class="p">{</span>
+                <span class="kd">var</span> <span class="nx">oTarget</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="nx">ev</span><span class="p">.</span><span class="nx">target</span><span class="p">);</span>
+
+                <span class="k">if</span><span class="p">(</span> <span class="nx">oTarget</span><span class="p">.</span><span class="nx">getParent</span><span class="p">()</span> <span class="o">==</span> <span class="k">this</span><span class="p">.</span><span class="nx">aliasOptions</span> <span class="p">)</span>
+                <span class="p">{</span>
+                    <span class="k">this</span><span class="p">.</span><span class="nx">selectOption</span><span class="p">(</span><span class="nx">oTarget</span><span class="p">.</span><span class="nx">index</span><span class="o">,</span> <span class="kc">true</span><span class="o">,</span> <span class="kc">true</span><span class="p">);</span>
+                    <span class="k">this</span><span class="p">.</span><span class="nx">hideContainer</span><span class="p">();</span>
+                    <span class="k">this</span><span class="p">.</span><span class="nx">parent</span><span class="p">();</span>
+                    <span class="k">this</span><span class="p">.</span><span class="nx">o</span><span class="p">.</span><span class="nx">selectedIndex</span> <span class="o">=</span> <span class="nx">oTarget</span><span class="p">.</span><span class="nx">index</span><span class="o">;</span>
+                    <span class="k">return</span><span class="o">;</span>
+                <span class="p">}</span>
+                <span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">scrolling</span> <span class="o">&amp;&amp;</span> <span class="nx">oTarget</span><span class="p">.</span><span class="nx">getParents</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="o">+</span><span class="k">this</span><span class="p">.</span><span class="nx">scrollerWrapper</span><span class="p">.</span><span class="nx">getProperty</span><span class="p">(</span><span class="s2">&quot;class&quot;</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="k">this</span><span class="p">.</span><span class="nx">scrollerWrapper</span><span class="p">)</span>
+                <span class="p">{</span>
+                    <span class="c">//console.log(&quot;no toggle&quot;);</span>
+                    <span class="k">return</span><span class="o">;</span>
+                <span class="p">}</span>
+            <span class="p">}</span>
+
+        <span class="k">this</span><span class="p">.</span><span class="nx">toggle</span><span class="p">();</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">parent</span><span class="p">();</span>
+        <span class="p">}</span>        
+    <span class="p">}</span><span class="o">,</span>
+
+    <span class="nx">toggle</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="nx">$chk</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">isShown</span><span class="p">)</span><span class="o">?</span><span class="k">this</span><span class="p">.</span><span class="nx">hideContainer</span><span class="p">()</span><span class="o">:</span><span class="k">this</span><span class="p">.</span><span class="nx">showContainer</span><span class="p">();</span>
+    <span class="p">}</span><span class="o">,</span>
+	
+    <span class="nx">keyup</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">e</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="kd">var</span> <span class="nx">ev</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Event</span><span class="p">(</span><span class="nx">e</span><span class="p">);</span>
+
+        <span class="nx">switch</span><span class="p">(</span><span class="nx">ev</span><span class="p">.</span><span class="nx">key</span><span class="p">){</span>
+            <span class="nx">case</span> <span class="s2">&quot;enter&quot;</span><span class="o">:</span>
+            <span class="nx">case</span> <span class="s2">&quot;space&quot;</span><span class="o">:</span>
+                <span class="k">this</span><span class="p">.</span><span class="nx">toggle</span><span class="p">();</span>
+                <span class="k">break</span><span class="o">;</span>
+
+            <span class="nx">case</span> <span class="s2">&quot;up&quot;</span><span class="o">:</span>
+                <span class="k">this</span><span class="p">.</span><span class="nx">updateOption</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">);</span>
+                <span class="k">break</span><span class="o">;</span>
+
+            <span class="nx">case</span> <span class="s2">&quot;down&quot;</span><span class="o">:</span>
+                <span class="k">this</span><span class="p">.</span><span class="nx">updateOption</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+                <span class="k">break</span><span class="o">;</span>
+
+            <span class="nx">case</span> <span class="s2">&quot;esc&quot;</span><span class="o">:</span>
+                <span class="k">this</span><span class="p">.</span><span class="nx">hideContainer</span><span class="p">();</span>
+                <span class="k">break</span><span class="o">;</span>
+                
+            <span class="nx">default</span><span class="o">:</span>
+                <span class="k">this</span><span class="p">.</span><span class="nx">o</span><span class="p">.</span><span class="nx">fireEvent</span><span class="p">(</span><span class="s2">&quot;change&quot;</span><span class="p">);</span>
+                <span class="k">break</span><span class="o">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span><span class="o">,</span>
+	
+    <span class="nx">mouseListener</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">e</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="kd">var</span> <span class="nx">ev</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Event</span><span class="p">(</span><span class="nx">e</span><span class="p">).</span><span class="nx">stop</span><span class="p">();</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">updateOption</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="o">*</span><span class="nx">ev</span><span class="p">.</span><span class="nx">wheel</span><span class="p">);</span>
+    <span class="p">}</span><span class="o">,</span>
+
+    <span class="nx">updateOption</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">by</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">o</span><span class="p">.</span><span class="nx">selectedIndex</span> <span class="o">=</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">highlightedIndex</span><span class="o">+</span><span class="nx">by</span><span class="p">).</span><span class="nx">limit</span><span class="p">(</span><span class="mi">0</span><span class="o">,</span><span class="k">this</span><span class="p">.</span><span class="nx">origOptions</span><span class="p">.</span><span class="nx">length</span><span class="o">-</span><span class="mi">1</span><span class="p">);</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">o</span><span class="p">.</span><span class="nx">fireEvent</span><span class="p">(</span><span class="s2">&quot;change&quot;</span><span class="p">);</span>
+    <span class="p">}</span><span class="o">,</span>
+    
+    <span class="nx">clickOutsideListener</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">ev</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="kd">var</span> <span class="nx">e</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Event</span><span class="p">(</span><span class="nx">ev</span><span class="p">);</span>
+        
+        <span class="kd">var</span> <span class="nx">testPar</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="nx">e</span><span class="p">.</span><span class="nx">target</span><span class="p">).</span><span class="nx">getParents</span><span class="p">(</span><span class="s2">&quot;.js&quot;</span><span class="o">+</span><span class="k">this</span><span class="p">.</span><span class="nx">type</span><span class="o">+</span><span class="k">this</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">instanceID</span><span class="p">);</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="nx">testPar</span><span class="p">.</span><span class="nx">length</span> <span class="o">===</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="p">(</span><span class="nx">Browser</span><span class="p">.</span><span class="nx">Engine</span><span class="p">.</span><span class="nx">trident</span> <span class="o">&amp;&amp;</span> <span class="nx">e</span><span class="p">.</span><span class="nx">target</span> <span class="o">==</span> <span class="k">this</span><span class="p">.</span><span class="nx">o</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">l</span> <span class="o">&amp;&amp;</span> <span class="nx">$</span><span class="p">(</span><span class="nx">e</span><span class="p">.</span><span class="nx">target</span><span class="p">)</span> <span class="o">!=</span> <span class="k">this</span><span class="p">.</span><span class="nx">l</span><span class="p">)</span> <span class="p">)</span> <span class="k">this</span><span class="p">.</span><span class="nx">hideContainer</span><span class="p">();</span>
+    <span class="p">}</span><span class="o">,</span>
+
+    <span class="nx">update</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">parent</span><span class="p">();</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">selectOption</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">o</span><span class="p">.</span><span class="nx">selectedIndex</span><span class="o">,</span> <span class="kc">true</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">});</span>
+</pre></div>
+                    </div>
+                </div>
+
+                <div class="yui-u nav rightNav">
+                    <form onsubmit="return false" id="propertysearch">
+                            Quickfinder: <input autocomplete="off" id="searchinput" />
+                            <div id="searchresults">
+                                &nbsp;
+                            </div>
+                    </form>
+
+
+
+
+
+                </div>
+
+
+			</div>
+            </div>
+		</div>
+		<div class="yui-b">
+            <div class="nav">
+
+                    <div id="moduleList" class="module">
+                        <h4>Modules</h4>
+                        <ul class="content">
+                                <li class=""><a href="module_addon.html" title="addon">addon</a></li>
+                                <li class=""><a href="module_button.html" title="button">button</a></li>
+                                <li class=""><a href="module_check.html" title="check">check</a></li>
+                                <li class=""><a href="module_core.html" title="core">core</a></li>
+                                <li class=""><a href="module_fieldset.html" title="fieldset">fieldset</a></li>
+                                <li class=""><a href="module_file.html" title="file">file</a></li>
+                                <li class=""><a href="module_group.html" title="group">group</a></li>
+                                <li class="selected"><a href="module_select.html" title="select">select</a></li>
+                                <li class=""><a href="module_text.html" title="text">text</a></li>
+                        </ul>
+                    </div>
+
+                    <div id="classList" class="module">
+                        <h4>Classes</h4>
+                        <ul class="content">
+                                <li class=""><a href="cfe.module.select_multiple.html" title="cfe.module.select_multiple">cfe.module.select_multiple</a></li>
+                                <li class=""><a href="cfe.modules.select.html" title="cfe.modules.select">cfe.modules.select</a></li>
+                        </ul>
+                    </div>
+
+                    <div id="fileList" class="module">
+                        <h4>Files</h4>
+                        <ul class="content">        
+                                <li class="selected"><a href="cfe.module.select.js.html" title="cfe.module.select.js">cfe.module.select.js</a></li>
+                                <li class=""><a href="cfe.module.select.multiple.js.html" title="cfe.module.select.multiple.js">cfe.module.select.multiple.js</a></li>
+                        </ul>
+                    </div>
+            </div>
+		</div>
+
+    <div id="ft"><a title="Jump to the top of this page" class="toplink" href="#hd">back to top</a>
+		 | &copy; 2007-2009
+		 | custom form elements <a title="mediavrog.net" href="http://mediavrog.net/blog/">mediavrog</a> project.
+         | documentation build with <a title="Yahoo! UI Library: YUI Doc" href="http://developer.yahoo.com/yui/yuidoc/">YUI Doc from Yahoo!</a>
+
+	</div>
+
+	</div>
+
+</div>
+<script type="text/javascript">
+    ALL_YUI_PROPS = [];
+</script>
+
+</body>
+</html>

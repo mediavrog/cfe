@@ -1,0 +1,936 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html xmlns:yui="http://yuilibrary.com/rdf/1.0/yui.rdf#">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+	<title>API: core  cfe.generic   (Custom Form Elements)</title>
+
+	<link rel="stylesheet" type="text/css" href="assets/reset-fonts-grids-min.css?stamp=1244302018.59" />
+	<link rel="stylesheet" type="text/css" href="assets/api.css?stamp=1244302018.59" />
+
+    <script type="text/javascript" src="assets/api-js?stamp=1244302018.59"></script>
+    <script type="text/javascript" src="assets/ac-js?stamp=1244302018.59"></script>
+</head>
+
+<body id="yahoo-com">
+
+<div id="doc3" class="yui-t2">
+	<div id="hd">
+        <h1><a href="http://customformelements.net" title="Custom Form Elements">Custom Form Elements</a></h1>
+
+        <div class="path">
+            <h3>core&nbsp;</h3> ::
+            <a href="./index.html" title="Custom Form Elements">Custom Form Elements</a>
+                &gt; <a href="./module_core.html" title="core">core</a>
+                     &gt; cfe.generic 
+                    
+            <span class="subtitle">0.9.2</span>
+        </div>
+        
+	</div>
+
+	<div id="bd">
+		<div id="yui-main">
+            <div class="yui-b">
+			<div class="yui-ge">
+                <div class="yui-u first">
+            <form action="#" name="yui-classopts-form" method="get" id="yui-classopts-form">
+                <fieldset>
+                    <legend>Filters</legend>
+                <span class="classopts"><input type="checkbox" name="show_private" id="show_private" /> <label for="show_private">Show Private</label></span>
+                <span class="classopts"><input type="checkbox" name="show_protected" id="show_protected" /> <label for="show_protected">Show Protected</label></span>
+                <span class="classopts"><input type="checkbox" name="show_deprecated" id="show_deprecated" /> <label for="show_deprecated">Show Deprecated</label></span>
+                </fieldset>
+            </form>
+
+                    <h2>
+                        
+
+                        
+                        
+                            Class <b property="yui:name">cfe.generic</b>
+                        <span class="extends">
+                        </span>
+
+                    </h2>
+                    <!-- class tree goes here -->
+                    
+                        <dl class="subclasses" rel="yui:subclasses">
+                            <dt>Known Subclasses:</dt>
+                            <dd>
+                                    <span rel="yui:subclass" resource="cfe.module.submit.html">
+                                    <a href="cfe.module.submit.html" property="yui:name" title="cfe.module.submit">cfe.module.submit</a>
+                                    </span>
+                                    <span rel="yui:subclass" resource="cfe.module.text.html">
+                                    <a href="cfe.module.text.html" property="yui:name" title="cfe.module.text">cfe.module.text</a>
+                                    </span>
+                                    <span rel="yui:subclass" resource="cfe.module.image.html">
+                                    <a href="cfe.module.image.html" property="yui:name" title="cfe.module.image">cfe.module.image</a>
+                                    </span>
+                            </dd>
+                       </dl>
+                
+  
+
+                    <div class="summary description" property="yui:description">
+                        cfe.generic gets extended by modules to start off with standard, button-like behaviours.
+                    </div>
+
+                        <div class="section constructor details" rel="yui:constructor" resource="#constructor">
+                        <h3 id="constructor">Constructor</h3>
+                        <div class="content">
+                            <div class="detail">
+                                <strong property="yui:name">cfe.generic</strong>
+                                <code>
+                                    (
+                                    )
+                                </code>
+                                <div class="description">
+                                    
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div rel="yui:properties" resource="#properties">
+                        <div class="section field details">
+                            <h3 id="properties">Properties</h3>
+                            <div class="content">
+                                    <div class="" rel="yui:property" resource="#property_options">
+                                    <h4><a name="property_options" property="yui:name">options</a>
+                                        - <code><span property="yui:type">object</span></code>
+                                    </h4>
+                                    <div class="detail">
+                                        <div class="description" property="yui:description">
+                                            basic options for all cfes and always available
+                                        </div>
+                                    </div>
+     
+                                        
+
+
+                                    <hr />
+                                    </div>
+                                    <div class="" rel="yui:property" resource="#property_type">
+                                    <h4><a name="property_type" property="yui:name">type</a>
+                                        - <code><span property="yui:type">string</span></code>
+                                    </h4>
+                                    <div class="detail">
+                                        <div class="description" property="yui:description">
+                                            Describes the type of this element (e.g. Selector, Checkbox or Radiobutton)
+                                        </div>
+                                    </div>
+     
+                                        
+
+
+                                    <hr />
+                                    </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div rel="yui:methods" resource="#methods">
+                        <div class="section method details">
+                            <h3 id="methods">Methods</h3>
+                            <div class="content">
+                                    <div class="protected" rel="yui:method" resource="#method_buildWrapper">
+                                    <h4>
+                                        <a name="method_buildWrapper">buildWrapper</a></h4>
+                                    <div class="detail" >
+                                        <code>
+                                         protected 
+                                        
+                                        
+                                        void
+                                            <strong property="yui:name">buildWrapper</strong>
+                                           (
+                                            )
+                                        </code>
+                                        
+                                        <div class="description" property="yui:description">
+                                            builds the "decorator"
+                                        </div>
+
+                                        <div class="description">
+
+
+                                                <dl>
+                                                    <dt>Returns:
+                                                    <code property="yui:return">
+                                                        void
+                                                    </code></dt>
+                                                    <dd property="yui:returnInfo"></dd>
+                                                </dl>
+
+
+             
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                                    <div class="" rel="yui:method" resource="#method_getAlias">
+                                    <h4>
+                                        <a name="method_getAlias">getAlias</a></h4>
+                                    <div class="detail" >
+                                        <code>
+                                        
+                                        
+                                        
+                                        
+                                            <strong property="yui:name">getAlias</strong>
+                                           (
+                                            )
+                                        </code>
+                                        
+                                        <div class="description" property="yui:description">
+                                            retreive the "decorator"
+                                        </div>
+
+                                        <div class="description">
+
+
+
+
+             
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                                    <div class="" rel="yui:method" resource="#method_getFull">
+                                    <h4>
+                                        <a name="method_getFull">getFull</a></h4>
+                                    <div class="detail" >
+                                        <code>
+                                        
+                                        
+                                        
+                                        
+                                            <strong property="yui:name">getFull</strong>
+                                           (
+                                            )
+                                        </code>
+                                        
+                                        <div class="description" property="yui:description">
+                                            retreive the label and the alias
+                                        </div>
+
+                                        <div class="description">
+
+
+
+
+             
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                                    <div class="" rel="yui:method" resource="#method_getLabel">
+                                    <h4>
+                                        <a name="method_getLabel">getLabel</a></h4>
+                                    <div class="detail" >
+                                        <code>
+                                        
+                                        
+                                        
+                                        
+                                            <strong property="yui:name">getLabel</strong>
+                                           (
+                                            )
+                                        </code>
+                                        
+                                        <div class="description" property="yui:description">
+                                            retreive the label
+                                        </div>
+
+                                        <div class="description">
+
+
+
+
+             
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                                    <div class="" rel="yui:method" resource="#method_hideOriginal">
+                                    <h4>
+                                        <a name="method_hideOriginal">hideOriginal</a></h4>
+                                    <div class="detail" >
+                                        <code>
+                                        
+                                        
+                                        
+                                        void
+                                            <strong property="yui:name">hideOriginal</strong>
+                                           (
+                                            )
+                                        </code>
+                                        
+                                        <div class="description" property="yui:description">
+                                            hides the original input element
+                                        </div>
+
+                                        <div class="description">
+
+
+                                                <dl>
+                                                    <dt>Returns:
+                                                    <code property="yui:return">
+                                                        void
+                                                    </code></dt>
+                                                    <dd property="yui:returnInfo"></dd>
+                                                </dl>
+
+
+             
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                                    <div class="" rel="yui:method" resource="#method_initialize">
+                                    <h4>
+                                        <a name="method_initialize">initialize</a></h4>
+                                    <div class="detail" >
+                                        <code>
+                                        
+                                        
+                                        
+                                        void
+                                            <strong property="yui:name">initialize</strong>
+                                           (
+                                                
+                                                        
+                                                         options
+                                                    
+                                                
+                                            )
+                                        </code>
+                                        
+                                        <div class="description" property="yui:description">
+                                            constructor
+set options, defines basic replacement and building algorithm for cfe (template method)
+                                        </div>
+
+                                        <div class="description">
+
+                                                <dl rel="yui:parameters">
+                                                    <dt>Parameters:</dt>
+                                                        <dd rel="yui:parameter">
+                                                        <code><span property="yui:name">options</span>
+                                                        &lt;<span property="yui:type">Object</span>&gt;
+                                                        </code>
+                                                        <span property="yui:description"></span>
+                                                        </dd>
+                                                </dl>
+
+                                                <dl>
+                                                    <dt>Returns:
+                                                    <code property="yui:return">
+                                                        void
+                                                    </code></dt>
+                                                    <dd property="yui:returnInfo"></dd>
+                                                </dl>
+
+
+             
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                                    <div class="protected" rel="yui:method" resource="#method_setupOriginal">
+                                    <h4>
+                                        <a name="method_setupOriginal">setupOriginal</a></h4>
+                                    <div class="detail" >
+                                        <code>
+                                         protected 
+                                        
+                                        
+                                        void
+                                            <strong property="yui:name">setupOriginal</strong>
+                                           (
+                                            )
+                                        </code>
+                                        
+                                        <div class="description" property="yui:description">
+                                            handles the creation of the underlying original form element <br />
+stores a reference to the cfe object in the original form element
+                                        </div>
+
+                                        <div class="description">
+
+
+                                                <dl>
+                                                    <dt>Returns:
+                                                    <code property="yui:return">
+                                                        void
+                                                    </code></dt>
+                                                    <dd property="yui:returnInfo"></dd>
+                                                </dl>
+
+
+             
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                                    <div class="protected" rel="yui:method" resource="#method_setupWrapper">
+                                    <h4>
+                                        <a name="method_setupWrapper">setupWrapper</a></h4>
+                                    <div class="detail" >
+                                        <code>
+                                         protected 
+                                        
+                                        
+                                        void
+                                            <strong property="yui:name">setupWrapper</strong>
+                                           (
+                                            )
+                                        </code>
+                                        
+                                        <div class="description" property="yui:description">
+                                            adds events and mousepointer style to the "decorator"
+usually gets called by buildWrapper
+                                        </div>
+
+                                        <div class="description">
+
+
+                                                <dl>
+                                                    <dt>Returns:
+                                                    <code property="yui:return">
+                                                        void
+                                                    </code></dt>
+                                                    <dd property="yui:returnInfo"></dd>
+                                                </dl>
+
+
+             
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div rel="yui:events" resource="#events">
+                        <div class="section method details">
+                            <h3 id="events">Events</h3>
+                            <div class="content">
+                                    <div class="" rel="yui:event" resource="#event_hover">
+                                    <h4>
+                                        <a name="event_hover">hover</a></h4>
+                                    <div class="detail">
+                                        <code>
+                                        
+                                        
+                                        
+                                            <strong property="yui:name">hover</strong>
+
+                                            (
+                                            )
+
+                                        </code>
+                                        
+                                        <div class="description" property="yui:description">
+                                            standard mouseover-behaviour
+add hover state to alias
+                                        </div>
+
+                                        <div class="description">
+
+
+
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                                    <div class="" rel="yui:event" resource="#event_onBlur">
+                                    <h4>
+                                        <a name="event_onBlur">onBlur</a></h4>
+                                    <div class="detail">
+                                        <code>
+                                        
+                                        
+                                        
+                                            <strong property="yui:name">onBlur</strong>
+
+                                            (
+                                            )
+
+                                        </code>
+                                        
+                                        <div class="description" property="yui:description">
+                                            standard blur-behaviour
+removes focus state from alias
+                                        </div>
+
+                                        <div class="description">
+
+
+
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                                    <div class="" rel="yui:event" resource="#event_onClick">
+                                    <h4>
+                                        <a name="event_onClick">onClick</a></h4>
+                                    <div class="detail">
+                                        <code>
+                                        
+                                        
+                                        
+                                            <strong property="yui:name">onClick</strong>
+
+                                            (
+                                            )
+
+                                        </code>
+                                        
+                                        <div class="description" property="yui:description">
+                                            delegate click events to original item
+                                        </div>
+
+                                        <div class="description">
+
+
+
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                                    <div class="" rel="yui:event" resource="#event_onDisable">
+                                    <h4>
+                                        <a name="event_onDisable">onDisable</a></h4>
+                                    <div class="detail">
+                                        <code>
+                                        
+                                        
+                                        
+                                            <strong property="yui:name">onDisable</strong>
+
+                                            (
+                                            )
+
+                                        </code>
+                                        
+                                        <div class="description" property="yui:description">
+                                            if element get disabled
+                                        </div>
+
+                                        <div class="description">
+
+
+
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                                    <div class="" rel="yui:event" resource="#event_onEnable">
+                                    <h4>
+                                        <a name="event_onEnable">onEnable</a></h4>
+                                    <div class="detail">
+                                        <code>
+                                        
+                                        
+                                        
+                                            <strong property="yui:name">onEnable</strong>
+
+                                            (
+                                            )
+
+                                        </code>
+                                        
+                                        <div class="description" property="yui:description">
+                                            if element get enabled
+                                        </div>
+
+                                        <div class="description">
+
+
+
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                                    <div class="" rel="yui:event" resource="#event_onFocus">
+                                    <h4>
+                                        <a name="event_onFocus">onFocus</a></h4>
+                                    <div class="detail">
+                                        <code>
+                                        
+                                        
+                                        
+                                            <strong property="yui:name">onFocus</strong>
+
+                                            (
+                                            )
+
+                                        </code>
+                                        
+                                        <div class="description" property="yui:description">
+                                            standard focus-behaviour
+adds focus state to alias
+                                        </div>
+
+                                        <div class="description">
+
+
+
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                                    <div class="" rel="yui:event" resource="#event_onUpdate">
+                                    <h4>
+                                        <a name="event_onUpdate">onUpdate</a></h4>
+                                    <div class="detail">
+                                        <code>
+                                        
+                                        
+                                        
+                                            <strong property="yui:name">onUpdate</strong>
+
+                                            (
+                                            )
+
+                                        </code>
+                                        
+                                        <div class="description" property="yui:description">
+                                            fires if the original element changes
+                                        </div>
+
+                                        <div class="description">
+
+
+
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                                    <div class="" rel="yui:event" resource="#event_press">
+                                    <h4>
+                                        <a name="event_press">press</a></h4>
+                                    <div class="detail">
+                                        <code>
+                                        
+                                        
+                                        
+                                            <strong property="yui:name">press</strong>
+
+                                            (
+                                            )
+
+                                        </code>
+                                        
+                                        <div class="description" property="yui:description">
+                                            standard press-behaviour
+add press state to alias
+                                        </div>
+
+                                        <div class="description">
+
+
+
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                                    <div class="" rel="yui:event" resource="#event_release">
+                                    <h4>
+                                        <a name="event_release">release</a></h4>
+                                    <div class="detail">
+                                        <code>
+                                        
+                                        
+                                        
+                                            <strong property="yui:name">release</strong>
+
+                                            (
+                                            )
+
+                                        </code>
+                                        
+                                        <div class="description" property="yui:description">
+                                            standard press-behaviour
+removes press state to alias
+                                        </div>
+
+                                        <div class="description">
+
+
+
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                                    <div class="" rel="yui:event" resource="#event_unhover">
+                                    <h4>
+                                        <a name="event_unhover">unhover</a></h4>
+                                    <div class="detail">
+                                        <code>
+                                        
+                                        
+                                        
+                                            <strong property="yui:name">unhover</strong>
+
+                                            (
+                                            )
+
+                                        </code>
+                                        
+                                        <div class="description" property="yui:description">
+                                            standard mouseout-behaviour
+removes hover state from alias
+                                        </div>
+
+                                        <div class="description">
+
+
+
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                    <div rel="yui:attributes" resource="#configattributes">
+                        <div class="section field details">
+                            <h3 id="configattributes">Configuration Attributes</h3>
+                            <div class="content">
+                                    <div class="" rel="yui:attribute" resource="#config_aliasType">
+                                    <h4><a name="config_aliasType">aliasType</a>
+                                        <code>- <span property="yui:type">string</span></code>
+                                    </h4>
+                                    <div class="detail">
+                                        <div class="description" property="yui:description">
+                                            the element's wrapper will be of this type (e.g. span or div)
+                                        </div>
+                                    </div>
+ 
+     
+
+                                    <hr />
+                                    </div>        
+                                    <div class="" rel="yui:attribute" resource="#config_disabled">
+                                    <h4><a name="config_disabled">disabled</a>
+                                        <code>- <span property="yui:type">boolean</span></code>
+                                    </h4>
+                                    <div class="detail">
+                                        <div class="description" property="yui:description">
+                                            setting this to true will create a disabled element
+                                        </div>
+                                    </div>
+ 
+     
+
+                                    <hr />
+                                    </div>        
+                                    <div class="" rel="yui:attribute" resource="#config_label">
+                                    <h4><a name="config_label">label</a>
+                                        <code>- <span property="yui:type">HTMLElement</span></code>
+                                    </h4>
+                                    <div class="detail">
+                                        <div class="description" property="yui:description">
+                                            may pass any element as a label (toggling, hovering,..) for this cfe
+                                        </div>
+                                    </div>
+ 
+     
+
+                                    <hr />
+                                    </div>        
+                                    <div class="" rel="yui:attribute" resource="#config_replaces">
+                                    <h4><a name="config_replaces">replaces</a>
+                                        <code>- <span property="yui:type">HTMLElement</span></code>
+                                    </h4>
+                                    <div class="detail">
+                                        <div class="description" property="yui:description">
+                                            if this element shall replace an existing html form element, pass it here
+                                        </div>
+                                    </div>
+ 
+     
+
+                                    <hr />
+                                    </div>        
+                                    <div class="" rel="yui:attribute" resource="#config_spacer">
+                                    <h4><a name="config_spacer">spacer</a>
+                                        <code>- <span property="yui:type">string</span></code>
+                                    </h4>
+                                    <div class="detail">
+                                        <div class="description" property="yui:description">
+                                            path to transparent spacer.gif; it's used for easy css-styling
+                                        </div>
+                                    </div>
+ 
+     
+
+                                    <hr />
+                                    </div>        
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="yui-u nav rightNav">
+                    <form onsubmit="return false" id="propertysearch">
+                            Quickfinder: <input autocomplete="off" id="searchinput" />
+                            <div id="searchresults">
+                                &nbsp;
+                            </div>
+                    </form>
+
+                        <div id="propertyList" class="module">
+                            <h4>Properties</h4>
+                            <ul class="content">
+                                    <li class=""><a href="#property_options" title="options">options</a></li>
+                                    <li class=""><a href="#property_type" title="type">type</a></li>
+                            </ul>
+                        </div>
+
+                        <div id="methodsList" class="module">
+                            <h4>Methods</h4>
+                            <ul class="content">
+                                    <li class="protected"><a href="#method_buildWrapper" title="buildWrapper">buildWrapper</a></li>
+                                    <li class=""><a href="#method_getAlias" title="getAlias">getAlias</a></li>
+                                    <li class=""><a href="#method_getFull" title="getFull">getFull</a></li>
+                                    <li class=""><a href="#method_getLabel" title="getLabel">getLabel</a></li>
+                                    <li class=""><a href="#method_hideOriginal" title="hideOriginal">hideOriginal</a></li>
+                                    <li class=""><a href="#method_initialize" title="initialize">initialize</a></li>
+                                    <li class="protected"><a href="#method_setupOriginal" title="setupOriginal">setupOriginal</a></li>
+                                    <li class="protected"><a href="#method_setupWrapper" title="setupWrapper">setupWrapper</a></li>
+                            </ul>
+                        </div>
+
+                        <div id="eventsList" class="module">
+                            <h4>Events</h4>
+                            <ul class="content">
+                                    <li class=""><a href="#event_hover" title="hover">hover</a></li>
+                                    <li class=""><a href="#event_onBlur" title="onBlur">onBlur</a></li>
+                                    <li class=""><a href="#event_onClick" title="onClick">onClick</a></li>
+                                    <li class=""><a href="#event_onDisable" title="onDisable">onDisable</a></li>
+                                    <li class=""><a href="#event_onEnable" title="onEnable">onEnable</a></li>
+                                    <li class=""><a href="#event_onFocus" title="onFocus">onFocus</a></li>
+                                    <li class=""><a href="#event_onUpdate" title="onUpdate">onUpdate</a></li>
+                                    <li class=""><a href="#event_press" title="press">press</a></li>
+                                    <li class=""><a href="#event_release" title="release">release</a></li>
+                                    <li class=""><a href="#event_unhover" title="unhover">unhover</a></li>
+                            </ul>
+                        </div>
+
+                        <div id="configList" class="module">
+                            <h4>Configuration Attributes</h4>
+                            <ul class="content">
+                                    <li class=""><a href="#config_aliasType" title="aliasType">aliasType</a></li>
+                                    <li class=""><a href="#config_disabled" title="disabled">disabled</a></li>
+                                    <li class=""><a href="#config_label" title="label">label</a></li>
+                                    <li class=""><a href="#config_replaces" title="replaces">replaces</a></li>
+                                    <li class=""><a href="#config_spacer" title="spacer">spacer</a></li>
+                            </ul>
+                        </div>
+
+                </div>
+
+
+			</div>
+            </div>
+		</div>
+		<div class="yui-b">
+            <div class="nav">
+
+                    <div id="moduleList" class="module">
+                        <h4>Modules</h4>
+                        <ul class="content">
+                                <li class=""><a href="module_addon.html" title="addon">addon</a></li>
+                                <li class=""><a href="module_button.html" title="button">button</a></li>
+                                <li class=""><a href="module_check.html" title="check">check</a></li>
+                                <li class="selected"><a href="module_core.html" title="core">core</a></li>
+                                <li class=""><a href="module_fieldset.html" title="fieldset">fieldset</a></li>
+                                <li class=""><a href="module_file.html" title="file">file</a></li>
+                                <li class=""><a href="module_group.html" title="group">group</a></li>
+                                <li class=""><a href="module_select.html" title="select">select</a></li>
+                                <li class=""><a href="module_text.html" title="text">text</a></li>
+                        </ul>
+                    </div>
+
+                    <div id="classList" class="module">
+                        <h4>Classes</h4>
+                        <ul class="content">
+                                <li class="selected"><a href="cfe.generic.html" title="cfe.generic">cfe.generic</a></li>
+                                <li class=""><a href="Element.Helpers.html" title="Element.Helpers">Element.Helpers</a></li>
+                        </ul>
+                    </div>
+
+                    <div id="fileList" class="module">
+                        <h4>Files</h4>
+                        <ul class="content">        
+                                <li class=""><a href="cfe.base.js.html" title="cfe.base.js">cfe.base.js</a></li>
+                        </ul>
+                    </div>
+            </div>
+		</div>
+
+    <div id="ft"><a title="Jump to the top of this page" class="toplink" href="#hd">back to top</a>
+		 | &copy; 2007-2009
+		 | custom form elements <a title="mediavrog.net" href="http://mediavrog.net/blog/">mediavrog</a> project.
+         | documentation build with <a title="Yahoo! UI Library: YUI Doc" href="http://developer.yahoo.com/yui/yuidoc/">YUI Doc from Yahoo!</a>
+
+	</div>
+
+	</div>
+
+</div>
+<script type="text/javascript">
+    ALL_YUI_PROPS = [{"url": "cfe.generic.html#config_aliasType", "access": "", "host": "cfe.generic", "type": "config", "name": "aliasType"}, {"url": "cfe.generic.html#method_buildWrapper", "access": "protected", "host": "cfe.generic", "type": "method", "name": "buildWrapper"}, {"url": "cfe.generic.html#config_disabled", "access": "", "host": "cfe.generic", "type": "config", "name": "disabled"}, {"url": "cfe.generic.html#method_getAlias", "access": "", "host": "cfe.generic", "type": "method", "name": "getAlias"}, {"url": "cfe.generic.html#method_getFull", "access": "", "host": "cfe.generic", "type": "method", "name": "getFull"}, {"url": "cfe.generic.html#method_getLabel", "access": "", "host": "cfe.generic", "type": "method", "name": "getLabel"}, {"url": "cfe.generic.html#method_hideOriginal", "access": "", "host": "cfe.generic", "type": "method", "name": "hideOriginal"}, {"url": "cfe.generic.html#event_hover", "access": "", "host": "cfe.generic", "type": "event", "name": "hover"}, {"url": "cfe.generic.html#method_initialize", "access": "", "host": "cfe.generic", "type": "method", "name": "initialize"}, {"url": "cfe.generic.html#config_label", "access": "", "host": "cfe.generic", "type": "config", "name": "label"}, {"url": "cfe.generic.html#event_onBlur", "access": "", "host": "cfe.generic", "type": "event", "name": "onBlur"}, {"url": "cfe.generic.html#event_onClick", "access": "", "host": "cfe.generic", "type": "event", "name": "onClick"}, {"url": "cfe.generic.html#event_onDisable", "access": "", "host": "cfe.generic", "type": "event", "name": "onDisable"}, {"url": "cfe.generic.html#event_onEnable", "access": "", "host": "cfe.generic", "type": "event", "name": "onEnable"}, {"url": "cfe.generic.html#event_onFocus", "access": "", "host": "cfe.generic", "type": "event", "name": "onFocus"}, {"url": "cfe.generic.html#event_onUpdate", "access": "", "host": "cfe.generic", "type": "event", "name": "onUpdate"}, {"url": "cfe.generic.html#property_options", "access": "", "host": "cfe.generic", "type": "property", "name": "options"}, {"url": "cfe.generic.html#event_press", "access": "", "host": "cfe.generic", "type": "event", "name": "press"}, {"url": "cfe.generic.html#event_release", "access": "", "host": "cfe.generic", "type": "event", "name": "release"}, {"url": "cfe.generic.html#config_replaces", "access": "", "host": "cfe.generic", "type": "config", "name": "replaces"}, {"url": "cfe.generic.html#method_setupOriginal", "access": "protected", "host": "cfe.generic", "type": "method", "name": "setupOriginal"}, {"url": "cfe.generic.html#method_setupWrapper", "access": "protected", "host": "cfe.generic", "type": "method", "name": "setupWrapper"}, {"url": "cfe.generic.html#config_spacer", "access": "", "host": "cfe.generic", "type": "config", "name": "spacer"}, {"url": "cfe.generic.html#property_type", "access": "", "host": "cfe.generic", "type": "property", "name": "type"}, {"url": "cfe.generic.html#event_unhover", "access": "", "host": "cfe.generic", "type": "event", "name": "unhover"}];
+</script>
+
+</body>
+</html>
