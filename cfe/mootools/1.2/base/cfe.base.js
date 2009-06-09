@@ -46,7 +46,13 @@ cfe.generic = new Class(
      * @property options
      */
     options: {
-        instanceID:0,           // set automatically
+
+        /**
+         * instance id for all cfe
+         * @config instanceID
+         * @type int
+         */
+        instanceID:0,
         
         /**
          * path to transparent spacer.gif; it's used for easy css-styling
@@ -76,6 +82,11 @@ cfe.generic = new Class(
          */
         label: null,
 
+        /**
+         * if this cfe is created programatically, it's possible to set the name attribute of the generated input element
+         * @config name
+         * @type string
+         */
         name: "",
 
         /**
@@ -85,20 +96,79 @@ cfe.generic = new Class(
          */
         disabled: false,
 
-        // event placeholders; may be used to add custom events
-        onMouseOver: Class.empty,   
+        /**
+         * Fired when the mouse is moved over the "decorator" element
+         * @event onMouseOver
+         */
+        onMouseOver: Class.empty,
+
+        /**
+         * Fired when the mouse is moved away from the "decorator" element
+         * @event onMouseOut
+         */
         onMouseOut: Class.empty,
+
+        /**
+         * Fired when the "original" element gets focus (e.g. by tabbing)
+         * @event onFocus
+         */
         onFocus: Class.empty,
+
+        /**
+         * Fired when the "original" element loses focus
+         * @event onBlur
+         */
         onBlur: Class.empty,
+
+        /**
+         * Fired when "decorator" is clicked by mouse
+         * @event onPress
+         */
         onClick: Class.empty,
+
+        /**
+         * Fired when pressing down with the mouse button on the "decorator"
+         * Fired when pressing the space key while "original" has focus
+         * @event onPress
+         */
         onPress: Class.empty,
+
+        /**
+         * Fired when "decorator" was pressed and the mouse button is released
+         * Fired when "original" was pressed by space key and this key is released
+         * @event onRelease
+         */
         onRelease: Class.empty,
-        onUpdate: Class.empty
+
+        /**
+         * Fired when "original"'s value changes
+         * @event onUpdate
+         */
+        onUpdate: Class.empty,
+
+        /**
+         * Fired when "original" gets disabled by HTMLElement.enable()
+         * @event onEnable
+         */
+        onEnable: Class.empty,
+
+        /**
+         * Fired when "original" gets disabled by HTMLElement.disable()
+         * @event onDisable
+         */
+        onDisable: Class.empty
     },
 
     /**
-	 * constructor
-	 * set options, defines basic replacement and building algorithm for cfe (template method)
+	 * constructor<br />
+	 * building algorithm for cfe (template method)<br />
+     * <ol>
+     * <li>setOptions: set Options</li>
+     * <li>buildWrapper: setup the "decorator"</li>
+     * <li>setupOriginal: procede the "original" element (add Events...)</li>
+     * <li>addLabel: add and procede the label</li>
+     * <li>initializeAdv: last chance for subclasses to do initialization</li>
+     * <li>build: various specific dom handling and "decorator" building</li>
 	 *
      * @method initialize
      * @constructor
@@ -132,7 +202,7 @@ cfe.generic = new Class(
      * retreive the "decorator"
      * 
      * @method getAlias
-     * @return HTMLElement
+     * @return {HTMLElement}
      */
     getAlias: function()
     {
@@ -143,7 +213,7 @@ cfe.generic = new Class(
      * retreive the label
      *
      * @method getLabel
-     * @return HTMLElement
+     * @return {HTMLElement}
      */
     getLabel: function()
     {
@@ -154,7 +224,7 @@ cfe.generic = new Class(
      * retreive the label and the alias
      *
      * @method getFull
-     * @return HTMLElement[label, alias]
+     * @return {HTMLElement[label, alias]}
      */
     getFull: function()
     {
@@ -256,11 +326,24 @@ cfe.generic = new Class(
         this.o.store("cfe", this);
     },
 
+    /**
+     * getter for retrieving the disabled state of the "original" element
+     *
+     * @method isDisabled
+     * @return boolean
+     */
     isDisabled: function()
     {
         return this.o.getProperty("disabled");
     },
 
+    /**
+     * programatically creates an "original" element<br />
+     * each subclass has to implement this
+     *
+     * @method createOriginal
+     * @return {HTMLElement}
+     */
     createOriginal: function()
     {
         return new Element("img", {
@@ -270,7 +353,11 @@ cfe.generic = new Class(
     },
 
     /**
-	 * hides the original input element
+	 * hides the original input element by pushing it out of the viewport <br />
+     * (no display:none since it's important for screenreaders to parse the original element)
+     *
+     * @method hideOriginal
+     * @protected
 	 */
     hideOriginal: function()
     {
@@ -290,7 +377,12 @@ cfe.generic = new Class(
     },
 
     /*
-     * methods related to creation/handling of the corresponding label
+     * creates a label element and fills it with the contents (may be html) given by option "label"
+     *
+     * @method setupLabel
+     * @protected
+     *
+     * @return {HTMLElement or NULL} if option "label" is not set
      */
     setupLabel: function()
     {
@@ -299,6 +391,14 @@ cfe.generic = new Class(
         return null;
     },
 
+    /*
+     * adds a label element to this cfe
+     *
+     * @method addLabel
+     * @protected
+     *
+     * @param {HTMLElement} the label element to set as label for this cfe
+     */
     addLabel: function(label)
     {
         if( !$defined(label) ) return;
@@ -361,7 +461,14 @@ cfe.generic = new Class(
         });        
     },
 
-    // may be extended by cfe
+    /**
+     * part of the main template method for building the "decorator"<br />
+     * gets called immediately before the build-method<br />
+     * may be extended by subclasses
+     *
+     * @method initializeAdv
+     * @protected
+     */
     initializeAdv: function()
     {
         if(!this.o.implicitLabel) this.a.addEvent("click", this.clicked.bindWithEvent(this));
@@ -369,15 +476,23 @@ cfe.generic = new Class(
         if(this.isDisabled()) this.a.fireEvent("disable");
     },
     
-    // must be implemented by cfe
+    /**
+     * part of the main template method for building the "decorator"<br />
+     * must be extended by subclasses
+     *
+     * @method build
+     * @protected
+     */
     build: function(){},
     
     
     /**
-	 * standard press-behaviour
-	 * add press state to alias
-     * @event press
-	 */
+     * wrapper method for event onPress<br />
+     * may be extended by subclasses
+     *
+     * @method press
+     * @protected
+     */
     press: function()
     {
         if(!this.isDisabled())
@@ -388,10 +503,12 @@ cfe.generic = new Class(
     },
 
     /**
-	 * standard press-behaviour
-	 * removes press state to alias
-     * @event release
-	 */
+     * wrapper method for event onRelease<br />
+     * may be extended by subclasses
+     *
+     * @method release
+     * @protected
+     */
     release: function()
     {
         if(!this.isDisabled())
@@ -402,9 +519,11 @@ cfe.generic = new Class(
     },
 
     /**
-     * standard mouseover-behaviour
-     * add hover state to alias
-     * @event hover
+     * wrapper method for event onMouseOver<br />
+     * may be extended by subclasses
+     *
+     * @method onMouseOver
+     * @protected
      */
     hover: function()
     {
@@ -416,9 +535,11 @@ cfe.generic = new Class(
     },
 
     /**
-     * standard mouseout-behaviour
-     * removes hover state from alias
-     * @event unhover
+     * wrapper method for event onMouseOut<br />
+     * may be extended by subclasses
+     *
+     * @method unhover
+     * @protected
      */
     unhover: function()
     {
@@ -431,9 +552,11 @@ cfe.generic = new Class(
     },
 
     /**
-     * standard focus-behaviour
-     * adds focus state to alias
-     * @event onFocus
+     * wrapper method for event onFocus<br />
+     * may be extended by subclasses
+     *
+     * @method setFocus
+     * @protected
      */
     setFocus: function()
     {
@@ -442,9 +565,11 @@ cfe.generic = new Class(
     },
 
     /**
-     * standard blur-behaviour
-     * removes focus state from alias
-     * @event onBlur
+     * wrapper method for event onBlur<br />
+     * may be extended by subclasses
+     *
+     * @method removeFocus
+     * @protected
      */
     removeFocus: function()
     {
@@ -457,8 +582,12 @@ cfe.generic = new Class(
     },
 
     /**
-     * delegate click events to original item
-     * @event onClick
+     * wrapper method for event onClick<br />
+     * delegates the click to the "original" element<br />
+     * may be extended by subclasses
+     *
+     * @method clicked
+     * @protected
      */
     clicked: function()
     {
@@ -472,8 +601,11 @@ cfe.generic = new Class(
     },
 
     /**
-     * fires if the original element changes
-     * @event onUpdate
+     * wrapper method for event onUpdate<br />
+     * may be extended by subclasses
+     *
+     * @method update
+     * @protected
      */
     update: function()
     {
@@ -481,8 +613,11 @@ cfe.generic = new Class(
     },
 
     /**
-     * if element get enabled
-     * @event onEnable
+     * wrapper method for event onEnable<br />
+     * may be extended by subclasses
+     *
+     * @method enable
+     * @protected
      */
     enable: function()
     {
@@ -491,8 +626,11 @@ cfe.generic = new Class(
     },
 
     /**
-     * if element get disabled
-     * @event onDisable
+     * wrapper method for event onDisable<br />
+     * may be extended by subclasses
+     *
+     * @method disable
+     * @protected
      */
     disable: function()
     {
@@ -509,6 +647,11 @@ cfe.generic.implement(new Options,new Events);
  */
 Element.Helpers = new Class({
 
+    /**
+     * cross-browser method for disabling the text selection by setting css attributes
+     * 
+     * @method disableTextSelection
+     */
     disableTextSelection: function(){
         if(Browser.Engine.trident || Browser.Engine.presto){
             this.setProperty("unselectable","on");
@@ -521,6 +664,12 @@ Element.Helpers = new Class({
         }
     },
 
+    /**
+     * disables a HTMLElement if its a form element by setting the disabled attribute to true
+     *
+     * @method disable
+     * @return boolean true, if element could be disabled
+     */
     disable: function()
     {
         if($type(this) === "element" && ["button", "input", "option", "optgroup", "select", "textarea"].contains( this.get("tag") )            )
@@ -533,6 +682,12 @@ Element.Helpers = new Class({
         return false;
     },
 
+    /**
+     * enables a HTMLElement if its a form element by setting the disabled attribute to false
+     *
+     * @method enable
+     * @return {boolean} true, if element could be enabled
+     */
     enable: function()
     {
         if($type(this) === "element" && ["button", "input", "option", "optgroup", "select", "textarea"].contains( this.get("tag") )            )
@@ -545,18 +700,29 @@ Element.Helpers = new Class({
         return false;
     },
 
+    /**
+     * enables or disabled a HTMLElement if its a form element depending on it's current state
+     *
+     * @method enable
+     * @return {boolean} true, if element could be toggled
+     */
     toggleDisabled: function()
     {
         if($type(this) === "element" && ["button", "input", "option", "optgroup", "select", "textarea"].contains( this.get("tag") )            )
         {
             this.setProperty("disabled", !this.getProperty("disabled") );
             this.fireEvent(this.getProperty("disabled")?"onDisable":"onEnable");
-            console.log(this.getProperty("disabled"));
             return true;
         }
         return false;
     },
 
+    /**
+     * returns the label-element which belongs to this element
+     *
+     * @method getLabel
+     * @return HTMLElement or NULL
+     */
     getLabel: function()
     {
         var label = null;
@@ -575,16 +741,27 @@ Element.Helpers = new Class({
         return label;
     },
 
-    setSlidingDoors: function(dir, type, prefix)
+    /**
+     * generates the markup used by sliding doors css technique to use with this element
+     *
+     * @method setSlidingDoors
+     *
+     * @param count
+     * @param type
+     * @param prefix
+     * 
+     * @return HTMLElement or NULL the wrapped HTMLElement
+     */
+    setSlidingDoors: function(count, type, prefix)
     {
         var slide = null;
         var wrapped = this;
         prefix = $pick(prefix, "sd");
 
-        for(i = dir; i > 0; i--)
+        for(i = count; i > 0; i--)
         {
             slide = new Element(type);
-            slide.addClass(i==dir?prefix:i==0?prefix+"Slide":prefix+"Slide"+i);
+            slide.addClass(i==count?prefix:i==0?prefix+"Slide":prefix+"Slide"+i);
 
             slide.grab(wrapped);
             wrapped = slide;
