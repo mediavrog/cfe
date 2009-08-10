@@ -17,6 +17,16 @@ label.jsTextL ,label.jsPasswordL, label.jsFileL, label.jsSelectorL, label.jsText
 	padding:4px 0;
 }
 
+.jsOption.icon1{
+    padding-left: 22px;
+    background: url(../img/lorry.png) no-repeat 4px 7px;
+}
+
+.jsOption.icon2{
+    padding-left: 22px;
+    background: url(../img/download.png) no-repeat 4px 7px;
+}
+
  /**********************************************/
 /*  customFormElements Definitions				*/
 /* 												*/
@@ -228,7 +238,6 @@ label.D{color:#999999;}
 	text-align:center;
     float:left;
     display: inline;
-    padding: 0 15px;
 }
 
 .jsButton.jsSubmit, .jsButton.jsReset{
@@ -244,10 +253,9 @@ label.D{color:#999999;}
 .jsButton .label{
     line-height: 1.75em;
     float: left;
-    width: 100%;
     height: 100%;
     display: inline;
-    padding: 1px;
+    padding: 1px 15px;
 	/*uncomment this to hide the buttons text */
 	/*visibility:hidden;*/
 }
@@ -265,7 +273,7 @@ label.D{color:#999999;}
 .jsButton.H.P span{background-position: 100% -40px;}
 .jsButton.D span{background-position: 100% -240px;}
 
-.jsButton.P .label{padding: 2px 0 0 2px;color: #666;}
+.jsButton.P .label{padding-top: 2px; padding-left: 17px;color: #666;}
 .jsButton.D .label{color: #999;}
 
  /*############################################*/
