@@ -2,29 +2,36 @@
 <html xmlns:yui="http://yuilibrary.com/rdf/1.0/yui.rdf#">
 <head>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
-	<title>API: button   cfe.module.reset.js  (Custom Form Elements)</title>
+	<title>API documentation: button   cfe.module.reset.js  (Custom Form Elements for mootools)</title>
 
-	<link rel="stylesheet" type="text/css" href="assets/reset-fonts-grids-min.css?stamp=1244302021.81" />
-	<link rel="stylesheet" type="text/css" href="assets/api.css?stamp=1244302021.81" />
+	<link rel="stylesheet" type="text/css" href="assets/reset-fonts-grids-min.css?stamp=1247336725.72" />
+	<link rel="stylesheet" type="text/css" href="assets/api.css?stamp=1247336725.72" />
 
-    <script type="text/javascript" src="assets/api-js?stamp=1244302021.81"></script>
-    <script type="text/javascript" src="assets/ac-js?stamp=1244302021.81"></script>
+    <script type="text/javascript" src="assets/api-js?stamp=1247336725.72"></script>
+    <script type="text/javascript" src="assets/ac-js?stamp=1247336725.72"></script>
 </head>
 
 <body id="yahoo-com">
 
 <div id="doc3" class="yui-t2">
 	<div id="hd">
-        <h1><a href="http://customformelements.net" title="Custom Form Elements">Custom Form Elements</a></h1>
+        <h1><a href="http://customformelements.net" title="Custom Form Elements for mootools">Custom Form Elements for mootools</a></h1>
 
         <div class="path">
             <h3>button&nbsp;</h3> ::
-            <a href="./index.html" title="Custom Form Elements">Custom Form Elements</a>
+            <a href="./index.html" title="Custom Form Elements for mootools">Custom Form Elements for mootools</a>
                 &gt; <a href="./module_button.html" title="button">button</a>
                     
                      &gt; cfe.module.reset.js (source view) 
             <span class="subtitle">0.9.2</span>
         </div>
+
+        <form action="https://www.paypal.com/cgi-bin/webscr" method="post" id="donate" class="donationPaypal"><fieldset>
+                <input type="hidden" name="cmd" value="_s-xclick" />
+                <input type="hidden" name="hosted_button_id" value="4136353" />
+                <input type="image" src="../img/paypal_btn.png" name="submit" alt="Donate to the development of custom form elements." />
+                <img src="https://www.paypal.com/de_DE/i/scr/pixel.gif" width="1" height="1" alt="" />
+            </fieldset></form>
         
 	</div>
 
@@ -62,9 +69,27 @@
 <span class="nx">cfe</span><span class="p">.</span><span class="nx">module</span><span class="p">.</span><span class="nx">reset</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Class</span><span class="p">({</span>
 
     <span class="nx">Extends</span><span class="o">:</span> <span class="nx">cfe</span><span class="p">.</span><span class="nx">module</span><span class="p">.</span><span class="nx">submit</span><span class="o">,</span>
+
+    <span class="c">/**</span>
+<span class="c">     * Describes the type of this element</span>
+<span class="c">     * @property type</span>
+<span class="c">     * @type string</span>
+<span class="c">     */</span>
     <span class="nx">type</span><span class="o">:</span><span class="s2">&quot;Reset&quot;</span><span class="o">,</span>
+
+    <span class="c">/**</span>
+<span class="c">     * CSS Selector to fetch &quot;original&quot; HTMLElements for replacement with this module</span>
+<span class="c">     * @property selector</span>
+<span class="c">     * @type string</span>
+<span class="c">     */</span>
     <span class="nx">selector</span><span class="o">:</span> <span class="s2">&quot;input[type=reset]&quot;</span><span class="o">,</span>
 
+    <span class="c">/**</span>
+<span class="c">     * Method to programmatically create an &quot;original&quot; HTMLElement</span>
+<span class="c">     *</span>
+<span class="c">     * @method createOriginal</span>
+<span class="c">     * @return {HTMLElement} an input field of type &quot;reset&quot;</span>
+<span class="c">     */</span>
     <span class="nx">createOriginal</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span>
     <span class="p">{</span>
         <span class="k">return</span> <span class="k">new</span> <span class="nx">Element</span><span class="p">(</span><span class="s2">&quot;input&quot;</span><span class="o">,</span><span class="p">{</span>
@@ -72,12 +97,23 @@
         <span class="p">});</span>
     <span class="p">}</span><span class="o">,</span>
 
+    <span class="c">/**</span>
+<span class="c">     * adds an additional click event to the button to procede a form&#39;s reset</span>
+<span class="c">     *</span>
+<span class="c">     * @method setupOriginal</span>
+<span class="c">     */</span>
     <span class="nx">setupOriginal</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span>
     <span class="p">{</span>
         <span class="k">this</span><span class="p">.</span><span class="nx">parent</span><span class="p">();</span>
         <span class="k">this</span><span class="p">.</span><span class="nx">o</span><span class="p">.</span><span class="nx">addEvent</span><span class="p">(</span><span class="s2">&quot;click&quot;</span><span class="o">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">notifyReset</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">));</span>
     <span class="p">}</span><span class="o">,</span>
 
+    <span class="c">/**</span>
+<span class="c">     * traverses all input, textarea, select elements in the current scope (form)</span>
+<span class="c">     * and fires their change event to notify all listeners, the elements have beed resetted</span>
+<span class="c">     *</span>
+<span class="c">     * @method notifyReset</span>
+<span class="c">     */</span>
     <span class="nx">notifyReset</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span>
     <span class="p">{</span>
         <span class="p">(</span><span class="kd">function</span><span class="p">(){</span>
@@ -120,7 +156,6 @@
                                 <li class="selected"><a href="module_button.html" title="button">button</a></li>
                                 <li class=""><a href="module_check.html" title="check">check</a></li>
                                 <li class=""><a href="module_core.html" title="core">core</a></li>
-                                <li class=""><a href="module_fieldset.html" title="fieldset">fieldset</a></li>
                                 <li class=""><a href="module_file.html" title="file">file</a></li>
                                 <li class=""><a href="module_group.html" title="group">group</a></li>
                                 <li class=""><a href="module_select.html" title="select">select</a></li>
@@ -159,7 +194,7 @@
 
 </div>
 <script type="text/javascript">
-    ALL_YUI_PROPS = [];
+    ALL_YUI_PROPS = [{"url": "cfe.module.submit.html#method_build", "access": "protected", "host": "cfe.module.submit", "type": "method", "name": "build"}, {"url": "cfe.module.image.html#method_clearState", "access": "protected", "host": "cfe.module.image", "type": "method", "name": "clearState"}, {"url": "cfe.module.image.html#method_createOriginal", "access": "", "host": "cfe.module.image", "type": "method", "name": "createOriginal"}, {"url": "cfe.module.reset.html#method_createOriginal", "access": "", "host": "cfe.module.reset", "type": "method", "name": "createOriginal"}, {"url": "cfe.module.submit.html#method_createOriginal", "access": "", "host": "cfe.module.submit", "type": "method", "name": "createOriginal"}, {"url": "cfe.module.image.html#method_disable", "access": "protected", "host": "cfe.module.image", "type": "method", "name": "disable"}, {"url": "cfe.module.image.html#method_enable", "access": "protected", "host": "cfe.module.image", "type": "method", "name": "enable"}, {"url": "cfe.module.image.html#method_hover", "access": "protected", "host": "cfe.module.image", "type": "method", "name": "hover"}, {"url": "cfe.module.image.html#method_initializeAdv", "access": "protected", "host": "cfe.module.image", "type": "method", "name": "initializeAdv"}, {"url": "cfe.module.submit.html#method_initializeAdv", "access": "", "host": "cfe.module.submit", "type": "method", "name": "initializeAdv"}, {"url": "cfe.module.reset.html#method_notifyReset", "access": "", "host": "cfe.module.reset", "type": "method", "name": "notifyReset"}, {"url": "cfe.module.image.html#method_press", "access": "protected", "host": "cfe.module.image", "type": "method", "name": "press"}, {"url": "cfe.module.image.html#method_release", "access": "protected", "host": "cfe.module.image", "type": "method", "name": "release"}, {"url": "cfe.module.image.html#method_removeFocus", "access": "protected", "host": "cfe.module.image", "type": "method", "name": "removeFocus"}, {"url": "cfe.module.image.html#property_selector", "access": "", "host": "cfe.module.image", "type": "property", "name": "selector"}, {"url": "cfe.module.reset.html#property_selector", "access": "", "host": "cfe.module.reset", "type": "property", "name": "selector"}, {"url": "cfe.module.submit.html#property_selector", "access": "", "host": "cfe.module.submit", "type": "property", "name": "selector"}, {"url": "cfe.module.image.html#method_setFocus", "access": "protected", "host": "cfe.module.image", "type": "method", "name": "setFocus"}, {"url": "cfe.module.image.html#method_setState", "access": "protected", "host": "cfe.module.image", "type": "method", "name": "setState"}, {"url": "cfe.module.reset.html#method_setupOriginal", "access": "", "host": "cfe.module.reset", "type": "method", "name": "setupOriginal"}, {"url": "cfe.module.submit.html#config_slidingDoors", "access": "", "host": "cfe.module.submit", "type": "config", "name": "slidingDoors"}, {"url": "cfe.module.image.html#config_statePrefix", "access": "", "host": "cfe.module.image", "type": "config", "name": "statePrefix"}, {"url": "cfe.module.image.html#property_type", "access": "", "host": "cfe.module.image", "type": "property", "name": "type"}, {"url": "cfe.module.reset.html#property_type", "access": "", "host": "cfe.module.reset", "type": "property", "name": "type"}, {"url": "cfe.module.submit.html#property_type", "access": "", "host": "cfe.module.submit", "type": "property", "name": "type"}, {"url": "cfe.module.image.html#method_unhover", "access": "protected", "host": "cfe.module.image", "type": "method", "name": "unhover"}];
 </script>
 
 </body>

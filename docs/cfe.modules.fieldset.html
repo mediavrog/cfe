@@ -2,13 +2,13 @@
 <html xmlns:yui="http://yuilibrary.com/rdf/1.0/yui.rdf#">
 <head>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
-	<title>API documentation: check  cfe.modules.checkbox   (Custom Form Elements for mootools)</title>
+	<title>API documentation: group  cfe.modules.fieldset   (Custom Form Elements for mootools)</title>
 
-	<link rel="stylesheet" type="text/css" href="assets/reset-fonts-grids-min.css?stamp=1247336725.98" />
-	<link rel="stylesheet" type="text/css" href="assets/api.css?stamp=1247336725.98" />
+	<link rel="stylesheet" type="text/css" href="assets/reset-fonts-grids-min.css?stamp=1247336725.48" />
+	<link rel="stylesheet" type="text/css" href="assets/api.css?stamp=1247336725.48" />
 
-    <script type="text/javascript" src="assets/api-js?stamp=1247336725.98"></script>
-    <script type="text/javascript" src="assets/ac-js?stamp=1247336725.98"></script>
+    <script type="text/javascript" src="assets/api-js?stamp=1247336725.48"></script>
+    <script type="text/javascript" src="assets/ac-js?stamp=1247336725.48"></script>
 </head>
 
 <body id="yahoo-com">
@@ -18,10 +18,10 @@
         <h1><a href="http://customformelements.net" title="Custom Form Elements for mootools">Custom Form Elements for mootools</a></h1>
 
         <div class="path">
-            <h3>check&nbsp;</h3> ::
+            <h3>group&nbsp;</h3> ::
             <a href="./index.html" title="Custom Form Elements for mootools">Custom Form Elements for mootools</a>
-                &gt; <a href="./module_check.html" title="check">check</a>
-                     &gt; cfe.modules.checkbox 
+                &gt; <a href="./module_group.html" title="group">group</a>
+                     &gt; cfe.modules.fieldset 
                     
             <span class="subtitle">0.9.2</span>
         </div>
@@ -54,7 +54,7 @@
 
                         
                         
-                            Class <b property="yui:name">cfe.modules.checkbox</b>
+                            Class <b property="yui:name">cfe.modules.fieldset</b>
                         <span class="extends">
                            extends <a href="cfe.generic.html" title="cfe.generic">cfe.generic</a>
                         </span>
@@ -62,23 +62,11 @@
                     </h2>
                     <!-- class tree goes here -->
                     
-                        <dl class="subclasses" rel="yui:subclasses">
-                            <dt>Known Subclasses:</dt>
-                            <dd>
-                                    <span rel="yui:subclass" resource="cfe.modules.radio.html">
-                                    <a href="cfe.modules.radio.html" property="yui:name" title="cfe.modules.radio">cfe.modules.radio</a>
-                                    </span>
-                            </dd>
-                       </dl>
                 
   
 
                     <div class="summary description" property="yui:description">
-                        replaces checkboxes
-bug:
-opera        - original update triggers twince when clicking the ori
-ie 8         - original update triggers twince when clicking the ori
-ie 7         - original update triggers twince when clicking the ori
+                        enhances fieldsets
                     </div>
 
                     
@@ -140,273 +128,6 @@ ie 7         - original update triggers twince when clicking the ori
                     </div>
 
                     <div rel="yui:methods" resource="#methods">
-                        <div class="section method details">
-                            <h3 id="methods">Methods</h3>
-                            <div class="content">
-                                    <div class="protected" rel="yui:method" resource="#method_build">
-                                    <h4>
-                                        <a name="method_build">build</a></h4>
-                                    <div class="detail" >
-                                        <code>
-                                         protected 
-                                        
-                                        
-                                        void
-                                            <strong property="yui:name">build</strong>
-                                           (
-                                            )
-                                        </code>
-                                        
-                                        <div class="description" property="yui:description">
-                                            creates the decorator checkbox as simple img[src=spacer] element
-after creation, update is called to properly set the state
-                                        </div>
-
-                                        <div class="description">
-
-
-                                                <dl>
-                                                    <dt>Returns:
-                                                    <code property="yui:return">
-                                                        void
-                                                    </code></dt>
-                                                    <dd property="yui:returnInfo"></dd>
-                                                </dl>
-
-
-             
-
-                                        </div>
-
-                                    </div>
-                                    <hr />
-                                    </div>
-                                    <div class="" rel="yui:method" resource="#method_check">
-                                    <h4>
-                                        <a name="method_check">check</a></h4>
-                                    <div class="detail" >
-                                        <code>
-                                        
-                                        
-                                        
-                                        void
-                                            <strong property="yui:name">check</strong>
-                                           (
-                                            )
-                                        </code>
-                                        
-                                        <div class="description" property="yui:description">
-                                            public method to check a checkbox programatically
-                                        </div>
-
-                                        <div class="description">
-
-
-                                                <dl>
-                                                    <dt>Returns:
-                                                    <code property="yui:return">
-                                                        void
-                                                    </code></dt>
-                                                    <dd property="yui:returnInfo"></dd>
-                                                </dl>
-
-
-             
-
-                                        </div>
-
-                                    </div>
-                                    <hr />
-                                    </div>
-                                    <div class="protected" rel="yui:method" resource="#method_createOriginal">
-                                    <h4>
-                                        <a name="method_createOriginal">createOriginal</a></h4>
-                                    <div class="detail" >
-                                        <code>
-                                         protected 
-                                        
-                                        
-                                        HTMLElement
-                                            <strong property="yui:name">createOriginal</strong>
-                                           (
-                                            )
-                                        </code>
-                                        
-                                        <div class="description" property="yui:description">
-                                            Method to programmatically create an "original" HTMLElement
-                                        </div>
-
-                                        <div class="description">
-
-
-                                                <dl>
-                                                    <dt>Returns:
-                                                    <code property="yui:return">
-                                                        HTMLElement
-                                                    </code></dt>
-                                                    <dd property="yui:returnInfo">an input field of type "checkbox"</dd>
-                                                </dl>
-
-
-             
-
-                                        </div>
-
-                                    </div>
-                                    <hr />
-                                    </div>
-                                    <div class="" rel="yui:method" resource="#method_getFull">
-                                    <h4>
-                                        <a name="method_getFull">getFull</a></h4>
-                                    <div class="detail" >
-                                        <code>
-                                        
-                                        
-                                        
-                                        HTMLElement[label, alias]
-                                            <strong property="yui:name">getFull</strong>
-                                           (
-                                            )
-                                        </code>
-                                        
-                                        <div class="description" property="yui:description">
-                                            retreive the label and the alias in inverted direction, since with checkboxes, the decorator is more often placed in front of the label
-                                        </div>
-
-                                        <div class="description">
-
-
-                                                <dl>
-                                                    <dt>Returns:
-                                                    <code property="yui:return">
-                                                        HTMLElement[label, alias]
-                                                    </code></dt>
-                                                    <dd property="yui:returnInfo"></dd>
-                                                </dl>
-
-
-             
-
-                                        </div>
-
-                                    </div>
-                                    <hr />
-                                    </div>
-                                    <div class="" rel="yui:method" resource="#method_setStateTo">
-                                    <h4>
-                                        <a name="method_setStateTo">setStateTo</a></h4>
-                                    <div class="detail" >
-                                        <code>
-                                        
-                                        
-                                        
-                                        void
-                                            <strong property="yui:name">setStateTo</strong>
-                                           (
-                                            )
-                                        </code>
-                                        
-                                        <div class="description" property="yui:description">
-                                            public method to set the state of a checkbox programmatically
-TODO: check if this is obsolete, because the original should have an onupdate listener
-                                        </div>
-
-                                        <div class="description">
-
-
-                                                <dl>
-                                                    <dt>Returns:
-                                                    <code property="yui:return">
-                                                        void
-                                                    </code></dt>
-                                                    <dd property="yui:returnInfo"></dd>
-                                                </dl>
-
-
-             
-
-                                        </div>
-
-                                    </div>
-                                    <hr />
-                                    </div>
-                                    <div class="" rel="yui:method" resource="#method_uncheck">
-                                    <h4>
-                                        <a name="method_uncheck">uncheck</a></h4>
-                                    <div class="detail" >
-                                        <code>
-                                        
-                                        
-                                        
-                                        void
-                                            <strong property="yui:name">uncheck</strong>
-                                           (
-                                            )
-                                        </code>
-                                        
-                                        <div class="description" property="yui:description">
-                                            public method to uncheck a checkbox programatically
-                                        </div>
-
-                                        <div class="description">
-
-
-                                                <dl>
-                                                    <dt>Returns:
-                                                    <code property="yui:return">
-                                                        void
-                                                    </code></dt>
-                                                    <dd property="yui:returnInfo"></dd>
-                                                </dl>
-
-
-             
-
-                                        </div>
-
-                                    </div>
-                                    <hr />
-                                    </div>
-                                    <div class="protected" rel="yui:method" resource="#method_update">
-                                    <h4>
-                                        <a name="method_update">update</a></h4>
-                                    <div class="detail" >
-                                        <code>
-                                         protected 
-                                        
-                                        
-                                        void
-                                            <strong property="yui:name">update</strong>
-                                           (
-                                            )
-                                        </code>
-                                        
-                                        <div class="description" property="yui:description">
-                                            wrapper method for event onUpdate<br />
-additionally adds the correct checked state to the decorator
-                                        </div>
-
-                                        <div class="description">
-
-
-                                                <dl>
-                                                    <dt>Returns:
-                                                    <code property="yui:return">
-                                                        void
-                                                    </code></dt>
-                                                    <dd property="yui:returnInfo"></dd>
-                                                </dl>
-
-
-             
-
-                                        </div>
-
-                                    </div>
-                                    <hr />
-                                    </div>
-                            </div>
-                        </div>
 
                         <div rel="yui:inheritance">                    
                             <div class="section field inheritance" rel="yui:superclass"  resource="cfe.generic.html">
@@ -486,69 +207,6 @@ additionally adds the correct checked state to the decorator
                     </div>
 
                     <div rel="yui:events" resource="#events">
-                        <div class="section method details">
-                            <h3 id="events">Events (Option Attributes)</h3>
-                            <div class="content">
-                                    <div class="" rel="yui:event" resource="#event_onCheck">
-                                    <h4>
-                                        <a name="event_onCheck">onCheck</a></h4>
-                                    <div class="detail">
-                                        <code>
-                                        
-                                        
-                                        
-                                            <strong property="yui:name">onCheck</strong>
-
-                                            (
-                                            )
-
-                                        </code>
-                                        
-                                        <div class="description" property="yui:description">
-                                            Fired when the original element gets checked
-                                        </div>
-
-                                        <div class="description">
-
-
-
-
-                                        </div>
-
-                                    </div>
-                                    <hr />
-                                    </div>
-                                    <div class="" rel="yui:event" resource="#event_onUnCheck">
-                                    <h4>
-                                        <a name="event_onUnCheck">onUnCheck</a></h4>
-                                    <div class="detail">
-                                        <code>
-                                        
-                                        
-                                        
-                                            <strong property="yui:name">onUnCheck</strong>
-
-                                            (
-                                            )
-
-                                        </code>
-                                        
-                                        <div class="description" property="yui:description">
-                                            Fired when the original element's checked state is set to false
-                                        </div>
-
-                                        <div class="description">
-
-
-
-
-                                        </div>
-
-                                    </div>
-                                    <hr />
-                                    </div>
-                            </div>
-                        </div>
 
 
                         <div rel="yui:inheritance">                    
@@ -646,26 +304,7 @@ additionally adds the correct checked state to the decorator
                             </ul>
                         </div>
 
-                        <div id="methodsList" class="module">
-                            <h4>Methods</h4>
-                            <ul class="content">
-                                    <li class="protected"><a href="#method_build" title="build">build</a></li>
-                                    <li class=""><a href="#method_check" title="check">check</a></li>
-                                    <li class="protected"><a href="#method_createOriginal" title="createOriginal">createOriginal</a></li>
-                                    <li class=""><a href="#method_getFull" title="getFull">getFull</a></li>
-                                    <li class=""><a href="#method_setStateTo" title="setStateTo">setStateTo</a></li>
-                                    <li class=""><a href="#method_uncheck" title="uncheck">uncheck</a></li>
-                                    <li class="protected"><a href="#method_update" title="update">update</a></li>
-                            </ul>
-                        </div>
 
-                        <div id="eventsList" class="module">
-                            <h4>Events (Option Attributes)</h4>
-                            <ul class="content">
-                                    <li class=""><a href="#event_onCheck" title="onCheck">onCheck</a></li>
-                                    <li class=""><a href="#event_onUnCheck" title="onUnCheck">onUnCheck</a></li>
-                            </ul>
-                        </div>
 
 
                 </div>
@@ -682,10 +321,10 @@ additionally adds the correct checked state to the decorator
                         <ul class="content">
                                 <li class=""><a href="module_addon.html" title="addon">addon</a></li>
                                 <li class=""><a href="module_button.html" title="button">button</a></li>
-                                <li class="selected"><a href="module_check.html" title="check">check</a></li>
+                                <li class=""><a href="module_check.html" title="check">check</a></li>
                                 <li class=""><a href="module_core.html" title="core">core</a></li>
                                 <li class=""><a href="module_file.html" title="file">file</a></li>
-                                <li class=""><a href="module_group.html" title="group">group</a></li>
+                                <li class="selected"><a href="module_group.html" title="group">group</a></li>
                                 <li class=""><a href="module_select.html" title="select">select</a></li>
                                 <li class=""><a href="module_text.html" title="text">text</a></li>
                         </ul>
@@ -694,16 +333,14 @@ additionally adds the correct checked state to the decorator
                     <div id="classList" class="module">
                         <h4>Classes</h4>
                         <ul class="content">
-                                <li class="selected"><a href="cfe.modules.checkbox.html" title="cfe.modules.checkbox">cfe.modules.checkbox</a></li>
-                                <li class=""><a href="cfe.modules.radio.html" title="cfe.modules.radio">cfe.modules.radio</a></li>
+                                <li class="selected"><a href="cfe.modules.fieldset.html" title="cfe.modules.fieldset">cfe.modules.fieldset</a></li>
                         </ul>
                     </div>
 
                     <div id="fileList" class="module">
                         <h4>Files</h4>
                         <ul class="content">        
-                                <li class=""><a href="cfe.module.checkbox.js.html" title="cfe.module.checkbox.js">cfe.module.checkbox.js</a></li>
-                                <li class=""><a href="cfe.module.radio.js.html" title="cfe.module.radio.js">cfe.module.radio.js</a></li>
+                                <li class=""><a href="cfe.module.fieldset.js.html" title="cfe.module.fieldset.js">cfe.module.fieldset.js</a></li>
                         </ul>
                     </div>
             </div>
@@ -720,7 +357,7 @@ additionally adds the correct checked state to the decorator
 
 </div>
 <script type="text/javascript">
-    ALL_YUI_PROPS = [{"url": "cfe.modules.checkbox.html#method_build", "access": "protected", "host": "cfe.modules.checkbox", "type": "method", "name": "build"}, {"url": "cfe.modules.checkbox.html#method_check", "access": "", "host": "cfe.modules.checkbox", "type": "method", "name": "check"}, {"url": "cfe.modules.checkbox.html#method_createOriginal", "access": "protected", "host": "cfe.modules.checkbox", "type": "method", "name": "createOriginal"}, {"url": "cfe.modules.checkbox.html#method_getFull", "access": "", "host": "cfe.modules.checkbox", "type": "method", "name": "getFull"}, {"url": "cfe.modules.checkbox.html#event_onCheck", "access": "", "host": "cfe.modules.checkbox", "type": "event", "name": "onCheck"}, {"url": "cfe.modules.checkbox.html#event_onUnCheck", "access": "", "host": "cfe.modules.checkbox", "type": "event", "name": "onUnCheck"}, {"url": "cfe.modules.checkbox.html#property_selector", "access": "", "host": "cfe.modules.checkbox", "type": "property", "name": "selector"}, {"url": "cfe.modules.checkbox.html#method_setStateTo", "access": "", "host": "cfe.modules.checkbox", "type": "method", "name": "setStateTo"}, {"url": "cfe.modules.checkbox.html#property_type", "access": "", "host": "cfe.modules.checkbox", "type": "property", "name": "type"}, {"url": "cfe.modules.checkbox.html#method_uncheck", "access": "", "host": "cfe.modules.checkbox", "type": "method", "name": "uncheck"}, {"url": "cfe.modules.checkbox.html#method_update", "access": "protected", "host": "cfe.modules.checkbox", "type": "method", "name": "update"}];
+    ALL_YUI_PROPS = [{"url": "cfe.modules.fieldset.html#property_selector", "access": "", "host": "cfe.modules.fieldset", "type": "property", "name": "selector"}, {"url": "cfe.modules.fieldset.html#property_type", "access": "", "host": "cfe.modules.fieldset", "type": "property", "name": "type"}];
 </script>
 
 </body>

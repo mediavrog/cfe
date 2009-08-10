@@ -2,29 +2,36 @@
 <html xmlns:yui="http://yuilibrary.com/rdf/1.0/yui.rdf#">
 <head>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
-	<title>API: select  cfe.modules.select   (Custom Form Elements)</title>
+	<title>API documentation: select  cfe.modules.select   (Custom Form Elements for mootools)</title>
 
-	<link rel="stylesheet" type="text/css" href="assets/reset-fonts-grids-min.css?stamp=1244302022.05" />
-	<link rel="stylesheet" type="text/css" href="assets/api.css?stamp=1244302022.05" />
+	<link rel="stylesheet" type="text/css" href="assets/reset-fonts-grids-min.css?stamp=1247336726.09" />
+	<link rel="stylesheet" type="text/css" href="assets/api.css?stamp=1247336726.09" />
 
-    <script type="text/javascript" src="assets/api-js?stamp=1244302022.05"></script>
-    <script type="text/javascript" src="assets/ac-js?stamp=1244302022.05"></script>
+    <script type="text/javascript" src="assets/api-js?stamp=1247336726.09"></script>
+    <script type="text/javascript" src="assets/ac-js?stamp=1247336726.09"></script>
 </head>
 
 <body id="yahoo-com">
 
 <div id="doc3" class="yui-t2">
 	<div id="hd">
-        <h1><a href="http://customformelements.net" title="Custom Form Elements">Custom Form Elements</a></h1>
+        <h1><a href="http://customformelements.net" title="Custom Form Elements for mootools">Custom Form Elements for mootools</a></h1>
 
         <div class="path">
             <h3>select&nbsp;</h3> ::
-            <a href="./index.html" title="Custom Form Elements">Custom Form Elements</a>
+            <a href="./index.html" title="Custom Form Elements for mootools">Custom Form Elements for mootools</a>
                 &gt; <a href="./module_select.html" title="select">select</a>
                      &gt; cfe.modules.select 
                     
             <span class="subtitle">0.9.2</span>
         </div>
+
+        <form action="https://www.paypal.com/cgi-bin/webscr" method="post" id="donate" class="donationPaypal"><fieldset>
+                <input type="hidden" name="cmd" value="_s-xclick" />
+                <input type="hidden" name="hosted_button_id" value="4136353" />
+                <input type="image" src="../img/paypal_btn.png" name="submit" alt="Donate to the development of custom form elements." />
+                <img src="https://www.paypal.com/de_DE/i/scr/pixel.gif" width="1" height="1" alt="" />
+            </fieldset></form>
         
 	</div>
 
@@ -70,10 +77,87 @@ height of options too small if option with linebreak; standalone and scrolling b
 
                     
                     <div rel="yui:properties" resource="#properties">
+                        <div class="section field details">
+                            <h3 id="properties">Properties</h3>
+                            <div class="content">
+                                    <div class="" rel="yui:property" resource="#property_selector">
+                                    <h4><a name="property_selector" property="yui:name">selector</a>
+                                        - <code><span property="yui:type">string</span></code>
+                                    </h4>
+                                    <div class="detail">
+                                        <div class="description" property="yui:description">
+                                            CSS Selector to fetch "original" HTMLElements for replacement with this module
+                                        </div>
+                                    </div>
+     
+                                        
+
+
+                                    <hr />
+                                    </div>
+                                    <div class="" rel="yui:property" resource="#property_type">
+                                    <h4><a name="property_type" property="yui:name">type</a>
+                                        - <code><span property="yui:type">string</span></code>
+                                    </h4>
+                                    <div class="detail">
+                                        <div class="description" property="yui:description">
+                                            Describes the type of this element
+                                        </div>
+                                    </div>
+     
+                                        
+
+
+                                    <hr />
+                                    </div>
+                            </div>
+                        </div>
 
                     </div>
 
                     <div rel="yui:methods" resource="#methods">
+                        <div class="section method details">
+                            <h3 id="methods">Methods</h3>
+                            <div class="content">
+                                    <div class="" rel="yui:method" resource="#method_createOriginal">
+                                    <h4>
+                                        <a name="method_createOriginal">createOriginal</a></h4>
+                                    <div class="detail" >
+                                        <code>
+                                        
+                                        
+                                        
+                                        HTMLElement
+                                            <strong property="yui:name">createOriginal</strong>
+                                           (
+                                            )
+                                        </code>
+                                        
+                                        <div class="description" property="yui:description">
+                                            Method to programmatically create an "original" HTMLElement
+                                        </div>
+
+                                        <div class="description">
+
+
+                                                <dl>
+                                                    <dt>Returns:
+                                                    <code property="yui:return">
+                                                        HTMLElement
+                                                    </code></dt>
+                                                    <dd property="yui:returnInfo">a select input</dd>
+                                                </dl>
+
+
+             
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                            </div>
+                        </div>
 
                     </div>
 
@@ -96,7 +180,20 @@ height of options too small if option with linebreak; standalone and scrolling b
                             </div>
                     </form>
 
+                        <div id="propertyList" class="module">
+                            <h4>Properties</h4>
+                            <ul class="content">
+                                    <li class=""><a href="#property_selector" title="selector">selector</a></li>
+                                    <li class=""><a href="#property_type" title="type">type</a></li>
+                            </ul>
+                        </div>
 
+                        <div id="methodsList" class="module">
+                            <h4>Methods</h4>
+                            <ul class="content">
+                                    <li class=""><a href="#method_createOriginal" title="createOriginal">createOriginal</a></li>
+                            </ul>
+                        </div>
 
 
 
@@ -116,7 +213,6 @@ height of options too small if option with linebreak; standalone and scrolling b
                                 <li class=""><a href="module_button.html" title="button">button</a></li>
                                 <li class=""><a href="module_check.html" title="check">check</a></li>
                                 <li class=""><a href="module_core.html" title="core">core</a></li>
-                                <li class=""><a href="module_fieldset.html" title="fieldset">fieldset</a></li>
                                 <li class=""><a href="module_file.html" title="file">file</a></li>
                                 <li class=""><a href="module_group.html" title="group">group</a></li>
                                 <li class="selected"><a href="module_select.html" title="select">select</a></li>
@@ -153,7 +249,7 @@ height of options too small if option with linebreak; standalone and scrolling b
 
 </div>
 <script type="text/javascript">
-    ALL_YUI_PROPS = [];
+    ALL_YUI_PROPS = [{"url": "cfe.modules.select.html#method_createOriginal", "access": "", "host": "cfe.modules.select", "type": "method", "name": "createOriginal"}, {"url": "cfe.modules.select.html#property_selector", "access": "", "host": "cfe.modules.select", "type": "property", "name": "selector"}, {"url": "cfe.modules.select.html#property_type", "access": "", "host": "cfe.modules.select", "type": "property", "name": "type"}];
 </script>
 
 </body>

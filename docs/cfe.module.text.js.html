@@ -2,29 +2,36 @@
 <html xmlns:yui="http://yuilibrary.com/rdf/1.0/yui.rdf#">
 <head>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
-	<title>API: text   cfe.module.text.js  (Custom Form Elements)</title>
+	<title>API documentation: text   cfe.module.text.js  (Custom Form Elements for mootools)</title>
 
-	<link rel="stylesheet" type="text/css" href="assets/reset-fonts-grids-min.css?stamp=1244302021.69" />
-	<link rel="stylesheet" type="text/css" href="assets/api.css?stamp=1244302021.69" />
+	<link rel="stylesheet" type="text/css" href="assets/reset-fonts-grids-min.css?stamp=1247336725.55" />
+	<link rel="stylesheet" type="text/css" href="assets/api.css?stamp=1247336725.55" />
 
-    <script type="text/javascript" src="assets/api-js?stamp=1244302021.69"></script>
-    <script type="text/javascript" src="assets/ac-js?stamp=1244302021.69"></script>
+    <script type="text/javascript" src="assets/api-js?stamp=1247336725.55"></script>
+    <script type="text/javascript" src="assets/ac-js?stamp=1247336725.55"></script>
 </head>
 
 <body id="yahoo-com">
 
 <div id="doc3" class="yui-t2">
 	<div id="hd">
-        <h1><a href="http://customformelements.net" title="Custom Form Elements">Custom Form Elements</a></h1>
+        <h1><a href="http://customformelements.net" title="Custom Form Elements for mootools">Custom Form Elements for mootools</a></h1>
 
         <div class="path">
             <h3>text&nbsp;</h3> ::
-            <a href="./index.html" title="Custom Form Elements">Custom Form Elements</a>
+            <a href="./index.html" title="Custom Form Elements for mootools">Custom Form Elements for mootools</a>
                 &gt; <a href="./module_text.html" title="text">text</a>
                     
                      &gt; cfe.module.text.js (source view) 
             <span class="subtitle">0.9.2</span>
         </div>
+
+        <form action="https://www.paypal.com/cgi-bin/webscr" method="post" id="donate" class="donationPaypal"><fieldset>
+                <input type="hidden" name="cmd" value="_s-xclick" />
+                <input type="hidden" name="hosted_button_id" value="4136353" />
+                <input type="image" src="../img/paypal_btn.png" name="submit" alt="Donate to the development of custom form elements." />
+                <img src="https://www.paypal.com/de_DE/i/scr/pixel.gif" width="1" height="1" alt="" />
+            </fieldset></form>
         
 	</div>
 
@@ -63,16 +70,48 @@
 <span class="nx">cfe</span><span class="p">.</span><span class="nx">module</span><span class="p">.</span><span class="nx">text</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Class</span><span class="p">({</span>
 	
 	<span class="nx">Extends</span><span class="o">:</span> <span class="nx">cfe</span><span class="p">.</span><span class="nx">generic</span><span class="o">,</span>
+
+    <span class="c">/**</span>
+<span class="c">     * Describes the type of this element</span>
+<span class="c">     * @property type</span>
+<span class="c">     * @type string</span>
+<span class="c">     */</span>
 	<span class="nx">type</span><span class="o">:</span> <span class="s2">&quot;Text&quot;</span><span class="o">,</span>
+
+    <span class="c">/**</span>
+<span class="c">     * CSS Selector to fetch &quot;original&quot; HTMLElements for replacement with this module</span>
+<span class="c">     * @property selector</span>
+<span class="c">     * @type string</span>
+<span class="c">     */</span>
 	<span class="nx">selector</span><span class="o">:</span> <span class="s2">&quot;input[type=text]&quot;</span><span class="o">,</span>
 	
 	<span class="nx">options</span><span class="o">:</span> <span class="p">{</span>
-		<span class="nx">slidingDoors</span><span class="o">:</span> <span class="kc">true</span><span class="o">,</span>
-        <span class="nx">slidingDoorsCount</span><span class="o">:</span> <span class="mi">2</span>
+        <span class="c">/**</span>
+<span class="c">         * if &gt; 0, it will create markup for css sliding doors tech&lt;br /&gt;</span>
+<span class="c">         * the number defines the amount of wrappers to create around this element&lt;br /&gt;</span>
+<span class="c">         * 2: standard sliding doors (x- or y-Axis)&lt;br /&gt;</span>
+<span class="c">         * 4: sliding doors in all directions (x/y-Axis)</span>
+<span class="c">         * @config slidingDoors</span>
+<span class="c">         * @type int</span>
+<span class="c">         * @default 2</span>
+<span class="c">         */</span>
+		<span class="nx">slidingDoors</span><span class="o">:</span> <span class="mi">2</span>
 	<span class="p">}</span><span class="o">,</span>
 
+    <span class="c">/**</span>
+<span class="c">     * flag to prevent deleting the for attribute from the label&lt;br /&gt;</span>
+<span class="c">     * for text fields this is important, since the &quot;original&quot; element doesn&#39;t get hidden</span>
+<span class="c">     * @property dontRemoveForFromLabel</span>
+<span class="c">     * @type boolean</span>
+<span class="c">     * @protected</span>
+<span class="c">     */</span>
     <span class="nx">dontRemoveForFromLabel</span><span class="o">:</span> <span class="kc">true</span><span class="o">,</span>
 
+    <span class="c">/**</span>
+<span class="c">     * since there&#39;s no real &quot;decorator&quot; (just wrapping for sliding doors) for textfields, it won&#39;t fetch events</span>
+<span class="c">     * @method setupWrapper</span>
+<span class="c">     * @protected</span>
+<span class="c">     */</span>
     <span class="nx">setupWrapper</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span>
     <span class="p">{</span>
        <span class="k">this</span><span class="p">.</span><span class="nx">a</span><span class="p">.</span><span class="nx">addClass</span><span class="p">(</span><span class="s2">&quot;js&quot;</span><span class="o">+</span><span class="k">this</span><span class="p">.</span><span class="nx">type</span><span class="p">).</span><span class="nx">addEvents</span><span class="p">({</span>
@@ -81,6 +120,12 @@
         <span class="p">});</span>
     <span class="p">}</span><span class="o">,</span>
 
+    <span class="c">/**</span>
+<span class="c">     * Method to programmatically create an &quot;original&quot; HTMLElement</span>
+<span class="c">     *</span>
+<span class="c">     * @method createOriginal</span>
+<span class="c">     * @return {HTMLElement} an input field of type &quot;text&quot;</span>
+<span class="c">     */</span>
     <span class="nx">createOriginal</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span>
     <span class="p">{</span>
         <span class="k">return</span> <span class="k">new</span> <span class="nx">Element</span><span class="p">(</span><span class="s2">&quot;input&quot;</span><span class="o">,</span> <span class="p">{</span>
@@ -89,9 +134,10 @@
     <span class="p">}</span><span class="o">,</span>
 
     <span class="c">/**</span>
-<span class="c">     * customize the &quot;decorator&quot;</span>
+<span class="c">     * customize the &quot;decorator&quot; (=&gt; sliding doors wrappers)</span>
 <span class="c">     *</span>
 <span class="c">     * @method build</span>
+<span class="c">     * @protected</span>
 <span class="c">     */</span>
 	<span class="nx">build</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span>
     <span class="p">{</span>
@@ -99,7 +145,7 @@
         <span class="p">{</span>
 			<span class="k">this</span><span class="p">.</span><span class="nx">a</span><span class="p">.</span><span class="nx">addClass</span><span class="p">(</span><span class="s2">&quot;js&quot;</span><span class="o">+</span><span class="k">this</span><span class="p">.</span><span class="nx">type</span><span class="o">+</span><span class="s2">&quot;Slide&quot;</span><span class="p">);</span>
 
-            <span class="k">this</span><span class="p">.</span><span class="nx">o</span><span class="p">.</span><span class="nx">setSlidingDoors</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">slidingDoorsCount</span><span class="o">-</span><span class="mi">1</span><span class="o">,</span> <span class="s2">&quot;span&quot;</span><span class="o">,</span> <span class="s2">&quot;js&quot;</span><span class="o">+</span><span class="k">this</span><span class="p">.</span><span class="nx">type</span><span class="p">).</span><span class="nx">inject</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">a</span><span class="p">);</span>
+            <span class="k">this</span><span class="p">.</span><span class="nx">o</span><span class="p">.</span><span class="nx">setSlidingDoors</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">slidingDoors</span><span class="o">-</span><span class="mi">1</span><span class="o">,</span> <span class="s2">&quot;span&quot;</span><span class="o">,</span> <span class="s2">&quot;js&quot;</span><span class="o">+</span><span class="k">this</span><span class="p">.</span><span class="nx">type</span><span class="p">).</span><span class="nx">inject</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">a</span><span class="p">);</span>
 
             <span class="k">this</span><span class="p">.</span><span class="nx">o</span><span class="p">.</span><span class="nx">setStyles</span><span class="p">({</span>
                 <span class="nx">background</span><span class="o">:</span> <span class="s2">&quot;none&quot;</span><span class="o">,</span>
@@ -146,7 +192,6 @@
                                 <li class=""><a href="module_button.html" title="button">button</a></li>
                                 <li class=""><a href="module_check.html" title="check">check</a></li>
                                 <li class=""><a href="module_core.html" title="core">core</a></li>
-                                <li class=""><a href="module_fieldset.html" title="fieldset">fieldset</a></li>
                                 <li class=""><a href="module_file.html" title="file">file</a></li>
                                 <li class=""><a href="module_group.html" title="group">group</a></li>
                                 <li class=""><a href="module_select.html" title="select">select</a></li>
@@ -186,7 +231,7 @@
 
 </div>
 <script type="text/javascript">
-    ALL_YUI_PROPS = [{"url": "cfe.module.text.html#method_build", "access": "", "host": "cfe.module.text", "type": "method", "name": "build"}, {"url": "cfe.module.password.html#method_createOriginal", "access": "", "host": "cfe.module.password", "type": "method", "name": "createOriginal"}, {"url": "cfe.module.password.html#property_selector", "access": "", "host": "cfe.module.password", "type": "property", "name": "selector"}, {"url": "cfe.module.password.html#property_type", "access": "", "host": "cfe.module.password", "type": "property", "name": "type"}];
+    ALL_YUI_PROPS = [{"url": "cfe.module.text.html#method_build", "access": "protected", "host": "cfe.module.text", "type": "method", "name": "build"}, {"url": "cfe.module.password.html#method_createOriginal", "access": "", "host": "cfe.module.password", "type": "method", "name": "createOriginal"}, {"url": "cfe.module.text.html#method_createOriginal", "access": "", "host": "cfe.module.text", "type": "method", "name": "createOriginal"}, {"url": "cfe.module.text.html#property_dontRemoveForFromLabel", "access": "protected", "host": "cfe.module.text", "type": "property", "name": "dontRemoveForFromLabel"}, {"url": "cfe.module.password.html#property_selector", "access": "", "host": "cfe.module.password", "type": "property", "name": "selector"}, {"url": "cfe.module.text.html#property_selector", "access": "", "host": "cfe.module.text", "type": "property", "name": "selector"}, {"url": "cfe.module.text.html#method_setupWrapper", "access": "protected", "host": "cfe.module.text", "type": "method", "name": "setupWrapper"}, {"url": "cfe.module.text.html#config_slidingDoors", "access": "", "host": "cfe.module.text", "type": "config", "name": "slidingDoors"}, {"url": "cfe.module.password.html#property_type", "access": "", "host": "cfe.module.password", "type": "property", "name": "type"}, {"url": "cfe.module.text.html#property_type", "access": "", "host": "cfe.module.text", "type": "property", "name": "type"}];
 </script>
 
 </body>

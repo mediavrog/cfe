@@ -2,29 +2,36 @@
 <html xmlns:yui="http://yuilibrary.com/rdf/1.0/yui.rdf#">
 <head>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
-	<title>API: check   cfe.module.checkbox.js  (Custom Form Elements)</title>
+	<title>API documentation: check   cfe.module.checkbox.js  (Custom Form Elements for mootools)</title>
 
-	<link rel="stylesheet" type="text/css" href="assets/reset-fonts-grids-min.css?stamp=1244302021.95" />
-	<link rel="stylesheet" type="text/css" href="assets/api.css?stamp=1244302021.95" />
+	<link rel="stylesheet" type="text/css" href="assets/reset-fonts-grids-min.css?stamp=1247336725.98" />
+	<link rel="stylesheet" type="text/css" href="assets/api.css?stamp=1247336725.98" />
 
-    <script type="text/javascript" src="assets/api-js?stamp=1244302021.95"></script>
-    <script type="text/javascript" src="assets/ac-js?stamp=1244302021.95"></script>
+    <script type="text/javascript" src="assets/api-js?stamp=1247336725.98"></script>
+    <script type="text/javascript" src="assets/ac-js?stamp=1247336725.98"></script>
 </head>
 
 <body id="yahoo-com">
 
 <div id="doc3" class="yui-t2">
 	<div id="hd">
-        <h1><a href="http://customformelements.net" title="Custom Form Elements">Custom Form Elements</a></h1>
+        <h1><a href="http://customformelements.net" title="Custom Form Elements for mootools">Custom Form Elements for mootools</a></h1>
 
         <div class="path">
             <h3>check&nbsp;</h3> ::
-            <a href="./index.html" title="Custom Form Elements">Custom Form Elements</a>
+            <a href="./index.html" title="Custom Form Elements for mootools">Custom Form Elements for mootools</a>
                 &gt; <a href="./module_check.html" title="check">check</a>
                     
                      &gt; cfe.module.checkbox.js (source view) 
             <span class="subtitle">0.9.2</span>
         </div>
+
+        <form action="https://www.paypal.com/cgi-bin/webscr" method="post" id="donate" class="donationPaypal"><fieldset>
+                <input type="hidden" name="cmd" value="_s-xclick" />
+                <input type="hidden" name="hosted_button_id" value="4136353" />
+                <input type="image" src="../img/paypal_btn.png" name="submit" alt="Donate to the development of custom form elements." />
+                <img src="https://www.paypal.com/de_DE/i/scr/pixel.gif" width="1" height="1" alt="" />
+            </fieldset></form>
         
 	</div>
 
@@ -53,23 +60,53 @@
 <span class="c">/**</span>
 <span class="c"> * replaces checkboxes</span>
 <span class="c"> *</span>
+<span class="c"> * bug:</span>
+<span class="c"> * opera        - original update triggers twince when clicking the ori</span>
+<span class="c"> * ie 8         - original update triggers twince when clicking the ori</span>
+<span class="c"> * ie 7         - original update triggers twince when clicking the ori</span>
+<span class="c"> *</span>
 <span class="c"> * @class checkbox</span>
 <span class="c"> * @namespace cfe.modules</span>
-<span class="c"> *</span>
+<span class="c"> * </span>
 <span class="c"> * @requires generic</span>
 <span class="c"> * @extends cfe.generic</span>
-<span class="c"> *</span>
-<span class="c"> * bug:</span>
-<span class="c"> * opera        - ori update triggers twince when clicking the ori</span>
-<span class="c"> * ie 8         - ori update triggers twince when clicking the ori</span>
-<span class="c"> * ie 7         - ori update triggers twince when clicking the ori</span>
 <span class="c"> */</span>
 <span class="nx">cfe</span><span class="p">.</span><span class="nx">module</span><span class="p">.</span><span class="nx">checkbox</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Class</span><span class="p">({</span>
     
 	<span class="nx">Extends</span><span class="o">:</span> <span class="nx">cfe</span><span class="p">.</span><span class="nx">generic</span><span class="o">,</span>
+
+    <span class="c">/**</span>
+<span class="c">     * Describes the type of this element</span>
+<span class="c">     * @property type</span>
+<span class="c">     * @type string</span>
+<span class="c">     */</span>
 	<span class="nx">type</span><span class="o">:</span> <span class="s2">&quot;Checkbox&quot;</span><span class="o">,</span>
+
+    <span class="c">/**</span>
+<span class="c">     * CSS Selector to fetch &quot;original&quot; HTMLElements for replacement with this module</span>
+<span class="c">     * @property selector</span>
+<span class="c">     * @type string</span>
+<span class="c">     */</span>
 	<span class="nx">selector</span><span class="o">:</span> <span class="s2">&quot;input[type=checkbox]&quot;</span><span class="o">,</span>
 
+    <span class="nx">options</span><span class="o">:</span><span class="p">{</span>
+        <span class="c">/**</span>
+<span class="c">         * Fired when the original element gets checked</span>
+<span class="c">         * @event onCheck</span>
+<span class="c">         */</span>
+        <span class="nx">onCheck</span><span class="o">:</span> <span class="nx">Class</span><span class="p">.</span><span class="nx">empty</span><span class="o">,</span>
+        <span class="c">/**</span>
+<span class="c">         * Fired when the original element&#39;s checked state is set to false</span>
+<span class="c">         * @event onUnCheck</span>
+<span class="c">         */</span>
+        <span class="nx">onUncheck</span><span class="o">:</span> <span class="nx">Class</span><span class="p">.</span><span class="nx">empty</span>
+    <span class="p">}</span><span class="o">,</span>
+    <span class="c">/**</span>
+<span class="c">     * retreive the label and the alias in inverted direction, since with checkboxes, the decorator is more often placed in front of the label</span>
+<span class="c">     *</span>
+<span class="c">     * @method getFull</span>
+<span class="c">     * @return {HTMLElement[label, alias]}</span>
+<span class="c">     */</span>
     <span class="nx">getFull</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span>
     <span class="p">{</span>
         <span class="k">return</span> <span class="p">[</span><span class="k">this</span><span class="p">.</span><span class="nx">a</span><span class="o">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">l</span><span class="p">];</span>
@@ -104,6 +141,13 @@
         <span class="p">}</span>
     <span class="p">}</span><span class="o">,</span>
 
+    <span class="c">/**</span>
+<span class="c">     * Method to programmatically create an &quot;original&quot; HTMLElement</span>
+<span class="c">     *</span>
+<span class="c">     * @method createOriginal</span>
+<span class="c">     * @return {HTMLElement} an input field of type &quot;checkbox&quot;</span>
+<span class="c">     * @protected</span>
+<span class="c">     */</span>
     <span class="nx">createOriginal</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span>
     <span class="p">{</span>
         <span class="k">return</span> <span class="k">new</span> <span class="nx">Element</span><span class="p">(</span><span class="s2">&quot;input&quot;</span><span class="o">,</span><span class="p">{</span>
@@ -111,30 +155,63 @@
             <span class="nx">checked</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">checked</span>
             <span class="p">});</span>
     <span class="p">}</span><span class="o">,</span>
-	
+
+    <span class="c">/**</span>
+<span class="c">     * creates the decorator checkbox as simple img[src=spacer] element</span>
+<span class="c">     * after creation, update is called to properly set the state</span>
+<span class="c">     *</span>
+<span class="c">     * @method build</span>
+<span class="c">     * @protected</span>
+<span class="c">     */</span>
     <span class="nx">build</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span>
     <span class="p">{</span>
         <span class="k">new</span> <span class="nx">Element</span><span class="p">(</span><span class="s2">&quot;img&quot;</span><span class="o">,</span><span class="p">{</span><span class="s2">&quot;src&quot;</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">spacer</span><span class="o">,</span> <span class="s2">&quot;class&quot;</span><span class="o">:</span> <span class="s2">&quot;spc&quot;</span><span class="p">}).</span><span class="nx">inject</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">a</span><span class="o">,</span> <span class="s2">&quot;top&quot;</span><span class="p">);</span>
         <span class="k">this</span><span class="p">.</span><span class="nx">update</span><span class="p">();</span>
     <span class="p">}</span><span class="o">,</span>
 
+    <span class="c">/**</span>
+<span class="c">     * public method to set the state of a checkbox programmatically</span>
+<span class="c">     * TODO: check if this is obsolete, because the original should have an onupdate listener</span>
+<span class="c">     *</span>
+<span class="c">     * @method setStateTo</span>
+<span class="c">     * @public</span>
+<span class="c">     */</span>
     <span class="nx">setStateTo</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">state</span><span class="p">)</span>
     <span class="p">{</span>
         <span class="nx">state</span><span class="o">?</span><span class="k">this</span><span class="p">.</span><span class="nx">check</span><span class="p">()</span><span class="o">:</span><span class="k">this</span><span class="p">.</span><span class="nx">uncheck</span><span class="p">();</span>
     <span class="p">}</span><span class="o">,</span>
 
+    <span class="c">/**</span>
+<span class="c">     * public method to check a checkbox programatically</span>
+<span class="c">     *</span>
+<span class="c">     * @method check</span>
+<span class="c">     * @public</span>
+<span class="c">     */</span>
     <span class="nx">check</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span>
     <span class="p">{</span>
         <span class="k">this</span><span class="p">.</span><span class="nx">a</span><span class="p">.</span><span class="nx">addClass</span><span class="p">(</span><span class="s2">&quot;A&quot;</span><span class="p">);</span>
         <span class="k">this</span><span class="p">.</span><span class="nx">fireEvent</span><span class="p">(</span><span class="s2">&quot;onCheck&quot;</span><span class="p">);</span>
     <span class="p">}</span><span class="o">,</span>
 
+    <span class="c">/**</span>
+<span class="c">     * public method to uncheck a checkbox programatically</span>
+<span class="c">     *</span>
+<span class="c">     * @method uncheck</span>
+<span class="c">     * @public</span>
+<span class="c">     */</span>
     <span class="nx">uncheck</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span>
     <span class="p">{</span>
         <span class="k">this</span><span class="p">.</span><span class="nx">a</span><span class="p">.</span><span class="nx">removeClass</span><span class="p">(</span><span class="s2">&quot;A&quot;</span><span class="p">);</span>
         <span class="k">this</span><span class="p">.</span><span class="nx">fireEvent</span><span class="p">(</span><span class="s2">&quot;onUncheck&quot;</span><span class="p">);</span>
     <span class="p">}</span><span class="o">,</span>
 
+    <span class="c">/**</span>
+<span class="c">     * wrapper method for event onUpdate&lt;br /&gt;</span>
+<span class="c">     * additionally adds the correct checked state to the decorator</span>
+<span class="c">     *</span>
+<span class="c">     * @method update</span>
+<span class="c">     * @protected</span>
+<span class="c">     */</span>
     <span class="nx">update</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span>
     <span class="p">{</span>
         <span class="k">this</span><span class="p">.</span><span class="nx">setStateTo</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">o</span><span class="p">.</span><span class="nx">checked</span><span class="p">);</span>
@@ -173,7 +250,6 @@
                                 <li class=""><a href="module_button.html" title="button">button</a></li>
                                 <li class="selected"><a href="module_check.html" title="check">check</a></li>
                                 <li class=""><a href="module_core.html" title="core">core</a></li>
-                                <li class=""><a href="module_fieldset.html" title="fieldset">fieldset</a></li>
                                 <li class=""><a href="module_file.html" title="file">file</a></li>
                                 <li class=""><a href="module_group.html" title="group">group</a></li>
                                 <li class=""><a href="module_select.html" title="select">select</a></li>
@@ -210,7 +286,7 @@
 
 </div>
 <script type="text/javascript">
-    ALL_YUI_PROPS = [];
+    ALL_YUI_PROPS = [{"url": "cfe.modules.checkbox.html#method_build", "access": "protected", "host": "cfe.modules.checkbox", "type": "method", "name": "build"}, {"url": "cfe.modules.checkbox.html#method_check", "access": "", "host": "cfe.modules.checkbox", "type": "method", "name": "check"}, {"url": "cfe.modules.radio.html#method_check", "access": "", "host": "cfe.modules.radio", "type": "method", "name": "check"}, {"url": "cfe.modules.checkbox.html#method_createOriginal", "access": "protected", "host": "cfe.modules.checkbox", "type": "method", "name": "createOriginal"}, {"url": "cfe.modules.radio.html#method_createOriginal", "access": "", "host": "cfe.modules.radio", "type": "method", "name": "createOriginal"}, {"url": "cfe.modules.checkbox.html#method_getFull", "access": "", "host": "cfe.modules.checkbox", "type": "method", "name": "getFull"}, {"url": "cfe.modules.radio.html#method_initializeAdv", "access": "protected", "host": "cfe.modules.radio", "type": "method", "name": "initializeAdv"}, {"url": "cfe.modules.checkbox.html#event_onCheck", "access": "", "host": "cfe.modules.checkbox", "type": "event", "name": "onCheck"}, {"url": "cfe.modules.checkbox.html#event_onUnCheck", "access": "", "host": "cfe.modules.checkbox", "type": "event", "name": "onUnCheck"}, {"url": "cfe.modules.checkbox.html#property_selector", "access": "", "host": "cfe.modules.checkbox", "type": "property", "name": "selector"}, {"url": "cfe.modules.radio.html#property_selector", "access": "", "host": "cfe.modules.radio", "type": "property", "name": "selector"}, {"url": "cfe.modules.checkbox.html#method_setStateTo", "access": "", "host": "cfe.modules.checkbox", "type": "method", "name": "setStateTo"}, {"url": "cfe.modules.checkbox.html#property_type", "access": "", "host": "cfe.modules.checkbox", "type": "property", "name": "type"}, {"url": "cfe.modules.radio.html#property_type", "access": "", "host": "cfe.modules.radio", "type": "property", "name": "type"}, {"url": "cfe.modules.checkbox.html#method_uncheck", "access": "", "host": "cfe.modules.checkbox", "type": "method", "name": "uncheck"}, {"url": "cfe.modules.checkbox.html#method_update", "access": "protected", "host": "cfe.modules.checkbox", "type": "method", "name": "update"}];
 </script>
 
 </body>

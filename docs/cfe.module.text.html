@@ -2,29 +2,36 @@
 <html xmlns:yui="http://yuilibrary.com/rdf/1.0/yui.rdf#">
 <head>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
-	<title>API: text  cfe.module.text   (Custom Form Elements)</title>
+	<title>API documentation: text  cfe.module.text   (Custom Form Elements for mootools)</title>
 
-	<link rel="stylesheet" type="text/css" href="assets/reset-fonts-grids-min.css?stamp=1244302021.69" />
-	<link rel="stylesheet" type="text/css" href="assets/api.css?stamp=1244302021.69" />
+	<link rel="stylesheet" type="text/css" href="assets/reset-fonts-grids-min.css?stamp=1247336725.55" />
+	<link rel="stylesheet" type="text/css" href="assets/api.css?stamp=1247336725.55" />
 
-    <script type="text/javascript" src="assets/api-js?stamp=1244302021.69"></script>
-    <script type="text/javascript" src="assets/ac-js?stamp=1244302021.69"></script>
+    <script type="text/javascript" src="assets/api-js?stamp=1247336725.55"></script>
+    <script type="text/javascript" src="assets/ac-js?stamp=1247336725.55"></script>
 </head>
 
 <body id="yahoo-com">
 
 <div id="doc3" class="yui-t2">
 	<div id="hd">
-        <h1><a href="http://customformelements.net" title="Custom Form Elements">Custom Form Elements</a></h1>
+        <h1><a href="http://customformelements.net" title="Custom Form Elements for mootools">Custom Form Elements for mootools</a></h1>
 
         <div class="path">
             <h3>text&nbsp;</h3> ::
-            <a href="./index.html" title="Custom Form Elements">Custom Form Elements</a>
+            <a href="./index.html" title="Custom Form Elements for mootools">Custom Form Elements for mootools</a>
                 &gt; <a href="./module_text.html" title="text">text</a>
                      &gt; cfe.module.text 
                     
             <span class="subtitle">0.9.2</span>
         </div>
+
+        <form action="https://www.paypal.com/cgi-bin/webscr" method="post" id="donate" class="donationPaypal"><fieldset>
+                <input type="hidden" name="cmd" value="_s-xclick" />
+                <input type="hidden" name="hosted_button_id" value="4136353" />
+                <input type="image" src="../img/paypal_btn.png" name="submit" alt="Donate to the development of custom form elements." />
+                <img src="https://www.paypal.com/de_DE/i/scr/pixel.gif" width="1" height="1" alt="" />
+            </fieldset></form>
         
 	</div>
 
@@ -75,6 +82,57 @@
 
                     
                     <div rel="yui:properties" resource="#properties">
+                        <div class="section field details">
+                            <h3 id="properties">Properties</h3>
+                            <div class="content">
+                                    <div class="protected" rel="yui:property" resource="#property_dontRemoveForFromLabel">
+                                    <h4><a name="property_dontRemoveForFromLabel" property="yui:name">dontRemoveForFromLabel</a>
+                                        - <code>protected <span property="yui:type">boolean</span></code>
+                                    </h4>
+                                    <div class="detail">
+                                        <div class="description" property="yui:description">
+                                            flag to prevent deleting the for attribute from the label<br />
+for text fields this is important, since the "original" element doesn't get hidden
+                                        </div>
+                                    </div>
+     
+                                        
+
+
+                                    <hr />
+                                    </div>
+                                    <div class="" rel="yui:property" resource="#property_selector">
+                                    <h4><a name="property_selector" property="yui:name">selector</a>
+                                        - <code><span property="yui:type">string</span></code>
+                                    </h4>
+                                    <div class="detail">
+                                        <div class="description" property="yui:description">
+                                            CSS Selector to fetch "original" HTMLElements for replacement with this module
+                                        </div>
+                                    </div>
+     
+                                        
+
+
+                                    <hr />
+                                    </div>
+                                    <div class="" rel="yui:property" resource="#property_type">
+                                    <h4><a name="property_type" property="yui:name">type</a>
+                                        - <code><span property="yui:type">string</span></code>
+                                    </h4>
+                                    <div class="detail">
+                                        <div class="description" property="yui:description">
+                                            Describes the type of this element
+                                        </div>
+                                    </div>
+     
+                                        
+
+
+                                    <hr />
+                                    </div>
+                            </div>
+                        </div>
 
                         <div rel="yui:inheritance">
                         <div class="section field inheritance" rel="yui:superclass"  resource="cfe.generic.html">
@@ -100,12 +158,12 @@
                         <div class="section method details">
                             <h3 id="methods">Methods</h3>
                             <div class="content">
-                                    <div class="" rel="yui:method" resource="#method_build">
+                                    <div class="protected" rel="yui:method" resource="#method_build">
                                     <h4>
                                         <a name="method_build">build</a></h4>
                                     <div class="detail" >
                                         <code>
-                                        
+                                         protected 
                                         
                                         
                                         void
@@ -115,7 +173,81 @@
                                         </code>
                                         
                                         <div class="description" property="yui:description">
-                                            customize the "decorator"
+                                            customize the "decorator" (=> sliding doors wrappers)
+                                        </div>
+
+                                        <div class="description">
+
+
+                                                <dl>
+                                                    <dt>Returns:
+                                                    <code property="yui:return">
+                                                        void
+                                                    </code></dt>
+                                                    <dd property="yui:returnInfo"></dd>
+                                                </dl>
+
+
+             
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                                    <div class="" rel="yui:method" resource="#method_createOriginal">
+                                    <h4>
+                                        <a name="method_createOriginal">createOriginal</a></h4>
+                                    <div class="detail" >
+                                        <code>
+                                        
+                                        
+                                        
+                                        HTMLElement
+                                            <strong property="yui:name">createOriginal</strong>
+                                           (
+                                            )
+                                        </code>
+                                        
+                                        <div class="description" property="yui:description">
+                                            Method to programmatically create an "original" HTMLElement
+                                        </div>
+
+                                        <div class="description">
+
+
+                                                <dl>
+                                                    <dt>Returns:
+                                                    <code property="yui:return">
+                                                        HTMLElement
+                                                    </code></dt>
+                                                    <dd property="yui:returnInfo">an input field of type "text"</dd>
+                                                </dl>
+
+
+             
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                                    <div class="protected" rel="yui:method" resource="#method_setupWrapper">
+                                    <h4>
+                                        <a name="method_setupWrapper">setupWrapper</a></h4>
+                                    <div class="detail" >
+                                        <code>
+                                         protected 
+                                        
+                                        
+                                        void
+                                            <strong property="yui:name">setupWrapper</strong>
+                                           (
+                                            )
+                                        </code>
+                                        
+                                        <div class="description" property="yui:description">
+                                            since there's no real "decorator" (just wrapping for sliding doors) for textfields, it won't fetch events
                                         </div>
 
                                         <div class="description">
@@ -145,8 +277,23 @@
                                 <h4>Methods inherited from <a href="cfe.generic.html" property="yui:name" title="cfe.generic">cfe.generic</a>:</h4>
                                 <div class="content" rel="yui:methods">
                                     <code>
+                                            <span rel="yui:method" resource="cfe.generic.html#method_build">                                        
+                                            <a class="protected" href="cfe.generic.html#method_build" property="yui:name" title="build">build</a><span class="protected">,</span>
+                                            </span>
                                             <span rel="yui:method" resource="cfe.generic.html#method_buildWrapper">                                        
                                             <a class="protected" href="cfe.generic.html#method_buildWrapper" property="yui:name" title="buildWrapper">buildWrapper</a><span class="protected">,</span>
+                                            </span>
+                                            <span rel="yui:method" resource="cfe.generic.html#method_clicked">                                        
+                                            <a class="protected" href="cfe.generic.html#method_clicked" property="yui:name" title="clicked">clicked</a><span class="protected">,</span>
+                                            </span>
+                                            <span rel="yui:method" resource="cfe.generic.html#method_createOriginal">                                        
+                                            <a class="" href="cfe.generic.html#method_createOriginal" property="yui:name" title="createOriginal">createOriginal</a><span class="">,</span>
+                                            </span>
+                                            <span rel="yui:method" resource="cfe.generic.html#method_disable">                                        
+                                            <a class="protected" href="cfe.generic.html#method_disable" property="yui:name" title="disable">disable</a><span class="protected">,</span>
+                                            </span>
+                                            <span rel="yui:method" resource="cfe.generic.html#method_enable">                                        
+                                            <a class="protected" href="cfe.generic.html#method_enable" property="yui:name" title="enable">enable</a><span class="protected">,</span>
                                             </span>
                                             <span rel="yui:method" resource="cfe.generic.html#method_getAlias">                                        
                                             <a class="" href="cfe.generic.html#method_getAlias" property="yui:name" title="getAlias">getAlias</a><span class="">,</span>
@@ -158,16 +305,43 @@
                                             <a class="" href="cfe.generic.html#method_getLabel" property="yui:name" title="getLabel">getLabel</a><span class="">,</span>
                                             </span>
                                             <span rel="yui:method" resource="cfe.generic.html#method_hideOriginal">                                        
-                                            <a class="" href="cfe.generic.html#method_hideOriginal" property="yui:name" title="hideOriginal">hideOriginal</a><span class="">,</span>
+                                            <a class="protected" href="cfe.generic.html#method_hideOriginal" property="yui:name" title="hideOriginal">hideOriginal</a><span class="protected">,</span>
                                             </span>
                                             <span rel="yui:method" resource="cfe.generic.html#method_initialize">                                        
                                             <a class="" href="cfe.generic.html#method_initialize" property="yui:name" title="initialize">initialize</a><span class="">,</span>
+                                            </span>
+                                            <span rel="yui:method" resource="cfe.generic.html#method_initializeAdv">                                        
+                                            <a class="protected" href="cfe.generic.html#method_initializeAdv" property="yui:name" title="initializeAdv">initializeAdv</a><span class="protected">,</span>
+                                            </span>
+                                            <span rel="yui:method" resource="cfe.generic.html#method_isDisabled">                                        
+                                            <a class="" href="cfe.generic.html#method_isDisabled" property="yui:name" title="isDisabled">isDisabled</a><span class="">,</span>
+                                            </span>
+                                            <span rel="yui:method" resource="cfe.generic.html#method_onMouseOver">                                        
+                                            <a class="protected" href="cfe.generic.html#method_onMouseOver" property="yui:name" title="onMouseOver">onMouseOver</a><span class="protected">,</span>
+                                            </span>
+                                            <span rel="yui:method" resource="cfe.generic.html#method_press">                                        
+                                            <a class="protected" href="cfe.generic.html#method_press" property="yui:name" title="press">press</a><span class="protected">,</span>
+                                            </span>
+                                            <span rel="yui:method" resource="cfe.generic.html#method_release">                                        
+                                            <a class="protected" href="cfe.generic.html#method_release" property="yui:name" title="release">release</a><span class="protected">,</span>
+                                            </span>
+                                            <span rel="yui:method" resource="cfe.generic.html#method_removeFocus">                                        
+                                            <a class="protected" href="cfe.generic.html#method_removeFocus" property="yui:name" title="removeFocus">removeFocus</a><span class="protected">,</span>
+                                            </span>
+                                            <span rel="yui:method" resource="cfe.generic.html#method_setFocus">                                        
+                                            <a class="protected" href="cfe.generic.html#method_setFocus" property="yui:name" title="setFocus">setFocus</a><span class="protected">,</span>
                                             </span>
                                             <span rel="yui:method" resource="cfe.generic.html#method_setupOriginal">                                        
                                             <a class="protected" href="cfe.generic.html#method_setupOriginal" property="yui:name" title="setupOriginal">setupOriginal</a><span class="protected">,</span>
                                             </span>
                                             <span rel="yui:method" resource="cfe.generic.html#method_setupWrapper">                                        
-                                            <a class="protected" href="cfe.generic.html#method_setupWrapper" property="yui:name" title="setupWrapper">setupWrapper</a>
+                                            <a class="protected" href="cfe.generic.html#method_setupWrapper" property="yui:name" title="setupWrapper">setupWrapper</a><span class="protected">,</span>
+                                            </span>
+                                            <span rel="yui:method" resource="cfe.generic.html#method_unhover">                                        
+                                            <a class="protected" href="cfe.generic.html#method_unhover" property="yui:name" title="unhover">unhover</a><span class="protected">,</span>
+                                            </span>
+                                            <span rel="yui:method" resource="cfe.generic.html#method_update">                                        
+                                            <a class="protected" href="cfe.generic.html#method_update" property="yui:name" title="update">update</a>
                                             </span>
                                     </code>
                                 </div>
@@ -183,35 +357,35 @@
                             <h4>Events inherited from <a href="cfe.generic.html" property="yui:name" title="cfe.generic">cfe.generic</a>:</h4>
                             <div class="content" rel="yui:events">
                                 <code>
-                                        <span rel="yui:event" resource="cfe.generic.html#event_hover">
-                                        <a class="" href="cfe.generic.html#event_hover" property="yui:name" title="hover">hover</a><span class="">,</span>
-                                        </span>
-                                                                            <span rel="yui:event" resource="cfe.generic.html#event_onBlur">
+                                        <span rel="yui:event" resource="cfe.generic.html#event_onBlur">
                                         <a class="" href="cfe.generic.html#event_onBlur" property="yui:name" title="onBlur">onBlur</a><span class="">,</span>
                                         </span>
                                                                             <span rel="yui:event" resource="cfe.generic.html#event_onClick">
                                         <a class="" href="cfe.generic.html#event_onClick" property="yui:name" title="onClick">onClick</a><span class="">,</span>
                                         </span>
                                                                             <span rel="yui:event" resource="cfe.generic.html#event_onDisable">
-                                        <a class="" href="cfe.generic.html#event_onDisable" property="yui:name" title="onDisable">onDisable</a>
+                                        <a class="" href="cfe.generic.html#event_onDisable" property="yui:name" title="onDisable">onDisable</a><span class="">,</span>
                                         </span>
                                                                             <span rel="yui:event" resource="cfe.generic.html#event_onEnable">
-                                        <a class="" href="cfe.generic.html#event_onEnable" property="yui:name" title="onEnable">onEnable</a>
+                                        <a class="" href="cfe.generic.html#event_onEnable" property="yui:name" title="onEnable">onEnable</a><span class="">,</span>
                                         </span>
                                                                             <span rel="yui:event" resource="cfe.generic.html#event_onFocus">
-                                        <a class="" href="cfe.generic.html#event_onFocus" property="yui:name" title="onFocus">onFocus</a>
+                                        <a class="" href="cfe.generic.html#event_onFocus" property="yui:name" title="onFocus">onFocus</a><span class="">,</span>
+                                        </span>
+                                                                            <span rel="yui:event" resource="cfe.generic.html#event_onMouseOut">
+                                        <a class="" href="cfe.generic.html#event_onMouseOut" property="yui:name" title="onMouseOut">onMouseOut</a><span class="">,</span>
+                                        </span>
+                                                                            <span rel="yui:event" resource="cfe.generic.html#event_onMouseOver">
+                                        <a class="" href="cfe.generic.html#event_onMouseOver" property="yui:name" title="onMouseOver">onMouseOver</a><span class="">,</span>
+                                        </span>
+                                                                            <span rel="yui:event" resource="cfe.generic.html#event_onPress">
+                                        <a class="" href="cfe.generic.html#event_onPress" property="yui:name" title="onPress">onPress</a><span class="">,</span>
+                                        </span>
+                                                                            <span rel="yui:event" resource="cfe.generic.html#event_onRelease">
+                                        <a class="" href="cfe.generic.html#event_onRelease" property="yui:name" title="onRelease">onRelease</a><span class="">,</span>
                                         </span>
                                                                             <span rel="yui:event" resource="cfe.generic.html#event_onUpdate">
-                                        <a class="" href="cfe.generic.html#event_onUpdate" property="yui:name" title="onUpdate">onUpdate</a>
-                                        </span>
-                                                                            <span rel="yui:event" resource="cfe.generic.html#event_press">
-                                        <a class="" href="cfe.generic.html#event_press" property="yui:name" title="press">press</a>
-                                        </span>
-                                                                            <span rel="yui:event" resource="cfe.generic.html#event_release">
-                                        <a class="" href="cfe.generic.html#event_release" property="yui:name" title="release">release</a>
-                                        </span>
-                                                                            <span rel="yui:event" resource="cfe.generic.html#event_unhover">
-                                        <a class="" href="cfe.generic.html#event_unhover" property="yui:name" title="unhover">unhover</a>
+                                        <a class="" href="cfe.generic.html#event_onUpdate" property="yui:name" title="onUpdate">onUpdate</a><span class="">,</span>
                                         </span>
                                     
                                 </code>
@@ -221,6 +395,32 @@
                     </div>
 
                     <div rel="yui:attributes" resource="#configattributes">
+                        <div class="section field details">
+                            <h3 id="configattributes">Configuration (Option Attributes)</h3>
+                            <div class="content">
+                                    <div class="" rel="yui:attribute" resource="#config_slidingDoors">
+                                    <h4><a name="config_slidingDoors">slidingDoors</a>
+                                        <code>- <span property="yui:type">int</span></code>
+                                    </h4>
+                                    <div class="detail">
+                                        <div class="description" property="yui:description">
+                                            if > 0, it will create markup for css sliding doors tech<br />
+the number defines the amount of wrappers to create around this element<br />
+2: standard sliding doors (x- or y-Axis)<br />
+4: sliding doors in all directions (x/y-Axis)
+                                        </div>
+                                    </div>
+ 
+     
+                                    <div class="default">
+                                        Default Value: 2
+                                    </div>        
+
+                                    <hr />
+                                    </div>        
+
+                            </div>
+                        </div>
 
                         <div rel="yui:inheritance">                    
                         <div class="section field inheritance" rel="yui:superclass"  resource="cfe.generic.html">
@@ -233,14 +433,20 @@
                                                                                 <span rel="yui:attribute" resource="cfe.generic.html#config_disabled">                                        
                                         <a class="" href="cfe.generic.html#config_disabled" property="yui:name" title="disabled">disabled</a><span class="">,</span>
                                         </span>
+                                                                                <span rel="yui:attribute" resource="cfe.generic.html#config_instanceID">                                        
+                                        <a class="" href="cfe.generic.html#config_instanceID" property="yui:name" title="instanceID">instanceID</a><span class="">,</span>
+                                        </span>
                                                                                 <span rel="yui:attribute" resource="cfe.generic.html#config_label">                                        
                                         <a class="" href="cfe.generic.html#config_label" property="yui:name" title="label">label</a><span class="">,</span>
                                         </span>
+                                                                                <span rel="yui:attribute" resource="cfe.generic.html#config_name">                                        
+                                        <a class="" href="cfe.generic.html#config_name" property="yui:name" title="name">name</a><span class="">,</span>
+                                        </span>
                                                                                 <span rel="yui:attribute" resource="cfe.generic.html#config_replaces">                                        
-                                        <a class="" href="cfe.generic.html#config_replaces" property="yui:name" title="replaces">replaces</a>
+                                        <a class="" href="cfe.generic.html#config_replaces" property="yui:name" title="replaces">replaces</a><span class="">,</span>
                                         </span>
                                                                                 <span rel="yui:attribute" resource="cfe.generic.html#config_spacer">                                        
-                                        <a class="" href="cfe.generic.html#config_spacer" property="yui:name" title="spacer">spacer</a>
+                                        <a class="" href="cfe.generic.html#config_spacer" property="yui:name" title="spacer">spacer</a><span class="">,</span>
                                         </span>
                                         
                                 </code>
@@ -259,15 +465,31 @@
                             </div>
                     </form>
 
+                        <div id="propertyList" class="module">
+                            <h4>Properties</h4>
+                            <ul class="content">
+                                    <li class="protected"><a href="#property_dontRemoveForFromLabel" title="dontRemoveForFromLabel">dontRemoveForFromLabel</a></li>
+                                    <li class=""><a href="#property_selector" title="selector">selector</a></li>
+                                    <li class=""><a href="#property_type" title="type">type</a></li>
+                            </ul>
+                        </div>
 
                         <div id="methodsList" class="module">
                             <h4>Methods</h4>
                             <ul class="content">
-                                    <li class=""><a href="#method_build" title="build">build</a></li>
+                                    <li class="protected"><a href="#method_build" title="build">build</a></li>
+                                    <li class=""><a href="#method_createOriginal" title="createOriginal">createOriginal</a></li>
+                                    <li class="protected"><a href="#method_setupWrapper" title="setupWrapper">setupWrapper</a></li>
                             </ul>
                         </div>
 
 
+                        <div id="configList" class="module">
+                            <h4>Configuration (Option Attributes)</h4>
+                            <ul class="content">
+                                    <li class=""><a href="#config_slidingDoors" title="slidingDoors">slidingDoors</a></li>
+                            </ul>
+                        </div>
 
                 </div>
 
@@ -285,7 +507,6 @@
                                 <li class=""><a href="module_button.html" title="button">button</a></li>
                                 <li class=""><a href="module_check.html" title="check">check</a></li>
                                 <li class=""><a href="module_core.html" title="core">core</a></li>
-                                <li class=""><a href="module_fieldset.html" title="fieldset">fieldset</a></li>
                                 <li class=""><a href="module_file.html" title="file">file</a></li>
                                 <li class=""><a href="module_group.html" title="group">group</a></li>
                                 <li class=""><a href="module_select.html" title="select">select</a></li>
@@ -325,7 +546,7 @@
 
 </div>
 <script type="text/javascript">
-    ALL_YUI_PROPS = [{"url": "cfe.module.text.html#method_build", "access": "", "host": "cfe.module.text", "type": "method", "name": "build"}, {"url": "cfe.module.password.html#method_createOriginal", "access": "", "host": "cfe.module.password", "type": "method", "name": "createOriginal"}, {"url": "cfe.module.password.html#property_selector", "access": "", "host": "cfe.module.password", "type": "property", "name": "selector"}, {"url": "cfe.module.password.html#property_type", "access": "", "host": "cfe.module.password", "type": "property", "name": "type"}];
+    ALL_YUI_PROPS = [{"url": "cfe.module.text.html#method_build", "access": "protected", "host": "cfe.module.text", "type": "method", "name": "build"}, {"url": "cfe.module.password.html#method_createOriginal", "access": "", "host": "cfe.module.password", "type": "method", "name": "createOriginal"}, {"url": "cfe.module.text.html#method_createOriginal", "access": "", "host": "cfe.module.text", "type": "method", "name": "createOriginal"}, {"url": "cfe.module.text.html#property_dontRemoveForFromLabel", "access": "protected", "host": "cfe.module.text", "type": "property", "name": "dontRemoveForFromLabel"}, {"url": "cfe.module.password.html#property_selector", "access": "", "host": "cfe.module.password", "type": "property", "name": "selector"}, {"url": "cfe.module.text.html#property_selector", "access": "", "host": "cfe.module.text", "type": "property", "name": "selector"}, {"url": "cfe.module.text.html#method_setupWrapper", "access": "protected", "host": "cfe.module.text", "type": "method", "name": "setupWrapper"}, {"url": "cfe.module.text.html#config_slidingDoors", "access": "", "host": "cfe.module.text", "type": "config", "name": "slidingDoors"}, {"url": "cfe.module.password.html#property_type", "access": "", "host": "cfe.module.password", "type": "property", "name": "type"}, {"url": "cfe.module.text.html#property_type", "access": "", "host": "cfe.module.text", "type": "property", "name": "type"}];
 </script>
 
 </body>
