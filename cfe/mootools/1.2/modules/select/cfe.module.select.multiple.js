@@ -13,7 +13,19 @@
 cfe.module.select_multiple = new Class({
 	
     Extends: cfe.module.select,
+
+    /**
+     * Describes the type of this element
+     * @property type
+     * @type string
+     */
     type: "Selector",
+
+    /**
+     * CSS Selector to fetch "original" HTMLElements for replacement with this module
+     * @property selector
+     * @type string
+     */
     selector: "select[multiple]",
 	
     options: {
@@ -22,6 +34,13 @@ cfe.module.select_multiple = new Class({
         scrollSteps: 5
     },
 
+    /**
+     * customize the "decorator"
+     * sets sliding doors and creates and injects options
+     *
+     * @method build
+     * @protected
+     */
     build: function()
     {	
         this.a.addClass("jsSelectorMultiple jsSelectorMultiple"+this.options.instanceID);
@@ -64,7 +83,7 @@ cfe.module.select_multiple = new Class({
             }.pass(index, this)
         });
 
-        oOpt.getAlias().addClass("jsOption jsOption"+index).disableTextSelection();
+        oOpt.getAlias().addClass("jsOption jsOption"+index+(el.get('class')?" ".el.get('class'):"")).disableTextSelection();
         oOpt.getLabel().removeEvents().inject(oOpt.getAlias());
 
         return oOpt.getAlias();
@@ -91,5 +110,34 @@ cfe.module.select_multiple = new Class({
     update: function()
     {
         this.fireEvent("onUpdate");
-    }
+    },
+    keyup: function(e)
+    {
+        var ev = new Event(e);
+
+        switch(ev.key){
+            case "enter":
+            case "space":
+                //this.toggle();
+                break;
+
+            case "up":
+                this.updateOption(-1);
+                break;
+
+            case "down":
+                this.updateOption(1);
+                break;
+
+            case "esc":
+                this.hideContainer();
+                break;
+
+            default:
+                this.o.fireEvent("change");
+                break;
+        }
+    },
+
+    keydown: function(){}
 });

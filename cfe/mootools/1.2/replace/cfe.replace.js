@@ -8,6 +8,8 @@
 
 cfe.replace = new Class(
 {
+    Implements: [new Options, new Events],
+
 	options:{
 		scope: false,
 		
@@ -148,4 +150,3 @@ cfe.replace = new Class(
 		this.fireEvent("onComplete");
 	}
 });
-cfe.replace.implement(new Options,new Events);

@@ -4,7 +4,7 @@
 
 /**
  * ujsd
- * @class autotab
+ * @class dependencies
  * @author Maik
  */
 cfe.addon.dependencies = new Class({

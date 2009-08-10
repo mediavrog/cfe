@@ -13,10 +13,11 @@ Just include the CSS and Javascript files
 
 <!-- add css -->
 <link rel="stylesheet" type="text/css" href="css/cfe.css" />
-<!--[if IE]> <link rel="stylesheet" type="text/css" href="css/fixPrematureIE.css" /> <![endif]-->
 
+JS Variant [A]
+<script type="text/javascript" src="js/cfe/cfe-min.js"></script>
 
-
+JS Variant [B]
 <!-- add cfe base -->
 <script type="text/javascript" src="js/cfe/base/cfe.base.js"></script>
 <!-- add cfe replacement script -->
@@ -33,12 +34,22 @@ Just include the CSS and Javascript files
 <script type="text/javascript" src="js/cfe/addons/cfe.addon.toolTips.js"></script>
  <script type="text/javascript" src="js/cfe/addons/cfe.addon.dependencies.js"></script>
 
-<!-- autostart replacement : have a look into and customize it if you want -->
- <script type="text/javascript" src="js/cfe/base/cfe.replace.autostart.js"></script> 
 
+window.addEvent('domready', function(){
+     // path to a 1x1 pixel transparent gif
+    cfe.spacer = "gfx/spacer.gif";
+
+    // create a cfe replacement instance
+    var myCfe = new cfe.replace();
+
+    // now you may set options [see cfe.autostart.sample for details]
+
+    // initialize cfe
+    myCfe.init();
+});
 
 °°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°
 Advanced user? More options? More configuration?
 °°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°
-View Demopage for sample integration with fancy effects and more configuration => http://customformelements.net/howto.php
+View Demopage for sample integration with fancy effects and more configuration => http://customformelements.net/demo.php
 For a complete API documentation and developer docs, check => http://customformelements.net/api-docs.php.

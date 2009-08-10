@@ -5,7 +5,7 @@
 /**
  * enhances fieldsets
  *
- * @module fieldset
+ * @class fieldset
  * @namespace cfe.modules
  *
  * @requires generic
@@ -15,7 +15,19 @@
 cfe.module.fieldset = new Class({
     
 	Extends: cfe.generic,
+
+    /**
+     * Describes the type of this element
+     * @property type
+     * @type string
+     */
 	type: "Fieldset",
+
+    /**
+     * CSS Selector to fetch "original" HTMLElements for replacement with this module
+     * @property selector
+     * @type string
+     */
 	selector: "fieldset",
 	
     buildWrapper: function()

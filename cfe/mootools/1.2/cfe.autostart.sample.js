@@ -11,14 +11,14 @@ window.addEvent('domready', function()
         myCfe.unregisterModule("fieldset");
 
         // add dependencies for checkbox with id 'chb23' by passing input elements
-        //myCfe.addDependencies($("chb23"),["chb22","chb21"]);
+        myCfe.addDependencies($("chb23"),["chb22","chb21"]);
 
         // set some options for select and file modules
         myCfe.setModuleOptions("select",{
             scrolling: true,
             scollSteps: 5
         });
-        
+
         myCfe.setModuleOptions("file",{
             fileIcons: true
             , trimFilePath: true

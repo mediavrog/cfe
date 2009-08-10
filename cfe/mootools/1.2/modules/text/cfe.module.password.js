@@ -1,5 +1,5 @@
 /**
- * Replaces for elements of type: input[type=password]
+ * Replacement for elements of type: input[type=password]
  *
  * @class password
  * @namespace cfe.module
@@ -13,7 +13,7 @@ cfe.module.password = new Class({
     Extends: cfe.module.text,
 
     /**
-     * Describes the type of this element (Password)
+     * Describes the type of this element
      * @property type
      * @type string
      */

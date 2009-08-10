@@ -5,19 +5,32 @@
 /**
  * replaces select fields
  *
+ * bug:
+ * height of options too small if option with linebreak; standalone and scrolling bug
+ *
  * @class select
  * @namespace cfe.modules
  *
  * @requires generic
  * @extends cfe.generic
  *
- * bug:
- * height of options too small if option with linebreak; standalone and scrolling bug
  */
 cfe.module.select = new Class({
 	
     Extends: cfe.generic,
+
+    /**
+     * Describes the type of this element
+     * @property type
+     * @type string
+     */
     type: "Selector",
+
+    /**
+     * CSS Selector to fetch "original" HTMLElements for replacement with this module
+     * @property selector
+     * @type string
+     */
     selector: "select:not(select[multiple])",
 	
     options: {
@@ -33,6 +46,7 @@ cfe.module.select = new Class({
         this.hideOriginal();
 
         this.o.addEvent("keyup", this.keyup.bind(this));
+        this.o.addEvent("keydown", this.keydown.bind(this));
 
         this.origOptions = this.o.getChildren();
         this.selectedIndex = this.o.selectedIndex || 0;
@@ -49,6 +63,12 @@ cfe.module.select = new Class({
        
     },
 
+    /**
+     * Method to programmatically create an "original" HTMLElement
+     *
+     * @method createOriginal
+     * @return {HTMLElement} a select input
+     */
     createOriginal: function()
     {
         var ori = new Element("select");
@@ -100,7 +120,7 @@ cfe.module.select = new Class({
     buildOption: function(el, index)
     {
         var oOpt = new Element("div",{
-            "class": "jsOption jsOption"+index,
+            "class": "jsOption jsOption"+index+(el.get('class')?" "+el.get('class'):""),
             "events":{
                 "mouseover": this.highlightOption.pass([index,true],this),
                 "mouseout": this.highlightOption.pass([index,true],this)
@@ -219,7 +239,7 @@ cfe.module.select = new Class({
 
         this.highlightedIndex = index;
 
-        if( !$chk(dontScroll) ) this.scrollToSelectedItem(this.highlightedIndex);
+        if( !dontScroll ) this.scrollToSelectedItem(this.highlightedIndex);
     },
 	
     scrollToSelectedItem: function(index)
@@ -239,7 +259,7 @@ cfe.module.select = new Class({
         $(document.body).removeEvent("click", this.boundClickedOutsideListener);
         
         this.containerSlide.setStyle("display","none");
-        this.shown = false;
+        this.isShown = false;
     },
 
     showContainer: function()
@@ -256,7 +276,7 @@ cfe.module.select = new Class({
             "z-index": 1000 - this.options.instanceID
         });
         
-        this.shown = true;
+        this.isShown = true;
 
         this.highlightOption(this.o.selectedIndex);
     },
@@ -300,6 +320,13 @@ cfe.module.select = new Class({
     {
         var ev = new Event(e);
 
+        // toggle on alt+arrow
+        if(ev.alt && (ev.key == "up" || ev.key == "down") )
+        {
+            this.toggle();
+            return;
+        }
+
         switch(ev.key){
             case "enter":
             case "space":
@@ -323,7 +350,17 @@ cfe.module.select = new Class({
                 break;
         }
     },
-	
+
+    keydown: function(e)
+    {
+        var ev = new Event(e);
+
+        if(ev.key == "tab")
+        {
+            this.hideContainer();
+        }
+    },
+
     mouseListener: function(e)
     {
         var ev = new Event(e).stop();

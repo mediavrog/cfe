@@ -5,35 +5,71 @@
 /**
  * replaces file upload fields
  *
- * @class file
- * @namespace cfe.modules
- *
- * @requires generic
- * @extends cfe.generic
- *
  * bug:
  * update event onMouseOut triggers even if nothing changed
  * ff 3.0.7     - no pointer
  * opera        - no pointer; no focus on label if ori focussed, click event triggers twice
  * ie 8         - no focus on label if ori focussed
  * ie 7         - no focus on label if ori focussed
+ *
+ * @class file
+ * @namespace cfe.modules
+ *
+ * @requires generic
+ * @extends cfe.generic
  */
 cfe.module.file = new Class({
     
 	Extends: cfe.generic,
+
+    /**
+     * Describes the type of this element
+     * @property type
+     * @type string
+     */
     type: "File",
+
+    /**
+     * CSS Selector to fetch "original" HTMLElements for replacement with this module
+     * @property selector
+     * @type string
+     */
     selector: "input[type=file]",
 	
     options: {
+        /**
+         * enables the use of fileicons through a bit of markup and css
+         * @config fileIcons
+         * @type boolean
+         * @default true
+         */
         fileIcons: true,
+        /**
+         * show only the filename, not the whole path
+         * @config trimFilePath
+         * @type boolean
+         * @default true
+         */
         trimFilePath: true
     },
 
+    /**
+     * retreive the filepath
+     *
+     * @method getFilePath
+     * @return {HTMLElement}
+     */
     getFilePath: function()
     {
         return this.v;
     },
 
+    /**
+     * retreive the label, the alias and the filepath
+     *
+     * @method getFull
+     * @return {HTMLElement[label, alias, filePath]}
+     */
     getFull: function()
     {
         return [this.l, this.a, this.v];
@@ -78,6 +114,12 @@ cfe.module.file = new Class({
         this.update();
     },
 
+    /**
+     * Method to programmatically create an "original" HTMLElement
+     *
+     * @method createOriginal
+     * @return {HTMLElement} an input field of type "file"
+     */
     createOriginal: function()
     {
         return new Element("input",{

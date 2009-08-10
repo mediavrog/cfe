@@ -5,27 +5,11 @@
  * @namespace cfe
  */
 
-/*
-customFormElements for mootools 1.2 - style form elements on your own
-by Maik Vlcek (http://www.mediavrog.net)
-
-Copyright (c) Maik Vlcek (mediavrog.net)
-
-This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License
-as published by the Free Software Foundation; either version 3 of the License, or (at your option) any later version.
-
-This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
-without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-See the GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License along with this program; if not, see <http://www.gnu.org/licenses/>.
- */
-
 var cfe = {};
 cfe.module = {};
 cfe.addon = {};
 
-cfe.version = "0.9.2";
+cfe.version = "0.9.3";
 cfe.spacer = "spacer.gif";
 
 /**
@@ -34,6 +18,7 @@ cfe.spacer = "spacer.gif";
  */
 cfe.generic = new Class(
 {
+    Implements: [new Options, new Events],
     /**
      * Describes the type of this element (e.g. Selector, Checkbox or Radiobutton)
      * @property type
@@ -122,7 +107,7 @@ cfe.generic = new Class(
 
         /**
          * Fired when "decorator" is clicked by mouse
-         * @event onPress
+         * @event onClick
          */
         onClick: Class.empty,
 
@@ -364,7 +349,8 @@ cfe.generic = new Class(
         // hide original input
         this.o.setStyles({
             position: "absolute",
-            left: "-999px"
+            left: "-9999px",
+            opacity: 0.01
         });
 
         // fix for internet explorer 7;
@@ -638,7 +624,6 @@ cfe.generic = new Class(
         this.fireEvent("onDisable");
     }
 });
-cfe.generic.implement(new Options,new Events);
 
 /**
  * extend Elements with some Helper functions
@@ -703,7 +688,7 @@ Element.Helpers = new Class({
     /**
      * enables or disabled a HTMLElement if its a form element depending on it's current state
      *
-     * @method enable
+     * @method toggleDisabled
      * @return {boolean} true, if element could be toggled
      */
     toggleDisabled: function()
