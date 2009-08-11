@@ -4,11 +4,11 @@
     <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
 	<title>API documentation: core   cfe.base.js  (Custom Form Elements for mootools)</title>
 
-	<link rel="stylesheet" type="text/css" href="assets/reset-fonts-grids-min.css?stamp=1247336725.38" />
-	<link rel="stylesheet" type="text/css" href="assets/api.css?stamp=1247336725.38" />
+	<link rel="stylesheet" type="text/css" href="assets/reset-fonts-grids-min.css?stamp=1250017375.54" />
+	<link rel="stylesheet" type="text/css" href="assets/api.css?stamp=1250017375.54" />
 
-    <script type="text/javascript" src="assets/api-js?stamp=1247336725.38"></script>
-    <script type="text/javascript" src="assets/ac-js?stamp=1247336725.38"></script>
+    <script type="text/javascript" src="assets/api-js?stamp=1250017375.54"></script>
+    <script type="text/javascript" src="assets/ac-js?stamp=1250017375.54"></script>
 </head>
 
 <body id="yahoo-com">
@@ -23,7 +23,7 @@
                 &gt; <a href="./module_core.html" title="core">core</a>
                     
                      &gt; cfe.base.js (source view) 
-            <span class="subtitle">0.9.2</span>
+            <span class="subtitle">0.9.3</span>
         </div>
 
         <form action="https://www.paypal.com/cgi-bin/webscr" method="post" id="donate" class="donationPaypal"><fieldset>
@@ -60,27 +60,11 @@
 <span class="c"> * @namespace cfe</span>
 <span class="c"> */</span>
 
-<span class="c">/*</span>
-<span class="c">customFormElements for mootools 1.2 - style form elements on your own</span>
-<span class="c">by Maik Vlcek (http://www.mediavrog.net)</span>
-
-<span class="c">Copyright (c) Maik Vlcek (mediavrog.net)</span>
-
-<span class="c">This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License</span>
-<span class="c">as published by the Free Software Foundation; either version 3 of the License, or (at your option) any later version.</span>
-
-<span class="c">This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;</span>
-<span class="c">without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.</span>
-<span class="c">See the GNU General Public License for more details.</span>
-
-<span class="c">You should have received a copy of the GNU General Public License along with this program; if not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
-<span class="c"> */</span>
-
 <span class="kd">var</span> <span class="nx">cfe</span> <span class="o">=</span> <span class="p">{};</span>
 <span class="nx">cfe</span><span class="p">.</span><span class="nx">module</span> <span class="o">=</span> <span class="p">{};</span>
 <span class="nx">cfe</span><span class="p">.</span><span class="nx">addon</span> <span class="o">=</span> <span class="p">{};</span>
 
-<span class="nx">cfe</span><span class="p">.</span><span class="nx">version</span> <span class="o">=</span> <span class="s2">&quot;0.9.2&quot;</span><span class="o">;</span>
+<span class="nx">cfe</span><span class="p">.</span><span class="nx">version</span> <span class="o">=</span> <span class="s2">&quot;0.9.3&quot;</span><span class="o">;</span>
 <span class="nx">cfe</span><span class="p">.</span><span class="nx">spacer</span> <span class="o">=</span> <span class="s2">&quot;spacer.gif&quot;</span><span class="o">;</span>
 
 <span class="c">/**</span>
@@ -89,6 +73,7 @@
 <span class="c"> */</span>
 <span class="nx">cfe</span><span class="p">.</span><span class="nx">generic</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Class</span><span class="p">(</span>
 <span class="p">{</span>
+    <span class="nx">Implements</span><span class="o">:</span> <span class="p">[</span><span class="k">new</span> <span class="nx">Options</span><span class="o">,</span> <span class="k">new</span> <span class="nx">Events</span><span class="p">]</span><span class="o">,</span>
     <span class="c">/**</span>
 <span class="c">     * Describes the type of this element (e.g. Selector, Checkbox or Radiobutton)</span>
 <span class="c">     * @property type</span>
@@ -419,7 +404,8 @@
         <span class="c">// hide original input</span>
         <span class="k">this</span><span class="p">.</span><span class="nx">o</span><span class="p">.</span><span class="nx">setStyles</span><span class="p">({</span>
             <span class="nx">position</span><span class="o">:</span> <span class="s2">&quot;absolute&quot;</span><span class="o">,</span>
-            <span class="nx">left</span><span class="o">:</span> <span class="s2">&quot;-999px&quot;</span>
+            <span class="nx">left</span><span class="o">:</span> <span class="s2">&quot;-9999px&quot;</span><span class="o">,</span>
+            <span class="nx">opacity</span><span class="o">:</span> <span class="mf">0.01</span>
         <span class="p">});</span>
 
         <span class="c">// fix for internet explorer 7;</span>
@@ -693,7 +679,6 @@
         <span class="k">this</span><span class="p">.</span><span class="nx">fireEvent</span><span class="p">(</span><span class="s2">&quot;onDisable&quot;</span><span class="p">);</span>
     <span class="p">}</span>
 <span class="p">});</span>
-<span class="nx">cfe</span><span class="p">.</span><span class="nx">generic</span><span class="p">.</span><span class="nx">implement</span><span class="p">(</span><span class="k">new</span> <span class="nx">Options</span><span class="o">,</span><span class="k">new</span> <span class="nx">Events</span><span class="p">);</span>
 
 <span class="c">/**</span>
 <span class="c"> * extend Elements with some Helper functions</span>

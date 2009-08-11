@@ -273,7 +273,7 @@ label.D{color:#999999;}
 .jsButton.H.P span{background-position: 100% -40px;}
 .jsButton.D span{background-position: 100% -240px;}
 
-.jsButton.P .label{padding-top: 2px; padding-left: 17px;color: #666;}
+.jsButton.P .label{padding-top: 2px; padding-left: 17px;color: #666;padding-bottom: 0; padding-right: 13px;}
 .jsButton.D .label{color: #999;}
 
  /*############################################*/

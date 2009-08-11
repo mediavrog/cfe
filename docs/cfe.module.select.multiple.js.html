@@ -4,11 +4,11 @@
     <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
 	<title>API documentation: select   cfe.module.select.multiple.js  (Custom Form Elements for mootools)</title>
 
-	<link rel="stylesheet" type="text/css" href="assets/reset-fonts-grids-min.css?stamp=1247336726.09" />
-	<link rel="stylesheet" type="text/css" href="assets/api.css?stamp=1247336726.09" />
+	<link rel="stylesheet" type="text/css" href="assets/reset-fonts-grids-min.css?stamp=1250017376.02" />
+	<link rel="stylesheet" type="text/css" href="assets/api.css?stamp=1250017376.02" />
 
-    <script type="text/javascript" src="assets/api-js?stamp=1247336726.09"></script>
-    <script type="text/javascript" src="assets/ac-js?stamp=1247336726.09"></script>
+    <script type="text/javascript" src="assets/api-js?stamp=1250017376.02"></script>
+    <script type="text/javascript" src="assets/ac-js?stamp=1250017376.02"></script>
 </head>
 
 <body id="yahoo-com">
@@ -23,7 +23,7 @@
                 &gt; <a href="./module_select.html" title="select">select</a>
                     
                      &gt; cfe.module.select.multiple.js (source view) 
-            <span class="subtitle">0.9.2</span>
+            <span class="subtitle">0.9.3</span>
         </div>
 
         <form action="https://www.paypal.com/cgi-bin/webscr" method="post" id="donate" class="donationPaypal"><fieldset>
@@ -56,14 +56,14 @@
 <div class="highlight"><pre><span class="c">/**</span>
 <span class="c"> * replaces select fields with attribute multiple set</span>
 <span class="c"> *</span>
+<span class="c"> * bug:</span>
+<span class="c"> * mouseWheel support needed</span>
+<span class="c"> * </span>
 <span class="c"> * @class select_multiple</span>
 <span class="c"> * @namespace cfe.module</span>
 <span class="c"> *</span>
 <span class="c"> * @requires select</span>
 <span class="c"> * @extends cfe.module.select</span>
-<span class="c"> *</span>
-<span class="c"> * bug:</span>
-<span class="c"> * mouseWheel support needed</span>
 <span class="c"> */</span>
 <span class="nx">cfe</span><span class="p">.</span><span class="nx">module</span><span class="p">.</span><span class="nx">select_multiple</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Class</span><span class="p">({</span>
 	
@@ -138,7 +138,7 @@
             <span class="p">}.</span><span class="nx">pass</span><span class="p">(</span><span class="nx">index</span><span class="o">,</span> <span class="k">this</span><span class="p">)</span>
         <span class="p">});</span>
 
-        <span class="nx">oOpt</span><span class="p">.</span><span class="nx">getAlias</span><span class="p">().</span><span class="nx">addClass</span><span class="p">(</span><span class="s2">&quot;jsOption jsOption&quot;</span><span class="o">+</span><span class="nx">index</span><span class="p">).</span><span class="nx">disableTextSelection</span><span class="p">();</span>
+        <span class="nx">oOpt</span><span class="p">.</span><span class="nx">getAlias</span><span class="p">().</span><span class="nx">addClass</span><span class="p">(</span><span class="s2">&quot;jsOption jsOption&quot;</span><span class="o">+</span><span class="nx">index</span><span class="o">+</span><span class="p">(</span><span class="nx">el</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;class&#39;</span><span class="p">)</span><span class="o">?</span><span class="s2">&quot; &quot;</span><span class="p">.</span><span class="nx">el</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;class&#39;</span><span class="p">)</span><span class="o">:</span><span class="s2">&quot;&quot;</span><span class="p">)).</span><span class="nx">disableTextSelection</span><span class="p">();</span>
         <span class="nx">oOpt</span><span class="p">.</span><span class="nx">getLabel</span><span class="p">().</span><span class="nx">removeEvents</span><span class="p">().</span><span class="nx">inject</span><span class="p">(</span><span class="nx">oOpt</span><span class="p">.</span><span class="nx">getAlias</span><span class="p">());</span>
 
         <span class="k">return</span> <span class="nx">oOpt</span><span class="p">.</span><span class="nx">getAlias</span><span class="p">();</span>
@@ -165,7 +165,36 @@
     <span class="nx">update</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span>
     <span class="p">{</span>
         <span class="k">this</span><span class="p">.</span><span class="nx">fireEvent</span><span class="p">(</span><span class="s2">&quot;onUpdate&quot;</span><span class="p">);</span>
-    <span class="p">}</span>
+    <span class="p">}</span><span class="o">,</span>
+    <span class="nx">keyup</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">e</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="kd">var</span> <span class="nx">ev</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Event</span><span class="p">(</span><span class="nx">e</span><span class="p">);</span>
+
+        <span class="nx">switch</span><span class="p">(</span><span class="nx">ev</span><span class="p">.</span><span class="nx">key</span><span class="p">){</span>
+            <span class="nx">case</span> <span class="s2">&quot;enter&quot;</span><span class="o">:</span>
+            <span class="nx">case</span> <span class="s2">&quot;space&quot;</span><span class="o">:</span>
+                <span class="c">//this.toggle();</span>
+                <span class="k">break</span><span class="o">;</span>
+
+            <span class="nx">case</span> <span class="s2">&quot;up&quot;</span><span class="o">:</span>
+                <span class="k">this</span><span class="p">.</span><span class="nx">updateOption</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">);</span>
+                <span class="k">break</span><span class="o">;</span>
+
+            <span class="nx">case</span> <span class="s2">&quot;down&quot;</span><span class="o">:</span>
+                <span class="k">this</span><span class="p">.</span><span class="nx">updateOption</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+                <span class="k">break</span><span class="o">;</span>
+
+            <span class="nx">case</span> <span class="s2">&quot;esc&quot;</span><span class="o">:</span>
+                <span class="k">this</span><span class="p">.</span><span class="nx">hideContainer</span><span class="p">();</span>
+                <span class="k">break</span><span class="o">;</span>
+
+            <span class="nx">default</span><span class="o">:</span>
+                <span class="k">this</span><span class="p">.</span><span class="nx">o</span><span class="p">.</span><span class="nx">fireEvent</span><span class="p">(</span><span class="s2">&quot;change&quot;</span><span class="p">);</span>
+                <span class="k">break</span><span class="o">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span><span class="o">,</span>
+
+    <span class="nx">keydown</span><span class="o">:</span> <span class="kd">function</span><span class="p">(){}</span>
 <span class="p">});</span>
 </pre></div>
                     </div>
@@ -209,8 +238,8 @@
                     <div id="classList" class="module">
                         <h4>Classes</h4>
                         <ul class="content">
+                                <li class=""><a href="cfe.module.select.html" title="cfe.module.select">cfe.module.select</a></li>
                                 <li class=""><a href="cfe.module.select_multiple.html" title="cfe.module.select_multiple">cfe.module.select_multiple</a></li>
-                                <li class=""><a href="cfe.modules.select.html" title="cfe.modules.select">cfe.modules.select</a></li>
                         </ul>
                     </div>
 
@@ -235,7 +264,7 @@
 
 </div>
 <script type="text/javascript">
-    ALL_YUI_PROPS = [{"url": "cfe.module.select_multiple.html#method_build", "access": "protected", "host": "cfe.module.select_multiple", "type": "method", "name": "build"}, {"url": "cfe.modules.select.html#method_createOriginal", "access": "", "host": "cfe.modules.select", "type": "method", "name": "createOriginal"}, {"url": "cfe.modules.select.html#property_selector", "access": "", "host": "cfe.modules.select", "type": "property", "name": "selector"}, {"url": "cfe.module.select_multiple.html#property_selector", "access": "", "host": "cfe.module.select_multiple", "type": "property", "name": "selector"}, {"url": "cfe.modules.select.html#property_type", "access": "", "host": "cfe.modules.select", "type": "property", "name": "type"}, {"url": "cfe.module.select_multiple.html#property_type", "access": "", "host": "cfe.module.select_multiple", "type": "property", "name": "type"}];
+    ALL_YUI_PROPS = [{"url": "cfe.module.select_multiple.html#method_build", "access": "protected", "host": "cfe.module.select_multiple", "type": "method", "name": "build"}, {"url": "cfe.module.select.html#method_createOriginal", "access": "", "host": "cfe.module.select", "type": "method", "name": "createOriginal"}, {"url": "cfe.module.select.html#property_selector", "access": "", "host": "cfe.module.select", "type": "property", "name": "selector"}, {"url": "cfe.module.select_multiple.html#property_selector", "access": "", "host": "cfe.module.select_multiple", "type": "property", "name": "selector"}, {"url": "cfe.module.select.html#property_type", "access": "", "host": "cfe.module.select", "type": "property", "name": "type"}, {"url": "cfe.module.select_multiple.html#property_type", "access": "", "host": "cfe.module.select_multiple", "type": "property", "name": "type"}];
 </script>
 
 </body>

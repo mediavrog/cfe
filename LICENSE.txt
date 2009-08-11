@@ -1,3 +1,4 @@
+/*
 LICENCE INFORMATION ON Custom Form Elements
 ****************************************************
 
@@ -16,4 +17,4 @@ See the GNU General Public License for more details.
 The file GNU.txt contains the complete license text.
 If this package didn't come with an GNU.txt, you may
 get the full text on http://www.gnu.org/licenses/gpl.html
-
+*/

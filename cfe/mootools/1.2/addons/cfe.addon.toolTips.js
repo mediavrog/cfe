@@ -5,13 +5,14 @@
 cfe.addon.toolTips = new Class({
 	
     options: $merge(this.parent, {
+        enableTips: true,
         ttStyle: "label",
         ttClass: "jsQM"
     }),
 	
     initToolTips: function(){
 		
-        if(!window.Tips){
+        if(!window.Tips || !this.options.enableTips){
             if(this.options.debug){
                 this.throwMsg.bind(this)("CustomFormElements: initialization of toolTips failed.\nReason: Mootools Plugin 'Tips' not available.");
             }

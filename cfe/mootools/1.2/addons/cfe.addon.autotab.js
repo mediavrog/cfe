@@ -3,7 +3,7 @@
  */
 
 /**
- * this adds autotabbing functionality to cfe
+ * this adds autotabbing functionality to cfe - alpha
  * @class autotab
  */
 cfe.addon.autotab = new Class({

@@ -3,9 +3,12 @@ CHANGE LOG FOR Custom Form Elements for Mootools 1.2
 
 ###CHANGELOG
 
-# XX/08/09 - 0.9.3
+# 11/08/09 - 0.9.3
 - fixed #2827036, #2800700, #2768909
 - better select keyboard behaviour (thanks for the detailed information phazei)
+- added minified version plus debugging cfe library file to release
+- updated library files to v 1.2.3
+- noticed small jumping bugs in ie8 > investigating
 
 # 14/05/09 - 0.91
 - support for disabled attribute

@@ -9,7 +9,7 @@
  * height of options too small if option with linebreak; standalone and scrolling bug
  *
  * @class select
- * @namespace cfe.modules
+ * @namespace cfe.module
  *
  * @requires generic
  * @extends cfe.generic

@@ -1,14 +1,14 @@
 /**
  * replaces select fields with attribute multiple set
  *
+ * bug:
+ * mouseWheel support needed
+ * 
  * @class select_multiple
  * @namespace cfe.module
  *
  * @requires select
  * @extends cfe.module.select
- *
- * bug:
- * mouseWheel support needed
  */
 cfe.module.select_multiple = new Class({
 	

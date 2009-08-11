@@ -2,7 +2,7 @@
 <html xmlns:yui="http://yuilibrary.com/rdf/1.0/yui.rdf#">
 <head>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
-	<title>API documentation: select  cfe.module.select_multiple   (Custom Form Elements for mootools)</title>
+	<title>API documentation: select  cfe.module.select   (Custom Form Elements for mootools)</title>
 
 	<link rel="stylesheet" type="text/css" href="assets/reset-fonts-grids-min.css?stamp=1250017376.02" />
 	<link rel="stylesheet" type="text/css" href="assets/api.css?stamp=1250017376.02" />
@@ -21,7 +21,7 @@
             <h3>select&nbsp;</h3> ::
             <a href="./index.html" title="Custom Form Elements for mootools">Custom Form Elements for mootools</a>
                 &gt; <a href="./module_select.html" title="select">select</a>
-                     &gt; cfe.module.select_multiple 
+                     &gt; cfe.module.select 
                     
             <span class="subtitle">0.9.3</span>
         </div>
@@ -54,21 +54,29 @@
 
                         
                         
-                            Class <b property="yui:name">cfe.module.select_multiple</b>
+                            Class <b property="yui:name">cfe.module.select</b>
                         <span class="extends">
-                           extends <a href="cfe.module.select.html" title="cfe.module.select">cfe.module.select</a>
+                           extends <a href="cfe.generic.html" title="cfe.generic">cfe.generic</a>
                         </span>
 
                     </h2>
                     <!-- class tree goes here -->
                     
+                        <dl class="subclasses" rel="yui:subclasses">
+                            <dt>Known Subclasses:</dt>
+                            <dd>
+                                    <span rel="yui:subclass" resource="cfe.module.select_multiple.html">
+                                    <a href="cfe.module.select_multiple.html" property="yui:name" title="cfe.module.select_multiple">cfe.module.select_multiple</a>
+                                    </span>
+                            </dd>
+                       </dl>
                 
   
 
                     <div class="summary description" property="yui:description">
-                        replaces select fields with attribute multiple set
+                        replaces select fields
 bug:
-mouseWheel support needed
+height of options too small if option with linebreak; standalone and scrolling bug
                     </div>
 
                     
@@ -110,22 +118,6 @@ mouseWheel support needed
                         </div>
 
                         <div rel="yui:inheritance">
-                        <div class="section field inheritance" rel="yui:superclass"  resource="cfe.module.select.html">
-                            <h4>Properties inherited from <a href="cfe.module.select.html" property="yui:name" title="cfe.module.select">cfe.module.select</a>:</h4>
-                            <div class="content" rel="yui:properties">
-                                <code>
-                                    
-                                        <span rel="yui:property" resource="cfe.module.select.html#property_selector">
-                                        <a class="" href="cfe.module.select.html#property_selector" property="yui:name" title="selector">selector</a><span class="">,</span>
-                                        </span>
-                                    
-                                        <span rel="yui:property" resource="cfe.module.select.html#property_type">
-                                        <a class="" href="cfe.module.select.html#property_type" property="yui:name" title="type">type</a>
-                                        </span>
-                                    
-                                </code>
-                            </div>
-                        </div>
                         <div class="section field inheritance" rel="yui:superclass"  resource="cfe.generic.html">
                             <h4>Properties inherited from <a href="cfe.generic.html" property="yui:name" title="cfe.generic">cfe.generic</a>:</h4>
                             <div class="content" rel="yui:properties">
@@ -149,23 +141,22 @@ mouseWheel support needed
                         <div class="section method details">
                             <h3 id="methods">Methods</h3>
                             <div class="content">
-                                    <div class="protected" rel="yui:method" resource="#method_build">
+                                    <div class="" rel="yui:method" resource="#method_createOriginal">
                                     <h4>
-                                        <a name="method_build">build</a></h4>
+                                        <a name="method_createOriginal">createOriginal</a></h4>
                                     <div class="detail" >
                                         <code>
-                                         protected 
                                         
                                         
-                                        void
-                                            <strong property="yui:name">build</strong>
+                                        
+                                        HTMLElement
+                                            <strong property="yui:name">createOriginal</strong>
                                            (
                                             )
                                         </code>
                                         
                                         <div class="description" property="yui:description">
-                                            customize the "decorator"
-sets sliding doors and creates and injects options
+                                            Method to programmatically create an "original" HTMLElement
                                         </div>
 
                                         <div class="description">
@@ -174,9 +165,9 @@ sets sliding doors and creates and injects options
                                                 <dl>
                                                     <dt>Returns:
                                                     <code property="yui:return">
-                                                        void
+                                                        HTMLElement
                                                     </code></dt>
-                                                    <dd property="yui:returnInfo"></dd>
+                                                    <dd property="yui:returnInfo">a select input</dd>
                                                 </dl>
 
 
@@ -191,16 +182,6 @@ sets sliding doors and creates and injects options
                         </div>
 
                         <div rel="yui:inheritance">                    
-                            <div class="section field inheritance" rel="yui:superclass"  resource="cfe.module.select.html">
-                                <h4>Methods inherited from <a href="cfe.module.select.html" property="yui:name" title="cfe.module.select">cfe.module.select</a>:</h4>
-                                <div class="content" rel="yui:methods">
-                                    <code>
-                                            <span rel="yui:method" resource="cfe.module.select.html#method_createOriginal">                                        
-                                            <a class="" href="cfe.module.select.html#method_createOriginal" property="yui:name" title="createOriginal">createOriginal</a>
-                                            </span>
-                                    </code>
-                                </div>
-                            </div>
                             <div class="section field inheritance" rel="yui:superclass"  resource="cfe.generic.html">
                                 <h4>Methods inherited from <a href="cfe.generic.html" property="yui:name" title="cfe.generic">cfe.generic</a>:</h4>
                                 <div class="content" rel="yui:methods">
@@ -378,7 +359,7 @@ sets sliding doors and creates and injects options
                         <div id="methodsList" class="module">
                             <h4>Methods</h4>
                             <ul class="content">
-                                    <li class="protected"><a href="#method_build" title="build">build</a></li>
+                                    <li class=""><a href="#method_createOriginal" title="createOriginal">createOriginal</a></li>
                             </ul>
                         </div>
 
@@ -410,8 +391,8 @@ sets sliding doors and creates and injects options
                     <div id="classList" class="module">
                         <h4>Classes</h4>
                         <ul class="content">
-                                <li class=""><a href="cfe.module.select.html" title="cfe.module.select">cfe.module.select</a></li>
-                                <li class="selected"><a href="cfe.module.select_multiple.html" title="cfe.module.select_multiple">cfe.module.select_multiple</a></li>
+                                <li class="selected"><a href="cfe.module.select.html" title="cfe.module.select">cfe.module.select</a></li>
+                                <li class=""><a href="cfe.module.select_multiple.html" title="cfe.module.select_multiple">cfe.module.select_multiple</a></li>
                         </ul>
                     </div>
 
@@ -436,7 +417,7 @@ sets sliding doors and creates and injects options
 
 </div>
 <script type="text/javascript">
-    ALL_YUI_PROPS = [{"url": "cfe.module.select_multiple.html#method_build", "access": "protected", "host": "cfe.module.select_multiple", "type": "method", "name": "build"}, {"url": "cfe.module.select.html#method_createOriginal", "access": "", "host": "cfe.module.select", "type": "method", "name": "createOriginal"}, {"url": "cfe.module.select.html#property_selector", "access": "", "host": "cfe.module.select", "type": "property", "name": "selector"}, {"url": "cfe.module.select_multiple.html#property_selector", "access": "", "host": "cfe.module.select_multiple", "type": "property", "name": "selector"}, {"url": "cfe.module.select.html#property_type", "access": "", "host": "cfe.module.select", "type": "property", "name": "type"}, {"url": "cfe.module.select_multiple.html#property_type", "access": "", "host": "cfe.module.select_multiple", "type": "property", "name": "type"}];
+    ALL_YUI_PROPS = [{"url": "cfe.module.select.html#method_createOriginal", "access": "", "host": "cfe.module.select", "type": "method", "name": "createOriginal"}, {"url": "cfe.module.select.html#property_selector", "access": "", "host": "cfe.module.select", "type": "property", "name": "selector"}, {"url": "cfe.module.select.html#property_type", "access": "", "host": "cfe.module.select", "type": "property", "name": "type"}];
 </script>
 
 </body>
