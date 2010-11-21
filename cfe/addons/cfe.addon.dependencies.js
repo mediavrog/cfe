@@ -1,91 +1,78 @@
 /**
- * @module Addon
+ * @author Maik
  */
-
-/**
- * adds dependencies to checkboxes
- *
- * @class Dependencies
- * @namespace cfe.addon
- *
- */
-cfe.addon.Dependencies = new Class({
+cfe.addon.dependencies = new Class({
 	
-    /**
+	/**
 	 * adds dependencies for an element 
 	 * @param {Object} el
 	 * @param {Array} dep
 	 */
-    addDependencies: function(el, deps){
-        $each(deps,function(dep){
-            this.addDependency(el,dep);
-        }.bind(this));
-    },
+	addDependencies: function(el, deps){
+		$each(deps,function(dep){
+			this.addDependency(el,dep);		
+		}.bind(this));
+		
+		return true;
+	},
 	
-    /**
+	/**
 	 * adds dependency for an element 
 	 * @param {Object} el
 	 * @param {Object} dep
 	 */
-    addDependency: function(el, dep){
+	addDependency: function(el, dep){
 		
-        // create an array if needed
-        if($type( el.retrieve('deps') ) !== "array"){
-            el.store('deps', []);
-        }
+		// create an array if needed
+		if($type(el.$deps) !== "array"){el.$deps = [];}
 		
-        // deps may be objects or strings > if a string was given, try to interpret it as id and fetch element by $()
-        if($type(dep) === "string" || $type(dep) === "element"){
-            el.retrieve('deps').push( $(dep) );
-            return true;
-        }
+		// deps may be objects or strings > if a string was given, try to interpret it as id and fetch element by $()
+		if($type(dep) === "string"){dep = $(dep);}
 		
-        return false;
-    },
+		if($type(dep) === "element"){
+			el.$deps.push(dep);
+			return true;
+		}
+		
+		return false;		
+	},
 	
-    getDependencies: function(el)
-    {
-        return el.retrieve('deps');
-    },
+	getDependencies: function(el){
+		return el.$deps;
+	},
 	
-    /**
+	/**
 	 * this is called when a new item of a cfemodule gets initialized
 	 * it checks, whether there are dependencies for this element and adds them to its options
 	 * 
 	 * @param {Object} el
 	 */
-    attachDependencies: function(el,i,baseOptions)
-    {
-        var deps = this.getDependencies(el);
+	attachDependencies: function(el,i,baseOptions){
 		
-        if($type(deps) === "array"){
-            baseOptions.deps = deps;
-            return true;
-        }
+		var deps = this.getDependencies(el);
+		
+		if($type(deps) === "array"){
+			baseOptions.deps = deps;
+			return true;
+		}
 	
-        return false;
-    }
+		return false;
+	}
 		
 });
-cfe.Replace.implement(new cfe.addon.Dependencies);
-cfe.Replace.prototype.addEvent("onBeforeInitSingle", cfe.Replace.prototype.attachDependencies);
+cfe.base.implement(new cfe.addon.dependencies);
+cfe.base.prototype.addEvent("onBeforeInitSingle", cfe.base.prototype.attachDependencies);
 
-cfe.addon.Dependencies.Helper = new Class({
-    resolveDependencies: function()
-    {
-        var deps = this.o.retrieve('deps');
-		
-        if(deps){
-            $each(deps, function(dep,i){
-                dep.checked = true;
-                dep.fireEvent("change");
-            }.bind(this));
-        }
-    }
+cfe.addon.dependencies.modules = new Class({
+	resolveDependencies: function(){
+		if(this.o.$deps){
+			$each(this.o.$deps, function(dep,i){
+				dep.cfe.setStateTo(true);
+			}.bind(this));
+		}
+	}
 });
 
-// support for checkboxes
-cfe.module.Checkbox.implement(new cfe.addon.Dependencies.Helper);
-cfe.module.Checkbox.prototype.addEvent("onCheck", function(){
-    this.resolveDependencies();
-});
+cfe.module.generic.implement(new cfe.addon.dependencies.modules);
+
+cfe.module.generic.prototype.addEvent("onActive", cfe.module.generic.prototype.resolveDependencies);
