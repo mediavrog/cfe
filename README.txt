@@ -19,7 +19,7 @@ Custom Form Elements are based on various Javascript Framworks. Currently these 
 3. What should you do if you have a problem?
 °°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°
 Found any bugs? Please report using the bugtracker on SouceForge.net => http://sourceforge.net/tracker/?group_id=225918
-Get help or help others in the forum of cfe on SouceForge.net => http://sourceforge.net/forum/?group_id=225918
+Get help or help others in the forum of cfe on SouceForge.net => http://sourceforge.net/projects/cfe/forums
 Browse the freshest code fragments on SouceForge.net => http://cfe.svn.sourceforge.net/viewvc/cfe/ [NOTE: may be unstable; use at own risk]
 
 X. Kudos
@@ -32,11 +32,11 @@ as you build the basement for all this!
 Kudos to all developers!
 
 
-Custom Form Elements uses icons from the silk icon set, which are
-distrubuted by Mark James on http://www.famfamfam.com/lab/icons/silk/ under the
-Creative Commons Attribution 2.5 License [http://creativecommons.org/licenses/by/2.5/]
+Custom Form Elements uses icons from the Fugue icon set, which are
+distrubuted by Yusuke Kamiyamane on http://p.yusukekamiyamane.com/ under the
+Creative Commons Attribution 3.0 license [http://creativecommons.org/licenses/by/3.0/]
 
-Great work Mark!! 
+Great work Yusuke!!
 
-NOTE: If you use those icons on your site, you've got to somehow link back to Mark (famfamfam.com)
-as his work is licenced under Creative Commons Attribution 2.5 License
+NOTE: If you use those icons on your site, you've got to somehow link back to him
+as his work is licenced under Creative Commons Attribution 3.0 License
