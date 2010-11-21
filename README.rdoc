@@ -1,4 +1,4 @@
-= Custom Form Elements for *mootools 1.2*
+= Custom Form Elements for mootools 1.2
 
 Custom Form Elements unites all efforts in the web to enhance web-based XHTML forms
 in terms of style, usability and accessibility by using Javascript and/or CSS.
@@ -6,7 +6,7 @@ Basically, it's a UI library.
 
 Some resources to get you started:
 
-* {Installation instructions}[http://github.com/mediavrog/cfe/wikis/installation]
+* {Installation instructions}[http://github.com/mediavrog/cfe/wikis/Installation---Setup]
   on {the wiki}[http://github.com/mediavrog/cfe/wikis]
 * Got questions? Join our
   {Google group}[http://groups.google.com/group/custom-form-elements].
