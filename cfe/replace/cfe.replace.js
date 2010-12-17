@@ -129,7 +129,9 @@ cfe.Replace = new Class(
             var selector = module.prototype.selector;
 			
             this.options.scope.getElements(selector).each(function(el,i){
-				
+
+                if(el.retrieve("cfe") != null) return
+
                 var basicOptions = {
                     replaces: el
                 };

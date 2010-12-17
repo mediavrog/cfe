@@ -1,7 +1,3 @@
-/**
- * @module Helper
- */
-
 cfe.helper = cfe.helper || {}
 
 /**

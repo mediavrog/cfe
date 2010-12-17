@@ -480,7 +480,7 @@ cfe.module.Button = new Class(
     this.a.addClass("P");
     this.fireEvent("onPress");
 
-    console.log(this.type + "pressed");
+    //console.log(this.type + "pressed");
   },
 
   /**
@@ -497,7 +497,7 @@ cfe.module.Button = new Class(
     this.a.removeClass("P");
     this.fireEvent("onRelease");
     
-    console.log(this.type + "released");
+    //console.log(this.type + "released");
 
   },
 
@@ -580,6 +580,9 @@ cfe.module.Button = new Class(
      */
   clicked: function(e)
   {
+    //causes problems in other browsers than ie - gonna took into this later; its the best approach to stop the event from bubbling right here though imho
+    //e.stop();
+
     if(this.isDisabled()) return
 
     if( $chk(this.o.click) && $chk(this.options.delegateClick) ) this.o.click();

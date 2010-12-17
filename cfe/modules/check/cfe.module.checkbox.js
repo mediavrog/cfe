@@ -11,21 +11,9 @@
  * <li>Firefox 3.6.</li>
  * <li>Google Chrome 6.</li>
  * <li>Opera 10.62.</li>
- *
- *  <li>IE 7
- *    <ul>
- *      <li>default checked element wont be triggered by label</li>
- *      <li>implicit labels - no trigger</li>
- *    </ul>
- *  </li>
- *
- *  <li>IE 8
- *    <ul>
- *      <li>labels dont work for normal labelled elements</li>
- *    </ul>
- *  </li>
- *
- *  </ul>
+ * <li>IE 7.</li>
+ * <li>IE 8.</li>
+ * </ul>
  *
  * @class Checkbox
  * @namespace cfe.module
@@ -69,10 +57,21 @@ cfe.module.Checkbox = new Class({
     // important for resetting dynamically created cfe
     this.o.defaultChecked = this.o.checked;
 
-    // update fix for internet explorer and opera
-    if( Browser.Engine.presto || Browser.Engine.trident)
+    if( Browser.Engine.presto || Browser.Engine.trident )
     {
-      this.o.addEvent( "click", this.update.bind(this) );
+      //console.log("fix for element update (IE and Opera)")
+      this.o.addEvent("click", this.update.bind(this) );
+    }
+
+
+    if(Browser.Engine.trident && this.o.implicitLabel)
+    {
+      //console.log("fix for implicit labels (IE) element["+this.o.id+"]")
+      this.l.removeEvents("click")
+      this.a.removeEvents("click").addEvent("click", function(e){
+        e.stop();
+        this.clicked.bind(this)();
+      }.bind(this))
     }
 
     this.update();
@@ -91,6 +90,13 @@ cfe.module.Checkbox = new Class({
       type: "checkbox",
       checked: this.options.checked
     });
+  },
+
+  clicked: function(e)
+  {
+    if(Browser.Engine.trident && e) e.stop();
+
+    this.parent()
   },
 
   /**
