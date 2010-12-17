@@ -24,6 +24,7 @@ form ul li{
   clear: both;
   float: left;
   padding: 3px;
+  width: 99.7%; /* feel good little ie 7 */
 }
 
 label.cfeTextL ,label.cfePasswordL, label.cfeFileL, label.cfeSelectL, label.cfeTextareaL,
@@ -59,6 +60,11 @@ label.D, .cfeButton.D .label, .cfeButtonSlide.D .label{color:#999}
 {
   background-color: #666;
   color: #FFF;
+}
+
+.cfeSelectMultiple .cfeOption.H, .cfeSelectMultiple .cfeOption.H label.H{
+  background-color: transparent;
+  color: #333;
 }
 
 input[disabled], input[readonly],
@@ -299,7 +305,8 @@ label.D{cursor: default}
   margin: 1px 19px -1px 4px;
 }
 
-.cfeSelect > .cfeSlide > .label:after{
+/* labelArrow is IE7 only */
+.cfeSelect > .cfeSlide > .label:after, .cfeSelect > .cfeSlide > .labelArrow{
   content: " ";
   border-width: 6px;
   border-color: gray transparent transparent transparent;
@@ -310,7 +317,7 @@ label.D{cursor: default}
   margin-left: 3px;
 }
 
-.cfeSelect.H > .cfeSlide > .label:after{
+.cfeSelect.H > .cfeSlide > .label:after, .cfeSelect.H > .cfeSlide > .labelArrow{
   border-color: #000 transparent transparent transparent;
 }
 
@@ -398,11 +405,6 @@ label.D{cursor: default}
   margin: -4px 0 0 -7px;
   width: auto;
   vertical-align: middle;
-}
-
-.cfeSelectMultiple .cfeOption.H, .cfeSelectMultiple .cfeOption.H label.H{
-  background-color: inherit;
-  color: inherit;
 }
 
 /* file input */

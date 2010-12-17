@@ -152,14 +152,16 @@ cfe.module.Select = new Class({
 
   afterInitialize: function()
   {
-
     this.parent();
 
     // set width to widest option if no width is given to select via css
     if(this.cssWidth == "auto") this.a.setStyle("width", this.container.getWidth())
 
+    // inject labelArrow as IE 7 doesn't support :after css selector
+    if(Browser.Engine.trident5) new Element("span").addClass("labelArrow").inject(this.innerlabel, "after")
+
     // select default option
-    this.selectOption(this.selectedIndex, true);
+    if(this.selectedIndex != -1) this.selectOption(this.selectedIndex, true);
 
     if(this.options.scrolling)
     {
@@ -204,7 +206,7 @@ cfe.module.Select = new Class({
         
     this.parent();
 
-    this.a.setStyle("position", "relative");
+    this.a.setStyles({"position": "relative", "z-index": 100000 - this.instance});
 
     // build container which shows on click
     this.buildContainer();
