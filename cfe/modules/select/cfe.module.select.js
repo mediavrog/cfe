@@ -276,7 +276,8 @@ cfe.module.Select = new Class({
 
   updateOption: function(by)
   {
-    this.o.selectedIndex = (this.highlightedIndex+by).limit(0,this.origOptions.length-1);
+    // fix for IE 7
+    if(this.containerWrapper.retrieve("hidden") != true && !Browser.Engine.trident5) this.o.selectedIndex = (this.highlightedIndex+by).limit(0,this.origOptions.length-1);
     this.o.fireEvent("change");
   },
 
