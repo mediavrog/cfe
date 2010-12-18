@@ -1,11 +1,20 @@
-cfe.helper = cfe.helper || {}
+/**
+ * @module Scrollable
+ */
 
 /**
  * SCROLLING functionality for select boxes;
  * TODO: refactor to standalone module
  * 
  * creates handles and sets up a slider object
+ *
+ * @class Scrollable
+ * @namespace cfe.helper
+ *
+ * 
  */
+cfe.helper = cfe.helper || {}
+
 cfe.helper.Scrollable = {
 
   options: {
@@ -101,9 +110,6 @@ cfe.helper.Scrollable = {
 /**
  * replaces select fields
  *
- * <p>Box wont show on click on alias</p>
- * <p>scolling bugs</p>
- * <p>highlighting > scoll to bottom bug</p>
  * <p>disabled should also disable scrolling</p>
  * 
  * <h6>Tested in:</h6>
@@ -112,7 +118,7 @@ cfe.helper.Scrollable = {
  * <li>Firefox 3.6.</li>
  * <li>Google Chrome 6.</li>
  * <li>Opera 10.62 - key autocompletion closes box.</li>
- * <li>IE 7 - no function</li>
+ * <li>IE 7.</li>
  * <li>IE 8.</li>
  *  </ul>
  *

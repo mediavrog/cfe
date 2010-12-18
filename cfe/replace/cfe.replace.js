@@ -8,81 +8,81 @@
 
 cfe.Replace = new Class(
 {
-    Implements: [new Options, new Events],
+  Implements: [new Options, new Events],
 
-    options:{
-        scope: false,
+  options:{
+    scope: false,
 		
-        onInit: $empty,
-        onInitSingle: $empty,
-        onBeforeInitSingle: $empty,
-        onSetModuleOption: $empty,
-        onRegisterModule: $empty,
-        onUnregisterModule: $empty,
-        onComplete: $empty
-    },
+    onInit: $empty,
+    onInitSingle: $empty,
+    onBeforeInitSingle: $empty,
+    onSetModuleOption: $empty,
+    onRegisterModule: $empty,
+    onUnregisterModule: $empty,
+    onComplete: $empty
+  },
 		
-    modules: {},
-    moduleOptions: {},
-    moduleOptionsAll: {},
+  modules: {},
+  moduleOptions: {},
+  moduleOptionsAll: {},
 	
-    initialize: function()
-    {
-        this.registerAllModules.bind(this)();
-    },
+  initialize: function()
+  {
+    this.registerAllModules.bind(this)();
+  },
 	
-    /**
+  /**
      * @method registerAllModules
 	 * registeres all loaded modules onInitialize
 	 */
-    registerAllModules: function(){
+  registerAllModules: function(){
 		
-        //console.log("Register all modules");
+    //console.log("Register all modules");
 		
-        $each(cfe.module, function(modObj, modType){
-            //console.log("Registering type "+modType);
-            if(modType != "Generic")
-                this.registerModule(modType);
+    $each(cfe.module, function(modObj, modType){
+      //console.log("Registering type "+modType);
+      if(modType != "Generic")
+        this.registerModule(modType);
 				
-        }.bind(this));
-    },
+    }.bind(this));
+  },
 	
-    /* call to register module */
-    registerModule: function(mod){
+  /* call to register module */
+  registerModule: function(mod){
 		
-        //console.log("Call to registerModule with arg:"+mod);
-        modObj = cfe.module[mod];
+    //console.log("Call to registerModule with arg:"+mod);
+    modObj = cfe.module[mod];
 		
-        this.fireEvent("onRegisterModule", [mod,modObj]);
-        this.modules[mod] = modObj;
-        this.moduleOptions[mod] = {};
+    this.fireEvent("onRegisterModule", [mod,modObj]);
+    this.modules[mod] = modObj;
+    this.moduleOptions[mod] = {};
 
-        return true;
-    },
+    return true;
+  },
 	
-    registerModules: function(mods)
-    {
-        $each(mods,function(mod){
-            this.registerModule(mod);
-        },this);
-    },
+  registerModules: function(mods)
+  {
+    $each(mods,function(mod){
+      this.registerModule(mod);
+    },this);
+  },
 	
-    unregisterModule: function(mod)
-    {
-        modObj = cfe.module[mod];
+  unregisterModule: function(mod)
+  {
+    modObj = cfe.module[mod];
 		
-        this.fireEvent("onUnregisterModule", [mod,modObj]);
+    this.fireEvent("onUnregisterModule", [mod,modObj]);
 
-        delete this.modules[mod];
-    },
+    delete this.modules[mod];
+  },
 	
-    unregisterModules: function(mods)
-    {
-        $each(mods,function(mod){
-            this.unregisterModule(mod);
-        },this);
-    },
-    /**
+  unregisterModules: function(mods)
+  {
+    $each(mods,function(mod){
+      this.unregisterModule(mod);
+    },this);
+  },
+  /**
 	 * sets a single option for a specified module
 	 * if no module was given, it sets the options for all modules
 	 *
@@ -92,59 +92,62 @@ cfe.Replace = new Class(
 	 * @param {String} 	opt 	Name of the option
 	 * @param {Mixed} 	val		The options value
 	 */
-    setModuleOption: function(mod,opt,val){
+  setModuleOption: function(mod,opt,val){
 		
-        modObj = cfe.module[mod];
+    modObj = cfe.module[mod];
 		
-        this.fireEvent("onSetModuleOption", [mod,modObj,opt,val]);
+    this.fireEvent("onSetModuleOption", [mod,modObj,opt,val]);
 		
-        if(!modObj){
-            this.moduleOptionsAll[opt] = val;
-        }
-        else{
-            this.moduleOptions[mod][opt] = val;
-        }
-    },
-
-    setModuleOptions: function(mod,opt){
-		
-        $each(opt, function(optionValue, optionName){
-            this.setModuleOption(mod,optionName,optionValue);
-        }.bind(this));
-		
-    },
-
-    engage: function(options){
-
-        this.setOptions(this.options, options);
-
-        if($type(this.options.scope) != "element"){
-            this.options.scope = $(document.body);
-        }
-
-        this.fireEvent("onInit");
-		
-        $each(this.modules,function(module,moduleName,i){
-			
-            var selector = module.prototype.selector;
-			
-            this.options.scope.getElements(selector).each(function(el,i){
-
-                if(el.retrieve("cfe") != null) return
-
-                var basicOptions = {
-                    replaces: el
-                };
-
-                this.fireEvent("onBeforeInitSingle", [el,i,basicOptions]);
-
-                var single = new module($merge(basicOptions,$merge(this.moduleOptions[moduleName],this.moduleOptionsAll)));
-				
-                this.fireEvent("onInitSingle", single);
-				
-            },this);
-        },this);
-		
-        this.fireEvent("onComplete");
+    if(!modObj){
+      this.moduleOptionsAll[opt] = val;
     }
+    else{
+      this.moduleOptions[mod][opt] = val;
+    }
+  },
+
+  setModuleOptions: function(mod,opt){
+		
+    $each(opt, function(optionValue, optionName){
+      this.setModuleOption(mod,optionName,optionValue);
+    }.bind(this));
+		
+  },
+
+  engage: function(options){
+
+    this.setOptions(this.options, options);
+
+    if($type(this.options.scope) != "element"){
+      this.options.scope = $(document.body);
+    }
+
+    this.fireEvent("onInit");
+		
+    $each(this.modules,function(module,moduleName,i){
+			
+      var selector = module.prototype.selector;
+			
+      this.options.scope.getElements(selector).each(function(el,i){
+
+        if(el.retrieve("cfe") != null){
+
+          var basicOptions = {
+            replaces: el
+          };
+
+          this.fireEvent("onBeforeInitSingle", [el,i,basicOptions]);
+
+          var single = new module($merge(basicOptions,$merge(this.moduleOptions[moduleName],this.moduleOptionsAll)));
+				
+          this.fireEvent("onInitSingle", single);
+        }else{
+          this.fireEvent("onSkippedInitSingle", [el,i,basicOptions]); 
+        }
+				
+      },this);
+    },this);
+		
+    this.fireEvent("onComplete");
+  }
 });
