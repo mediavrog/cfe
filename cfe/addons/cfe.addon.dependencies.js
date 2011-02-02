@@ -17,9 +17,9 @@ cfe.addon.Dependencies = new Class({
 	 * @param {Array} dep
 	 */
     addDependencies: function(el, deps){
-        $each(deps,function(dep){
+        Array.each(deps,function(dep){
             this.addDependency(el,dep);
-        }.bind(this));
+        },this);
     },
 	
     /**
@@ -30,12 +30,12 @@ cfe.addon.Dependencies = new Class({
     addDependency: function(el, dep){
 		
         // create an array if needed
-        if($type( el.retrieve('deps') ) !== "array"){
+        if(typeOf( el.retrieve('deps') ) !== "array"){
             el.store('deps', []);
         }
 		
         // deps may be objects or strings > if a string was given, try to interpret it as id and fetch element by $()
-        if($type(dep) === "string" || $type(dep) === "element"){
+        if(typeOf(dep) === "string" || typeOf(dep) === "element"){
             el.retrieve('deps').push( $(dep) );
             return true;
         }
@@ -58,7 +58,7 @@ cfe.addon.Dependencies = new Class({
     {
         var deps = this.getDependencies(el);
 		
-        if($type(deps) === "array"){
+        if(typeOf(deps) === "array"){
             baseOptions.deps = deps;
             return true;
         }
@@ -76,10 +76,10 @@ cfe.addon.Dependencies.Helper = new Class({
         var deps = this.o.retrieve('deps');
 		
         if(deps){
-            $each(deps, function(dep,i){
+            Array.each(deps, function(dep,i){
                 dep.checked = true;
                 dep.fireEvent("change");
-            }.bind(this));
+            },this);
         }
     }
 });

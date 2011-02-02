@@ -84,7 +84,7 @@ cfe.helper.Scrollable = {
       slider.set(slider.step-ev.wheel);
     }
 
-    this.boundWheelListener = wheelListener.bindWithEvent(this)
+    this.boundWheelListener = wheelListener.pass([e],this)
 
     this.addEvent("containerShow", function(){
       $(document.body).addEvent("mousewheel", this.boundWheelListener)
@@ -164,7 +164,7 @@ cfe.module.Select = new Class({
     if(this.cssWidth == "auto") this.a.setStyle("width", this.container.getWidth())
 
     // inject labelArrow as IE 7 doesn't support :after css selector
-    if(Browser.Engine.trident5) new Element("span").addClass("labelArrow").inject(this.innerlabel, "after")
+    if(Browser.ie) new Element("span").addClass("labelArrow").inject(this.innerlabel, "after")
 
     // select default option
     if(this.selectedIndex != -1) this.selectOption(this.selectedIndex, true);
@@ -188,7 +188,7 @@ cfe.module.Select = new Class({
   {
     var ori = new Element("select");
 
-    if( $chk(this.options.options) )
+    if( this.options.options != null )
     {
       for(var key in this.options.options)
       {
@@ -285,7 +285,7 @@ cfe.module.Select = new Class({
   updateOption: function(by)
   {
     // fix for IE 7
-    if(this.containerWrapper.retrieve("hidden") != true && !Browser.Engine.trident5) this.o.selectedIndex = (this.highlightedIndex+by).limit(0,this.origOptions.length-1);
+    if(this.containerWrapper.retrieve("hidden") != true && !Browser.ie) this.o.selectedIndex = (this.highlightedIndex+by).limit(0,this.origOptions.length-1);
     this.o.fireEvent("change");
   },
 
@@ -313,7 +313,7 @@ cfe.module.Select = new Class({
   {
     if(!this.isDisabled())
     {
-      if( $defined(ev.target) )
+      if( ev.target != null )
       {
         var oTarget = $(ev.target);
 
@@ -386,7 +386,7 @@ cfe.module.Select = new Class({
 
   clickedOutsideListener: function(ev)
   {
-    if ($(ev.target).getParent("."+cfe.prefix+this.type) != this.a && !( (Browser.Engine.trident || (Browser.Engine.presto && Browser.Engine.version > 950)) && ev.target == this.o) && ( !$chk(this.l) || (this.l && $(ev.target) != this.l) ) ) this.hideContainer();
+    if ($(ev.target).getParent("."+cfe.prefix+this.type) != this.a && !( (Browser.ie || Browser.opera) && ev.target == this.o) && ( this.l == null || (this.l && $(ev.target) != this.l) ) ) this.hideContainer();
   },
 
   update: function()

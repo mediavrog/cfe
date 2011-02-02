@@ -12,7 +12,7 @@
  */
 cfe.addon.Tips = new Class({
 	
-    options: $merge(this.parent, {
+    options: Object.merge({},this.parent, {
         enableTips: true,
         ttStyle: "label",
         ttClass: cfe.prefix+"Tip"
@@ -46,7 +46,7 @@ cfe.addon.Tips = new Class({
             if(!forEl){
                 var cl = lbl.getProperty("class");
 				
-                if( $defined(cl) ){
+                if( cl != null ){
                     var forEl = cl.match(/for_[a-zA-Z0-9\-]+/);
 
                     if(forEl){
@@ -63,7 +63,7 @@ cfe.addon.Tips = new Class({
             }
 
             if(el){
-                if($chk(qmTitle = el.getProperty("title"))){
+                if((qmTitle = el.getProperty("title")) != null){
 					
                     el.setProperty("title","").setProperty("hint", qmTitle)
 					
@@ -75,7 +75,7 @@ cfe.addon.Tips = new Class({
                     // check if implicit label span is present
                     var impLabel = lbl.getFirst("span[class=label]");
                     
-                    qm.injectInside($chk(impLabel)?impLabel:lbl);
+                    qm.inject((impLabel != null)?impLabel:lbl,'inside');
                 }
             }
         },this);

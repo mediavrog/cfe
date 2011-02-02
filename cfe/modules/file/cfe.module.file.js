@@ -82,7 +82,7 @@ cfe.module.File = new Class({
         if(this.o.id) this.wrapa.addClass(cfe.prefix+this.type+this.o.id.capitalize());
 
         // various additions
-        if(!this.o.implicitLabel && !Browser.Engine.webkit) this.wrapa.addEvent("click", this.clicked.bindWithEvent(this));
+        if(!this.o.implicitLabel && !Browser.safari && !Browser.chrome) this.wrapa.addEvent("click", this.clicked.pass([e],this));
 
         if(this.isDisabled()) this.disable();
 
@@ -96,7 +96,7 @@ cfe.module.File = new Class({
     build: function()
     {
         this.parent();
-        this.innerlabel.set("text", $pick(this.options.innerLabel, ""));
+        this.innerlabel.set("text", Array.pick(this.options.innerLabel, ""));
 
         // make original element follow mouse
         // setup wrapper
@@ -128,7 +128,7 @@ cfe.module.File = new Class({
             margin: 0
         });
 
-        this.wrapa.addEvent("mousemove", this.follow.bindWithEvent(this));
+        this.wrapa.addEvent("mousemove", this.follow.pass([e],this));
 
         this.button = this.a;
         this.a = this.wrapa;
@@ -168,7 +168,7 @@ cfe.module.File = new Class({
         this.o.setStyle("left",(ev.client.x-this.a.getLeft()-(this.o.getWidth()-30)));
 		
         /* special treatment for internet explorer as the fileinput will not be cut off by overflow:hidden */
-        if(Browser.Engine.trident){
+        if(Browser.ie){
             if(ev.client.x < this.a.getLeft() || ev.client.x > this.a.getLeft()+this.a.getWidth())
                 this.o.setStyle("left", -9999);
         }
@@ -177,7 +177,7 @@ cfe.module.File = new Class({
     update: function()
     {
         // only do stuff if original element is not disabled
-        if( !$chk(this.o.disabled) )
+        if( this.o.disabled == null )
         {
             if( this.o.value != "" )
             {

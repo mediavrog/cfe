@@ -25,13 +25,13 @@ Element.Helpers = new Class({
      * @method disableTextSelection
      */
   disableTextSelection: function(){
-    if(Browser.Engine.trident || Browser.Engine.presto){
+    if(Browser.ie || Browser.opera){
       this.setProperty("unselectable","on");
     }
-    else if(Browser.Engine.gecko){
+    else if(Browser.firefox){
       this.setStyle("MozUserSelect","none");
     }
-    else if(Browser.Engine.webkit){
+    else if(Browser.safari || Browser.chrome){
       this.setStyle("KhtmlUserSelect","none");
     }
 
@@ -46,7 +46,7 @@ Element.Helpers = new Class({
      */
   disable: function()
   {
-    if($type(this) === "element" && ["button", "input", "option", "optgroup", "select", "textarea"].contains( this.get("tag") )            )
+    if(typeOf(this) === "element" && ["button", "input", "option", "optgroup", "select", "textarea"].contains( this.get("tag") )            )
     {
       this.setProperty("disabled", true);
       this.fireEvent("onDisable");
@@ -63,7 +63,7 @@ Element.Helpers = new Class({
      */
   enable: function()
   {
-    if($type(this) === "element" && ["button", "input", "option", "optgroup", "select", "textarea"].contains( this.get("tag") )            )
+    if(typeOf(this) === "element" && ["button", "input", "option", "optgroup", "select", "textarea"].contains( this.get("tag") )            )
     {
       this.setProperty("disabled", false);
       this.fireEvent("onEnable");
@@ -80,7 +80,7 @@ Element.Helpers = new Class({
      */
   toggleDisabled: function()
   {
-    if($type(this) === "element" && ["button", "input", "option", "optgroup", "select", "textarea"].contains( this.get("tag") )            )
+    if(typeOf(this) === "element" && ["button", "input", "option", "optgroup", "select", "textarea"].contains( this.get("tag") )            )
     {
       this.setProperty("disabled", !this.getProperty("disabled") );
       this.fireEvent(this.getProperty("disabled")?"onDisable":"onEnable");
@@ -127,9 +127,9 @@ Element.Helpers = new Class({
   {
     var slide = null;
     var wrapped = this;
-    prefix = $pick(prefix, "sd");
+    prefix = Array.pick(prefix, "sd");
 
-    suffixes = $pick(suffixes, []);
+    suffixes = Array.pick(suffixes, []);
 
     for(var i = count; i > 0; --i)
     {

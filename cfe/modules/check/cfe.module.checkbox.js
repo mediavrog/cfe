@@ -57,14 +57,14 @@ cfe.module.Checkbox = new Class({
     // important for resetting dynamically created cfe
     this.o.defaultChecked = this.o.checked;
 
-    if( Browser.Engine.presto || Browser.Engine.trident )
+    if( Browser.ie || Browser.opera )
     {
       //console.log("fix for element update (IE and Opera)")
       this.o.addEvent("click", this.update.bind(this) );
     }
 
 
-    if(Browser.Engine.trident && this.o.implicitLabel)
+    if(Browser.ie && this.o.implicitLabel)
     {
       //console.log("fix for implicit labels (IE) element["+this.o.id+"]")
       this.l.removeEvents("click")
@@ -94,7 +94,7 @@ cfe.module.Checkbox = new Class({
 
   clicked: function(e)
   {
-    if(Browser.Engine.trident && e) e.stop();
+    if(Browser.ie && e) e.stop();
 
     this.parent()
   },

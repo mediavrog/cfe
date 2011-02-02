@@ -63,7 +63,7 @@ cfe.module.SelectMultiple = new Class({
   {
     var oOpt = new cfe.module.Checkbox({
       label: el.innerHTML,
-      checked: $chk(el.selected),
+      checked: (el.selected != null),
       disabled: this.isDisabled()
     });
     oOpt.index = index;
