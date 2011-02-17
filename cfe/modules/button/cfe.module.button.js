@@ -169,7 +169,7 @@ cfe.module.Button = new Class(
 
     this.setOptions(opt);
 
-    this.type = $pick(this.options.type, $H(cfe.module).keyOf(this.constructor));
+    this.type = Array.pick(this.options.type, cfe.module.keyOf(this.constructor));
 
     this.buildWrapper();
 
@@ -177,7 +177,7 @@ cfe.module.Button = new Class(
     this.setupOriginal();
 
     // add a label, if present
-    this.addLabel( $pick(this.o.getLabel(), this.setupLabel(this.options.label) ) );
+    this.addLabel( Array.pick(this.o.getLabel(), this.setupLabel(this.options.label) ) );
 
     this.build();
 
@@ -231,7 +231,7 @@ cfe.module.Button = new Class(
   setupOriginal: function()
   {
     // get original element
-    if( $defined(this.options.replaces) )
+    if( this.options.replaces != null )
     {
       this.o = this.options.replaces;
       this.a.inject(this.o, 'before');
@@ -248,7 +248,7 @@ cfe.module.Button = new Class(
       {
         this.o.setProperty("name", this.options.name);
 
-        if( !$chk(this.o.id) ) this.o.setProperty("id", this.options.name+this.instance);
+        if( this.o.id == null ) this.o.setProperty("id", this.options.name+this.instance);
       }
 
       if(this.options.value) this.o.setProperty("value", this.options.value);
@@ -289,7 +289,7 @@ cfe.module.Button = new Class(
    */
   addLabel: function(label)
   {
-    if( !$defined(label) ) return;
+    if( label == null ) return;
 
     this.l = label;
 
@@ -307,7 +307,7 @@ cfe.module.Button = new Class(
       mouseout: this.unhover.bind(this),
       mousedown: this.press.bind(this),
       mouseup: this.release.bind(this),
-      click: this.clicked.bindWithEvent(this)
+      click: this.clicked.bind(this,[e])
     });
 
     this.addEvents({
@@ -362,7 +362,7 @@ cfe.module.Button = new Class(
     this.innerlabel = this.setupInnerLabel();
     this.a.adopt(this.innerlabel);
 
-    if( $chk(this.options.slidingDoors) )
+    if( this.options.slidingDoors != null )
     {
       this.a = this.a.setSlidingDoors(this.options.slidingDoors-1, "span", cfe.prefix).addClass(cfe.prefix+this.type);
     }
@@ -414,7 +414,7 @@ cfe.module.Button = new Class(
     if(this.o.id) this.a.addClass(cfe.prefix+this.type+this.o.id.capitalize());
 
     // various additions
-    if(!this.o.implicitLabel) this.a.addEvent("click", this.clicked.bindWithEvent(this));
+    if(!this.o.implicitLabel) this.a.addEvent("click", this.clicked.pass([e],this));
 
     if(this.isDisabled()) this.a.fireEvent("disable");
 
@@ -461,7 +461,7 @@ cfe.module.Button = new Class(
      */
   setupLabel: function()
   {
-    if( $defined(this.options.label) ) return new Element("label").set("html", this.options.label).setProperty("for", this.o.id);
+    if( this.options.label != null ) return new Element("label").set("html", this.options.label).setProperty("for", this.o.id);
 
     return null;
   },
@@ -585,7 +585,7 @@ cfe.module.Button = new Class(
 
     if(this.isDisabled()) return
 
-    if( $chk(this.o.click) && $chk(this.options.delegateClick) ) this.o.click();
+    if( $chk(this.o.click) && this.options.delegateClick != null ) this.o.click();
     this.o.focus();
 
     this.fireEvent("onClick");

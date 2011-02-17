@@ -61,7 +61,7 @@ cfe.module.Radiobutton = new Class({
     {
         this.parent();
         
-        if( !(Browser.Engine.trident || Browser.Engine.gecko) ) this.o.addEvent("click", this.update.bind(this));
+        if( !(Browser.ie || Browser.firefox) ) this.o.addEvent("click", this.update.bind(this));
 
         // on check, disable all other radiobuttons in this group
         this.addEvent("check", function(){

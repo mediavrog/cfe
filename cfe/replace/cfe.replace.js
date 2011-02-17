@@ -13,13 +13,13 @@ cfe.Replace = new Class(
   options:{
     scope: false,
 		
-    onInit: $empty,
-    onInitSingle: $empty,
-    onBeforeInitSingle: $empty,
-    onSetModuleOption: $empty,
-    onRegisterModule: $empty,
-    onUnregisterModule: $empty,
-    onComplete: $empty
+    onInit: function(){},
+    onInitSingle: function(){},
+    onBeforeInitSingle: function(){},
+    onSetModuleOption: function(){},
+    onRegisterModule: function(){},
+    onUnregisterModule: function(){},
+    onComplete: function(){}
   },
 		
   modules: {},
@@ -39,12 +39,12 @@ cfe.Replace = new Class(
 		
     //console.log("Register all modules");
 		
-    $each(cfe.module, function(modObj, modType){
+    Object.each(cfe.module, function(modObj, modType){
       //console.log("Registering type "+modType);
       if(modType != "Generic")
         this.registerModule(modType);
 				
-    }.bind(this));
+    },this);
   },
 	
   /* call to register module */
@@ -62,7 +62,7 @@ cfe.Replace = new Class(
 	
   registerModules: function(mods)
   {
-    $each(mods,function(mod){
+    Object.each(mods,function(mod){
       this.registerModule(mod);
     },this);
   },
@@ -78,7 +78,7 @@ cfe.Replace = new Class(
 	
   unregisterModules: function(mods)
   {
-    $each(mods,function(mod){
+    Object.each(mods,function(mod){
       this.unregisterModule(mod);
     },this);
   },
@@ -108,9 +108,9 @@ cfe.Replace = new Class(
 
   setModuleOptions: function(mod,opt){
 		
-    $each(opt, function(optionValue, optionName){
+    Object.each(opt, function(optionValue, optionName){
       this.setModuleOption(mod,optionName,optionValue);
-    }.bind(this));
+    },this);
 		
   },
 
@@ -118,13 +118,13 @@ cfe.Replace = new Class(
 
     this.setOptions(this.options, options);
 
-    if($type(this.options.scope) != "element"){
+    if(typeOf(this.options.scope) != "element"){
       this.options.scope = $(document.body);
     }
 
     this.fireEvent("onInit");
 		
-    $each(this.modules,function(module,moduleName,i){
+    Object.each(this.modules,function(module,moduleName,i){
 			
       var selector = module.prototype.selector;
 			
@@ -138,7 +138,7 @@ cfe.Replace = new Class(
 
           this.fireEvent("onBeforeInitSingle", [el,i,basicOptions]);
 
-          var single = new module($merge(basicOptions,$merge(this.moduleOptions[moduleName],this.moduleOptionsAll)));
+          var single = new module(Object.merge({},basicOptions,Object.merge({},this.moduleOptions[moduleName],this.moduleOptionsAll)));
 				
           this.fireEvent("onInitSingle", single);
         }else{
