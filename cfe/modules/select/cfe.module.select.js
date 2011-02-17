@@ -15,7 +15,7 @@
  */
 cfe.helper = cfe.helper || {}
 
-cfe.helper.Scrollable = {
+cfe.helper.Scrollable = new Class({
 
   options: {
     size: 4,
@@ -84,7 +84,7 @@ cfe.helper.Scrollable = {
       slider.set(slider.step-ev.wheel);
     }
 
-    this.boundWheelListener = wheelListener.pass([e],this)
+    this.boundWheelListener = function(e){wheellistener.attempt(e, this)}.bind(this)
 
     this.addEvent("containerShow", function(){
       $(document.body).addEvent("mousewheel", this.boundWheelListener)
@@ -101,7 +101,7 @@ cfe.helper.Scrollable = {
       slider.set(this.o.selectedIndex)
     }.bind(this))
   }
-}
+})
 
 /**
  * @module Selectable

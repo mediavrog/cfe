@@ -82,7 +82,7 @@ cfe.module.File = new Class({
         if(this.o.id) this.wrapa.addClass(cfe.prefix+this.type+this.o.id.capitalize());
 
         // various additions
-        if(!this.o.implicitLabel && !Browser.safari && !Browser.chrome) this.wrapa.addEvent("click", this.clicked.pass([e],this));
+        if(!this.o.implicitLabel && !Browser.safari && !Browser.chrome) this.wrapa.addEvent("click", function(e){this.clicked.attempt(e, this)}.bind(this) );
 
         if(this.isDisabled()) this.disable();
 
@@ -96,7 +96,7 @@ cfe.module.File = new Class({
     build: function()
     {
         this.parent();
-        this.innerlabel.set("text", Array.pick(this.options.innerLabel, ""));
+        this.innerlabel.set("text", [this.options.innerLabel, ""].pick() );
 
         // make original element follow mouse
         // setup wrapper
@@ -128,7 +128,7 @@ cfe.module.File = new Class({
             margin: 0
         });
 
-        this.wrapa.addEvent("mousemove", this.follow.pass([e],this));
+        this.wrapa.addEvent("mousemove", function(e){this.follow.attempt(e, this)}.bind(this));
 
         this.button = this.a;
         this.a = this.wrapa;

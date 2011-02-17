@@ -242,6 +242,7 @@ label.D{cursor: default}
   border: none;
   line-height: 100%;
   height: 24px;
+  width: auto;
 }
 
 .cfeText.F, .cfePassword.F{background-position: 0 -40px}

@@ -23,7 +23,7 @@
 cfe.module.Checkbox = new Class({
     
   Extends: cfe.module.Button,
-    
+
   instance: 0,
 
   /**

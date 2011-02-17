@@ -8,10 +8,10 @@
 
 cfe.Replace = new Class(
 {
-  Implements: [new Options, new Events],
+  Implements: [Options, Events],
 
   options:{
-    scope: false,
+    scope: false/*,
 		
     onInit: function(){},
     onInitSingle: function(){},
@@ -19,7 +19,7 @@ cfe.Replace = new Class(
     onSetModuleOption: function(){},
     onRegisterModule: function(){},
     onUnregisterModule: function(){},
-    onComplete: function(){}
+    onComplete: function(){}*/
   },
 		
   modules: {},
@@ -28,17 +28,17 @@ cfe.Replace = new Class(
 	
   initialize: function()
   {
-    this.registerAllModules.bind(this)();
+    this.registerAllModules.attempt([], this);
   },
 	
   /**
-     * @method registerAllModules
-	 * registeres all loaded modules onInitialize
-	 */
+   * @method registerAllModules
+   * registeres all loaded modules onInitialize
+   */
   registerAllModules: function(){
 		
     //console.log("Register all modules");
-		
+
     Object.each(cfe.module, function(modObj, modType){
       //console.log("Registering type "+modType);
       if(modType != "Generic")
@@ -51,9 +51,9 @@ cfe.Replace = new Class(
   registerModule: function(mod){
 		
     //console.log("Call to registerModule with arg:"+mod);
-    modObj = cfe.module[mod];
-		
-    this.fireEvent("onRegisterModule", [mod,modObj]);
+    var modObj = cfe.module[mod];
+
+    this.fireEvent("onRegisterModule", [mod, modObj]);
     this.modules[mod] = modObj;
     this.moduleOptions[mod] = {};
 
@@ -69,9 +69,9 @@ cfe.Replace = new Class(
 	
   unregisterModule: function(mod)
   {
-    modObj = cfe.module[mod];
+    var modObj = cfe.module[mod];
 		
-    this.fireEvent("onUnregisterModule", [mod,modObj]);
+    this.fireEvent("onUnregisterModule", [mod, modObj]);
 
     delete this.modules[mod];
   },
@@ -83,18 +83,18 @@ cfe.Replace = new Class(
     },this);
   },
   /**
-	 * sets a single option for a specified module
-	 * if no module was given, it sets the options for all modules
-	 *
-     * @method setModuleOption
-     *
-	 * @param {String} 	mod 	Name of the module
-	 * @param {String} 	opt 	Name of the option
-	 * @param {Mixed} 	val		The options value
-	 */
-  setModuleOption: function(mod,opt,val){
+   * sets a single option for a specified module
+   * if no module was given, it sets the options for all modules
+   *
+   * @method setModuleOption
+   *
+   * @param {String} 	mod 	Name of the module
+   * @param {String} 	opt 	Name of the option
+   * @param {Mixed} 	val		The options value
+   */
+  setModuleOption: function(mod, opt, val){
 		
-    modObj = cfe.module[mod];
+    var modObj = cfe.module[mod];
 		
     this.fireEvent("onSetModuleOption", [mod,modObj,opt,val]);
 		
@@ -125,12 +125,12 @@ cfe.Replace = new Class(
     this.fireEvent("onInit");
 		
     Object.each(this.modules,function(module,moduleName,i){
-			
+
       var selector = module.prototype.selector;
-			
+
       this.options.scope.getElements(selector).each(function(el,i){
 
-        if(el.retrieve("cfe") != null){
+        if(el.retrieve("cfe") == null){
 
           var basicOptions = {
             replaces: el
@@ -138,8 +138,13 @@ cfe.Replace = new Class(
 
           this.fireEvent("onBeforeInitSingle", [el,i,basicOptions]);
 
-          var single = new module(Object.merge({},basicOptions,Object.merge({},this.moduleOptions[moduleName],this.moduleOptionsAll)));
-				
+          console.log("creating "+moduleName+" ...");
+
+          var single = new module( Object.merge(basicOptions, this.moduleOptions[moduleName], this.moduleOptionsAll) );
+
+          console.log("creating "+moduleName+" OK");
+          console.log("##########################");
+
           this.fireEvent("onInitSingle", single);
         }else{
           this.fireEvent("onSkippedInitSingle", [el,i,basicOptions]); 

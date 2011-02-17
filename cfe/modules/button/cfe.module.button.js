@@ -13,7 +13,7 @@
  */
 cfe.module.Button = new Class(
 {
-  Implements: [new Options, new Events],
+  Implements: [Options, Events],
 
   selector: "button",
 
@@ -165,11 +165,11 @@ cfe.module.Button = new Class(
   initialize: function(opt)
   {
     // sets instance id
-    this.instance = this.constructor.prototype.instance++;
+    this.instance = this.$constructor.prototype.instance++;
 
     this.setOptions(opt);
 
-    this.type = Array.pick(this.options.type, cfe.module.keyOf(this.constructor));
+    this.type = [this.options.type, Object.keyOf(cfe.module, this.$constructor)].pick();
 
     this.buildWrapper();
 
@@ -177,7 +177,7 @@ cfe.module.Button = new Class(
     this.setupOriginal();
 
     // add a label, if present
-    this.addLabel( Array.pick(this.o.getLabel(), this.setupLabel(this.options.label) ) );
+    this.addLabel( [this.o.getLabel(), this.setupLabel(this.options.label)].pick() );
 
     this.build();
 
@@ -307,7 +307,7 @@ cfe.module.Button = new Class(
       mouseout: this.unhover.bind(this),
       mousedown: this.press.bind(this),
       mouseup: this.release.bind(this),
-      click: this.clicked.bind(this,[e])
+      click: function(e){this.clicked.attempt(e, this)}.bind(this)
     });
 
     this.addEvents({
@@ -364,7 +364,8 @@ cfe.module.Button = new Class(
 
     if( this.options.slidingDoors != null )
     {
-      this.a = this.a.setSlidingDoors(this.options.slidingDoors-1, "span", cfe.prefix).addClass(cfe.prefix+this.type);
+      this.a = this.a.setSlidingDoors(this.options.slidingDoors-1, "span", cfe.prefix);
+      this.a.addClass(cfe.prefix+this.type);
     }
   },
 
@@ -414,7 +415,7 @@ cfe.module.Button = new Class(
     if(this.o.id) this.a.addClass(cfe.prefix+this.type+this.o.id.capitalize());
 
     // various additions
-    if(!this.o.implicitLabel) this.a.addEvent("click", this.clicked.pass([e],this));
+    if(!this.o.implicitLabel) this.a.addEvent("click", function(e){this.clicked.attempt(e, this)}.bind(this) );
 
     if(this.isDisabled()) this.a.fireEvent("disable");
 
@@ -580,12 +581,12 @@ cfe.module.Button = new Class(
      */
   clicked: function(e)
   {
-    //causes problems in other browsers than ie - gonna took into this later; its the best approach to stop the event from bubbling right here though imho
+    //causes problems in other browsers than ie - gonna look into this later; its the best approach to stop the event from bubbling right here though imho
     //e.stop();
 
     if(this.isDisabled()) return
 
-    if( $chk(this.o.click) && this.options.delegateClick != null ) this.o.click();
+    if( this.o.click != null && this.options.delegateClick != null ) this.o.click();
     this.o.focus();
 
     this.fireEvent("onClick");

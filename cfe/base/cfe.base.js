@@ -127,21 +127,22 @@ Element.Helpers = new Class({
   {
     var slide = null;
     var wrapped = this;
-    prefix = Array.pick(prefix, "sd");
 
-    suffixes = Array.pick(suffixes, []);
+    prefix = [prefix, "sd"].pick();
+
+    suffixes = [suffixes, []].pick();
 
     for(var i = count; i > 0; --i)
     {
       wrapped.addClass( prefix+"Slide"+( (i == 1 && count == i) ? "" : (suffixes[i] || i) ));
       slide = new Element(type);
+
       try{
         wrapped = slide.wraps(wrapped);
       }catch(e){
         wrapped = slide.grab(wrapped);
       }
     }
-
     wrapped = null;
 
     return slide;
